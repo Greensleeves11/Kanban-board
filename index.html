@@ -22,21 +22,21 @@
                     <textarea name="" id="new-card-text" cols="20" rows="10"></textarea>
                     <div class="importance">
                         <div class="color-picker picker-todo">
-                            <input type="color" name="todo" id="color-todo" value="#f48c06">
+                            <input type="color" name="todo" id="color-not-important" value="#91c346">
                         </div>
                         <label for="not-important">Not important</label>
                         <input type="radio" name="importance" id="not-important" value="1" checked>
                     </div>
                     <div class="importance">
                         <div class="color-picker picker-progress">
-                            <input type="color" name="progress" id="color-progress" value="#0395e4">
+                            <input type="color" name="progress" id="color-important" value="#0395e4">
                         </div>
                         <label for="important">Important</label>
                         <input type="radio" name="importance" id="important" value="2">
                     </div>
                     <div class="importance">
                         <div class="color-picker picker-done">
-                            <input type="color" name="done" id="color-done" value="#a7c957">
+                            <input type="color" name="done" id="color-urgent" value="#db4d4d">
                         </div>
                         <label for="urgent">Urgent</label>
                         <input type="radio" name="importance" id="urgent" value="3">
@@ -45,7 +45,7 @@
                     <input type="submit" value="Create" class="btn" id="btn-form">
                 </form>
                 <div class="bin-img-container" ondragover="UI.onDragOver(event);" ondrop="UI.removeCardObj();">
-                    <img src="img/recycle-bin.png" alt="bin">
+                    <img src="img/recycle-bin.png" alt="bin" id="bin">
                 </div> 
             </div>
         </div>
@@ -54,18 +54,6 @@
                 <p class="title-text">To do</p>
             </div>
             <div class="col-body col-to-do" ondragover="UI.onDragOver(event);" ondrop="UI.onDrop(event);">
-                <!-- <div class="card" draggable="true" id="0" ondragstart="onDragStart(event);">
-                    <section class="card-header">
-                        <p class="card-text-header">
-                            Task #0
-                        </p>
-                    </section>
-                    <section class="card-body">
-                        <p class="card-text" contenteditable="true">
-                            Lorem, ipsum dolor sit amet consectetur adipisicing elit.
-                        </p>
-                    </section>
-                </div> -->
             </div>
         </div>
         <div class="col">
@@ -73,8 +61,6 @@
                 <p class="title-text">In progress</p>
             </div>
             <div class="col-body col-in-progress" ondragover="UI.onDragOver(event);" ondrop="UI.onDrop(event);">
-                
-                
             </div>
         </div>
         <div class="col">
@@ -82,8 +68,6 @@
                 <p class="title-text">Done</p>
             </div>
             <div class="col-body col-done" ondragover="UI.onDragOver(event);" ondrop="UI.onDrop(event);">
-                
-                
             </div>
         </div>
     </div>

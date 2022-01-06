@@ -1,7 +1,41 @@
 // import { UI, Storage } from './classes.js';
 
+class Storage {
+
+    static getCards() {
+        let cards;
+        if (localStorage.getItem('cards') === null) {
+            cards = [];
+        } else {
+            cards = JSON.parse(localStorage.getItem('cards'));
+        }
+        return cards;
+    }
+
+    static update() {
+        localStorage.setItem('cards', JSON.stringify(listOfCards));
+        localStorage.setItem('counter', Card.counter);
+    }
+
+    static clear() {
+        localStorage.removeItem('cards');
+        localStorage.removeItem('counter');
+    }
+
+    static getCounter() {
+        let counter;
+        if (localStorage.getItem('counter') === null) {
+            counter = 1;
+        } else {
+            counter = localStorage.getItem('counter');
+        }
+        return counter;
+    }
+
+}
+
 class Card {
-    static counter = 1;
+    static counter = Storage.getCounter();
     constructor(body, importance) {
         this.body = body;
         this.id = Card.counter++;
@@ -12,22 +46,26 @@ class Card {
 
 class UI {
 
-    // display cards
+    static displayCards() {
+        listOfCards = Storage.getCards();
+        listOfCards.forEach(card => {
+            UI.renderCard(card, card.body)
+        })
+    }
 
-    // add card
     static createCard(e) {
         e.preventDefault();
         const body = document.querySelector('#new-card-text');
         if (body.value !== '') {
             const importance = UI.checkImportance();
             const card = new Card(body.value, importance);
-            list.push(card);
-            UI.renderCard(card, body);
+            listOfCards.push(card);
+            UI.renderCard(card, body.value);
+            Storage.update();
             return card;
         }  
     }
 
-    // check importance
     static checkImportance() {
         const radioButtons = document.getElementsByName('importance');
         let importance;
@@ -39,7 +77,6 @@ class UI {
         return parseInt(importance);
     }
 
-    // render card
     static renderCard(card, body) {
         const toDoColumn = document.querySelector('.col-to-do');
         const newCard = document.createElement('div');
@@ -56,16 +93,28 @@ class UI {
             </section>
             <section class="card-body">
                 <p class="card-text" contenteditable="true">
-                    ${body.value}
+                    ${body}
                 </p>
             </section>
             `
         toDoColumn.appendChild(newCard);
-        newCard.style.backgroundColor = this.toDoColor || 'rgba(244, 140, 6, .5)';
-        body.value = '';
+        this.assignColor(card);
+
+        const textarea = document.querySelector('#new-card-text');
+        textarea.value = '';
     }
 
-    // move card to another column
+    static assignColor(newCard) {
+        const card = document.getElementById(`${newCard.id}`)
+        if (newCard.importance === 1) {
+            card.style.backgroundColor = this.colorNotImportant;
+        } else if (newCard.importance === 2) {
+            card.style.backgroundColor = this.colorImportant;
+        } else if (newCard.importance === 3) {
+            card.style.backgroundColor = this.colorUrgent;
+        }
+    }
+
     static currentCard;
 
     static onDragStart(event) {
@@ -82,106 +131,93 @@ class UI {
         const draggableElement = document.getElementById(id);
         const dropzone = event.target;
         dropzone.appendChild(draggableElement);
-        this.changeColorOnDrop(dropzone);
         event.dataTransfer.clearData();
     }
 
-    // remove card from DOM
-    static removeCard() {
+    static removeCardFromDOM() {
         const cardToRemove = document.getElementById(`${this.currentCard.id}`);
-        if (parseInt(cardToRemove.id) === Card.counter - 1) {
-            Card.counter--;
-        }
+        // if (parseInt(cardToRemove.id) === Card.counter - 1) {
+        //     Card.counter--;
+        // }
         cardToRemove.remove();
     }
 
-    // remove card from array of cards
     static removeCardObj() {
         const id = this.currentCard.id;
-        for (let card of list) {
+        for (let card of listOfCards) {
             if (card.id == id) {
-                list.splice(id - 1, 1);
+                listOfCards.splice(id - 1, 1);
                 break;
             }
         }
-        this.removeCard();
+        this.removeCardFromDOM();
+        Storage.update();
     }
 
-    // Change color
-    static toDoColor;
-    static progressColor;
-    static doneColor;
+    static clearAll() {
+        for (let i = 0; i < listOfCards.length; i++) {
+            document.getElementById(`${listOfCards[i].id}`).remove();
+        }
+        listOfCards = [];
+        Card.counter = 1;
+        Storage.clear();
+    }
+
+    static colorNotImportant = document.getElementById('color-not-important').value;
+    static colorImportant = document.getElementById('color-important').value;
+    static colorUrgent = document.getElementById('color-urgent').value;
 
     static changeColor(event) {
 
         const id = event.target.id;
-        if (id === 'color-todo') {
+        if (id === 'color-not-important') {
     
-            const col = document.querySelector('.col-to-do')
-            const cards = col.querySelectorAll('.card');
-            cards.forEach((card) => {
-                card.style.backgroundColor = event.target.value;
+            listOfCards.forEach((card) => {
+                if (card.importance === 1) {
+                    document.getElementById(`${card.id}`).style.backgroundColor = event.target.value;
+                }
             })
-    
-            colorPickerToDo.value = event.target.value;
-            this.toDoColor = colorPickerToDo.value;
             
-        } else if (id === 'color-progress') {
+        } else if (id === 'color-important') {
     
-            const col = document.querySelector('.col-in-progress')
-            const cards = col.querySelectorAll('.card');
-            cards.forEach((card) => {
-                card.style.backgroundColor = event.target.value;
+            listOfCards.forEach((card) => {
+                if (card.importance === 2) {
+                    document.getElementById(`${card.id}`).style.backgroundColor = event.target.value;
+                }
             })
+
+            this.colorImportant = event.target.value;
     
-            colorPickerProgress.value = event.target.value;
-            this.progressColor = colorPickerProgress.value;
+        } else if (id === 'color-urgent') {
     
-        } else if (id === 'color-done') {
-    
-            const col = document.querySelector('.col-done')
-            const cards = col.querySelectorAll('.card');
-            cards.forEach((card) => {
-                card.style.backgroundColor = event.target.value;
+            listOfCards.forEach((card) => {
+                if (card.importance === 3) {
+                    document.getElementById(`${card.id}`).style.backgroundColor = event.target.value;
+                }
             })
-    
-            colorPickerDone.value = event.target.value;
-            this.doneColor = colorPickerDone.value;
+
+            this.colorUrgent = event.target.value;
     
         }
     }
-
-    static changeColorOnDrop(dropzone) {
-        if (dropzone.classList[1] === 'col-to-do') {
-            this.currentCard.style.backgroundColor = this.toDoColor || 'rgba(244, 140, 6, .5)';
-        } else if (dropzone.classList[1] === 'col-in-progress') {
-            this.currentCard.style.backgroundColor = this.progressColor || 'rgba(3, 149, 228, .5)';
-        } else if (dropzone.classList[1] === 'col-done')  {
-            this.currentCard.style.backgroundColor = this.doneColor || 'rgba(167, 201, 87, .7)';
-        }
-    }
-
 }
 
-class Storage {
 
-    // get cards
-
-    // add card
-
-    // remove card
-
-}
 
 const form = document.querySelector('.new-card');
 form.addEventListener('submit', UI.createCard);
 
-const colorPickerToDo = document.querySelector('.picker-todo');
-const colorPickerProgress = document.querySelector('.picker-progress');
-const colorPickerDone = document.querySelector('.picker-done');
-colorPickerToDo.addEventListener("input", UI.changeColor, false);
-colorPickerProgress.addEventListener("input", UI.changeColor, false);
-colorPickerDone.addEventListener("input", UI.changeColor, false);
+const colorPickerNotImportant = document.getElementById('color-not-important')
+const colorPickerImportant = document.getElementById('color-important')
+const colorPickerUrgent = document.getElementById('color-urgent')
+colorPickerNotImportant.addEventListener("input", UI.changeColor, false);
+colorPickerImportant.addEventListener("input", UI.changeColor, false);
+colorPickerUrgent.addEventListener("input", UI.changeColor, false);
 
-const list = [];
+let listOfCards;
+
+const bin = document.getElementById('bin');
+bin.addEventListener('click', UI.clearAll);
+
+window.addEventListener('DOMContentLoaded', UI.displayCards);
 
