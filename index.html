@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kanban Board</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Lato:wght@300;400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="board-container">
+        <div class="col">
+            <div class="col-title">
+                <p class="title-text">Create/remove task</p>
+            </div>
+            <div class="col-body">
+                <form action="#" class="new-card">
+                    <label for="new-card-text" hidden>Create new card</label>
+                    <textarea name="" id="new-card-text" cols="20" rows="10"></textarea>
+                    <div class="importance">
+                        <div class="color-picker picker-todo">
+                            <input type="color" name="todo" id="color-todo" value="#f48c06">
+                        </div>
+                        <label for="not-important">Not important</label>
+                        <input type="radio" name="importance" id="not-important" value="1" checked>
+                    </div>
+                    <div class="importance">
+                        <div class="color-picker picker-progress">
+                            <input type="color" name="progress" id="color-progress" value="#0395e4">
+                        </div>
+                        <label for="important">Important</label>
+                        <input type="radio" name="importance" id="important" value="2">
+                    </div>
+                    <div class="importance">
+                        <div class="color-picker picker-done">
+                            <input type="color" name="done" id="color-done" value="#a7c957">
+                        </div>
+                        <label for="urgent">Urgent</label>
+                        <input type="radio" name="importance" id="urgent" value="3">
+                    </div>
+                    <label for="btn-form" hidden>Form button</label>
+                    <input type="submit" value="Create" class="btn" id="btn-form">
+                </form>
+                <div class="bin-img-container" ondragover="UI.onDragOver(event);" ondrop="UI.removeCardObj();">
+                    <img src="img/recycle-bin.png" alt="bin">
+                </div> 
+            </div>
+        </div>
+        <div class="col">
+            <div class="col-title">
+                <p class="title-text">To do</p>
+            </div>
+            <div class="col-body col-to-do" ondragover="UI.onDragOver(event);" ondrop="UI.onDrop(event);">
+                <!-- <div class="card" draggable="true" id="0" ondragstart="onDragStart(event);">
+                    <section class="card-header">
+                        <p class="card-text-header">
+                            Task #0
+                        </p>
+                    </section>
+                    <section class="card-body">
+                        <p class="card-text" contenteditable="true">
+                            Lorem, ipsum dolor sit amet consectetur adipisicing elit.
+                        </p>
+                    </section>
+                </div> -->
+            </div>
+        </div>
+        <div class="col">
+            <div class="col-title">
+                <p class="title-text">In progress</p>
+            </div>
+            <div class="col-body col-in-progress" ondragover="UI.onDragOver(event);" ondrop="UI.onDrop(event);">
+                
+                
+            </div>
+        </div>
+        <div class="col">
+            <div class="col-title">
+                <p class="title-text">Done</p>
+            </div>
+            <div class="col-body col-done" ondragover="UI.onDragOver(event);" ondrop="UI.onDrop(event);">
+                
+                
+            </div>
+        </div>
+    </div>
+
+
+
+    <script src="script.js"></script>
+</body>
+</html>
