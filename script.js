@@ -15,11 +15,13 @@ class Storage {
     static update() {
         localStorage.setItem('cards', JSON.stringify(listOfCards));
         localStorage.setItem('counter', Card.counter);
+        localStorage.setItem('colors', JSON.stringify(listOfColors));
     }
 
     static clear() {
         localStorage.removeItem('cards');
         localStorage.removeItem('counter');
+        localStorage.removeItem('colors');
     }
 
     static getCounter() {
@@ -30,6 +32,16 @@ class Storage {
             counter = localStorage.getItem('counter');
         }
         return counter;
+    }
+    
+    static getColors() {
+        let colors;
+        if (localStorage.getItem('colors') === null) {
+            colors = ['#91c346', '#0395e4', '#db4d4d'];
+        } else {
+            colors = JSON.parse(localStorage.getItem('colors'));
+        }
+        return colors;
     }
 
 }
@@ -45,6 +57,11 @@ class Card {
 }
 
 class UI {
+
+    static init() {
+        UI.setColors();
+        UI.displayCards();
+    }
 
     static displayCards() {
         listOfCards = Storage.getCards();
@@ -78,7 +95,6 @@ class UI {
     }
 
     static renderCard(card, body) {
-        const toDoColumn = document.querySelector('.col-to-do');
         const newCard = document.createElement('div');
         newCard.classList.add('card');
         newCard.setAttribute('draggable', 'true');
@@ -97,21 +113,32 @@ class UI {
                 </p>
             </section>
             `
-        toDoColumn.appendChild(newCard);
+        const column = this.assignToColumn(card);
+        column.appendChild(newCard);
         this.assignColor(card);
 
         const textarea = document.querySelector('#new-card-text');
         textarea.value = '';
     }
 
+    static assignToColumn(card) {
+        if (card.column === 1) {
+            return document.querySelector('.col-to-do');
+        } else if (card.column === 2) {
+            return document.querySelector('.col-in-progress');
+        } else if (card.column === 3) {
+            return document.querySelector('.col-done');
+        }
+    }
+
     static assignColor(newCard) {
         const card = document.getElementById(`${newCard.id}`)
         if (newCard.importance === 1) {
-            card.style.backgroundColor = this.colorNotImportant;
+            card.style.backgroundColor = document.getElementById('color-not-important').value;
         } else if (newCard.importance === 2) {
-            card.style.backgroundColor = this.colorImportant;
+            card.style.backgroundColor = document.getElementById('color-important').value;
         } else if (newCard.importance === 3) {
-            card.style.backgroundColor = this.colorUrgent;
+            card.style.backgroundColor = document.getElementById('color-urgent').value;
         }
     }
 
@@ -130,8 +157,20 @@ class UI {
         const id = event.dataTransfer.getData('text');
         const draggableElement = document.getElementById(id);
         const dropzone = event.target;
+        this.assignColumnValue(event.target, id);
         dropzone.appendChild(draggableElement);
         event.dataTransfer.clearData();
+        Storage.update();
+    }
+
+    static assignColumnValue(target, id) {
+        if (target.classList[1] === 'col-to-do') {
+            listOfCards[id - 1].column = 1;
+        } else if (target.classList[1] === 'col-in-progress') {
+            listOfCards[id - 1].column = 2;
+        } else if (target.classList[1] === 'col-done') {
+            listOfCards[id - 1].column = 3;
+        }
     }
 
     static removeCardFromDOM() {
@@ -159,13 +198,10 @@ class UI {
             document.getElementById(`${listOfCards[i].id}`).remove();
         }
         listOfCards = [];
+        listOfColors = [];
         Card.counter = 1;
         Storage.clear();
     }
-
-    static colorNotImportant = document.getElementById('color-not-important').value;
-    static colorImportant = document.getElementById('color-important').value;
-    static colorUrgent = document.getElementById('color-urgent').value;
 
     static changeColor(event) {
 
@@ -177,6 +213,8 @@ class UI {
                     document.getElementById(`${card.id}`).style.backgroundColor = event.target.value;
                 }
             })
+
+            listOfColors[0] = event.target.value;
             
         } else if (id === 'color-important') {
     
@@ -186,7 +224,7 @@ class UI {
                 }
             })
 
-            this.colorImportant = event.target.value;
+            listOfColors[1] = event.target.value;
     
         } else if (id === 'color-urgent') {
     
@@ -196,9 +234,17 @@ class UI {
                 }
             })
 
-            this.colorUrgent = event.target.value;
+            listOfColors[2] = event.target.value;
     
         }
+        Storage.update();
+    }
+
+    static setColors() {
+        listOfColors = Storage.getColors();
+        colorPickerNotImportant.setAttribute('value', listOfColors[0]);
+        colorPickerImportant.setAttribute('value', listOfColors[1]);
+        colorPickerUrgent.setAttribute('value', listOfColors[2]);
     }
 }
 
@@ -215,9 +261,10 @@ colorPickerImportant.addEventListener("input", UI.changeColor, false);
 colorPickerUrgent.addEventListener("input", UI.changeColor, false);
 
 let listOfCards;
+let listOfColors;
 
 const bin = document.getElementById('bin');
 bin.addEventListener('click', UI.clearAll);
 
-window.addEventListener('DOMContentLoaded', UI.displayCards);
+window.addEventListener('DOMContentLoaded', UI.init);
 
