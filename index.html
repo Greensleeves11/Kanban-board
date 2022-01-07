@@ -44,7 +44,7 @@
                     <label for="btn-form" hidden>Form button</label>
                     <input type="submit" value="Create" class="btn" id="btn-form">
                 </form>
-                <div class="bin-img-container" ondragover="UI.onDragOver(event);" ondrop="UI.removeCardObj();">
+                <div class="bin-img-container">
                     <img src="img/recycle-bin.png" alt="bin" id="bin">
                 </div> 
             </div>
@@ -53,27 +53,27 @@
             <div class="col-title">
                 <p class="title-text">To do</p>
             </div>
-            <div class="col-body col-to-do" ondragover="UI.onDragOver(event);" ondrop="UI.onDrop(event);">
+            <div class="col-body col-to-do">
             </div>
         </div>
         <div class="col">
             <div class="col-title">
                 <p class="title-text">In progress</p>
             </div>
-            <div class="col-body col-in-progress" ondragover="UI.onDragOver(event);" ondrop="UI.onDrop(event);">
+            <div class="col-body col-in-progress">
             </div>
         </div>
         <div class="col">
             <div class="col-title">
                 <p class="title-text">Done</p>
             </div>
-            <div class="col-body col-done" ondragover="UI.onDragOver(event);" ondrop="UI.onDrop(event);">
+            <div class="col-body col-done">
             </div>
         </div>
     </div>
 
 
 
-    <script src="script.js"></script>
+    <script type="module" src="script.js"></script>
 </body>
 </html>
