@@ -2,7 +2,7 @@
   "name": "kanban-board",
   "version": "1.0.0",
   "description": "Kanban-board project",
-  "main": "script.js",
+  "main": "server.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
@@ -15,5 +15,8 @@
   "bugs": {
     "url": "https://github.com/Greensleeves11/Kanban-board/issues"
   },
-  "homepage": "https://github.com/Greensleeves11/Kanban-board#readme"
+  "homepage": "https://github.com/Greensleeves11/Kanban-board#readme",
+  "devDependencies": {
+    "nodemon": "^2.0.15"
+  }
 }
