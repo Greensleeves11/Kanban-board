@@ -95,27 +95,29 @@ class UI {
 
   static renderCard(card) {
     const body = card.body;
-    const newCard = document.createElement('div');
-    newCard.classList.add('card');
-    newCard.setAttribute('draggable', 'true');
-    newCard.addEventListener('dragstart', UI.onDragStart);
-    newCard.setAttribute('id', `${card.id}`);
-    newCard.innerHTML = `
-            <section class="card-header">
-                <p class="card-text-header">
-                    Task #${newCard.id}
-                </p>
-            </section>
-            <section class="card-body">
-                <p class="card-text" contenteditable="true">
-                    ${body}
-                </p>
-            </section>
-            `;
     const column = this.assignToColumn(card);
-    column.appendChild(newCard);
+    column.insertAdjacentHTML(
+      'beforeend',
+      `<div class='card' draggable='true' id='${card.id}'>
+        <section class="card-header">
+          <p class="card-text-header">
+           Task #${card.id}
+         </p>
+        </section>
+        <section class="card-body">
+          <p class="card-text" contenteditable="true">
+            ${body}
+          </p>
+        </section>
+      </div>`
+    );
     this.assignColor(card);
+    const newCard = document.getElementById(`${card.id}`);
+    newCard.addEventListener('dragstart', UI.onDragStart);
+    this.cleanTextArea();
+  }
 
+  static cleanTextArea() {
     const textarea = document.querySelector('#new-card-text');
     textarea.value = '';
   }
@@ -215,7 +217,6 @@ class UI {
             event.target.value;
         }
       });
-
       Lists.listOfColors[0] = event.target.value;
     } else if (id === 'color-important') {
       Lists.listOfCards.forEach(card => {
@@ -224,7 +225,6 @@ class UI {
             event.target.value;
         }
       });
-
       Lists.listOfColors[1] = event.target.value;
     } else if (id === 'color-urgent') {
       Lists.listOfCards.forEach(card => {
@@ -233,7 +233,6 @@ class UI {
             event.target.value;
         }
       });
-
       Lists.listOfColors[2] = event.target.value;
     }
     Storage.update();
