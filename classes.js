@@ -66,7 +66,7 @@ class UI {
   static displayCards() {
     Lists.listOfCards = Storage.getCards();
     Lists.listOfCards.forEach(card => {
-      UI.renderCard(card, card.body);
+      UI.renderCard(card);
     });
   }
 
@@ -77,9 +77,8 @@ class UI {
       const importance = UI.checkImportance();
       const card = new Card(body.value, importance);
       Lists.listOfCards.push(card);
-      UI.renderCard(card, body.value);
+      UI.renderCard(card);
       Storage.update();
-      return card;
     }
   }
 
@@ -94,7 +93,8 @@ class UI {
     return parseInt(importance);
   }
 
-  static renderCard(card, body) {
+  static renderCard(card) {
+    const body = card.body;
     const newCard = document.createElement('div');
     newCard.classList.add('card');
     newCard.setAttribute('draggable', 'true');
@@ -162,7 +162,6 @@ class UI {
       const draggableElement = document.getElementById(id);
       const dropzone = event.target;
       UI.assignColumnValue(event.target, id);
-      console.log(event.target);
       dropzone.appendChild(draggableElement);
       event.dataTransfer.clearData();
       Storage.update();
