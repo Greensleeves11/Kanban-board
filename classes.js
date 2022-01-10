@@ -55,6 +55,36 @@ class Card {
     this.column = 1;
     this.importance = importance;
   }
+  static onDragStart(event) {
+    event.dataTransfer.setData('text/plain', event.target.id);
+    UI.currentCard = event.currentTarget;
+  }
+
+  static onDragOver(event) {
+    event.preventDefault();
+  }
+
+  static onDrop(event) {
+    if (event.target.classList.contains('col-body')) {
+      const id = event.dataTransfer.getData('text');
+      const draggableElement = document.getElementById(id);
+      const dropzone = event.target;
+      Card.assignColumnValue(event.target, id);
+      dropzone.appendChild(draggableElement);
+      event.dataTransfer.clearData();
+      Storage.update();
+    }
+  }
+
+  static assignColumnValue(target, id) {
+    if (target.classList[1] === 'col-to-do') {
+      Lists.listOfCards[id - 1].column = 1;
+    } else if (target.classList[1] === 'col-in-progress') {
+      Lists.listOfCards[id - 1].column = 2;
+    } else if (target.classList[1] === 'col-done') {
+      Lists.listOfCards[id - 1].column = 3;
+    }
+  }
 }
 
 class UI {
@@ -113,7 +143,7 @@ class UI {
     );
     this.assignColor(card);
     const newCard = document.getElementById(`${card.id}`);
-    newCard.addEventListener('dragstart', UI.onDragStart);
+    newCard.addEventListener('dragstart', Card.onDragStart);
     this.cleanTextArea();
   }
 
@@ -148,37 +178,6 @@ class UI {
   }
 
   static currentCard;
-
-  static onDragStart(event) {
-    event.dataTransfer.setData('text/plain', event.target.id);
-    UI.currentCard = event.currentTarget;
-  }
-
-  static onDragOver(event) {
-    event.preventDefault();
-  }
-
-  static onDrop(event) {
-    if (event.target.classList.contains('col-body')) {
-      const id = event.dataTransfer.getData('text');
-      const draggableElement = document.getElementById(id);
-      const dropzone = event.target;
-      UI.assignColumnValue(event.target, id);
-      dropzone.appendChild(draggableElement);
-      event.dataTransfer.clearData();
-      Storage.update();
-    }
-  }
-
-  static assignColumnValue(target, id) {
-    if (target.classList[1] === 'col-to-do') {
-      Lists.listOfCards[id - 1].column = 1;
-    } else if (target.classList[1] === 'col-in-progress') {
-      Lists.listOfCards[id - 1].column = 2;
-    } else if (target.classList[1] === 'col-done') {
-      Lists.listOfCards[id - 1].column = 3;
-    }
-  }
 
   static removeCardFromDOM() {
     const cardToRemove = document.getElementById(`${this.currentCard.id}`);

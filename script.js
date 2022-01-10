@@ -12,19 +12,19 @@ colorPickerUrgent.addEventListener('input', UI.changeColor, false);
 
 const bin = document.getElementById('bin');
 bin.addEventListener('click', UI.clearAll);
-bin.addEventListener('dragover', UI.onDragOver);
+bin.addEventListener('dragover', Card.onDragOver);
 bin.addEventListener('drop', UI.removeCardObj);
 
 const colToDo = document.querySelector('.col-to-do');
-colToDo.addEventListener('dragover', UI.onDragOver);
-colToDo.addEventListener('drop', UI.onDrop);
+colToDo.addEventListener('dragover', Card.onDragOver);
+colToDo.addEventListener('drop', Card.onDrop);
 
 const colInProgress = document.querySelector('.col-in-progress');
-colInProgress.addEventListener('dragover', UI.onDragOver);
-colInProgress.addEventListener('drop', UI.onDrop);
+colInProgress.addEventListener('dragover', Card.onDragOver);
+colInProgress.addEventListener('drop', Card.onDrop);
 
 const colDone = document.querySelector('.col-done');
-colDone.addEventListener('dragover', UI.onDragOver);
-colDone.addEventListener('drop', UI.onDrop);
+colDone.addEventListener('dragover', Card.onDragOver);
+colDone.addEventListener('drop', Card.onDrop);
 
 window.addEventListener('DOMContentLoaded', UI.init);
