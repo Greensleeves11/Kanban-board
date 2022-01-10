@@ -1,4 +1,6 @@
-import { Storage, Card, UI, Colors } from './classes.js';
+import Card from './Card.js';
+import Colors from './Colors.js';
+import UI from './UI.js';
 
 const form = document.querySelector('.new-card');
 form.addEventListener('submit', Card.createCard);
