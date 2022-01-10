@@ -24,14 +24,21 @@ export default class Card {
 
   static removeCardObj() {
     const id = UI.currentCard.id;
-    for (let card of Lists.listOfCards) {
-      if (card.id == id) {
-        Lists.listOfCards.splice(Lists.listOfCards[id - 1], 1);
+    const index = Card.findIndexById(id);
+    Lists.listOfCards.splice(index, 1);
+    UI.removeCardFromDOM();
+    Storage.update();
+  }
+
+  static findIndexById(id) {
+    let index;
+    for (let i = 0; i < Lists.listOfColors.length; i++) {
+      if (Lists.listOfCards[i].id == id) {
+        index = i;
         break;
       }
     }
-    UI.removeCardFromDOM();
-    Storage.update();
+    return index;
   }
 
   static onDragStart(event) {
@@ -56,12 +63,15 @@ export default class Card {
   }
 
   static assignColumnValue(target, id) {
+    console.log(id);
+    const card = this.findCardById(id);
+    console.log(card);
     if (target.classList[1] === 'col-to-do') {
-      Lists.listOfCards[id - 1].column = 1;
+      Lists.listOfCards[Lists.listOfCards.indexOf(card)].column = 1;
     } else if (target.classList[1] === 'col-in-progress') {
-      Lists.listOfCards[id - 1].column = 2;
+      Lists.listOfCards[Lists.listOfCards.indexOf(card)].column = 2;
     } else if (target.classList[1] === 'col-done') {
-      Lists.listOfCards[id - 1].column = 3;
+      Lists.listOfCards[Lists.listOfCards.indexOf(card)].column = 3;
     }
   }
 
