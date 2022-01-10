@@ -55,6 +55,30 @@ class Card {
     this.column = 1;
     this.importance = importance;
   }
+  static createCard(e) {
+    e.preventDefault();
+    const body = document.querySelector('#new-card-text');
+    if (body.value !== '') {
+      const importance = UI.checkImportance();
+      const card = new Card(body.value, importance);
+      Lists.listOfCards.push(card);
+      UI.renderCard(card);
+      Storage.update();
+    }
+  }
+
+  static removeCardObj() {
+    const id = UI.currentCard.id;
+    for (let card of Lists.listOfCards) {
+      if (card.id == id) {
+        Lists.listOfCards.splice(Lists.listOfCards[id - 1], 1);
+        break;
+      }
+    }
+    UI.removeCardFromDOM();
+    Storage.update();
+  }
+
   static onDragStart(event) {
     event.dataTransfer.setData('text/plain', event.target.id);
     UI.currentCard = event.currentTarget;
@@ -85,11 +109,23 @@ class Card {
       Lists.listOfCards[id - 1].column = 3;
     }
   }
+
+  static assignToColumn(card) {
+    if (card.column === 1) {
+      return document.querySelector('.col-to-do');
+    } else if (card.column === 2) {
+      return document.querySelector('.col-in-progress');
+    } else if (card.column === 3) {
+      return document.querySelector('.col-done');
+    }
+  }
 }
 
 class UI {
+  static currentCard;
+
   static init() {
-    UI.setColors();
+    Colors.setColors();
     UI.displayCards();
   }
 
@@ -98,18 +134,6 @@ class UI {
     Lists.listOfCards.forEach(card => {
       UI.renderCard(card);
     });
-  }
-
-  static createCard(e) {
-    e.preventDefault();
-    const body = document.querySelector('#new-card-text');
-    if (body.value !== '') {
-      const importance = UI.checkImportance();
-      const card = new Card(body.value, importance);
-      Lists.listOfCards.push(card);
-      UI.renderCard(card);
-      Storage.update();
-    }
   }
 
   static checkImportance() {
@@ -125,7 +149,7 @@ class UI {
 
   static renderCard(card) {
     const body = card.body;
-    const column = this.assignToColumn(card);
+    const column = Card.assignToColumn(card);
     column.insertAdjacentHTML(
       'beforeend',
       `<div class='card' draggable='true' id='${card.id}'>
@@ -141,7 +165,7 @@ class UI {
         </section>
       </div>`
     );
-    this.assignColor(card);
+    Colors.assignColor(card);
     const newCard = document.getElementById(`${card.id}`);
     newCard.addEventListener('dragstart', Card.onDragStart);
     this.cleanTextArea();
@@ -152,61 +176,13 @@ class UI {
     textarea.value = '';
   }
 
-  static assignToColumn(card) {
-    if (card.column === 1) {
-      return document.querySelector('.col-to-do');
-    } else if (card.column === 2) {
-      return document.querySelector('.col-in-progress');
-    } else if (card.column === 3) {
-      return document.querySelector('.col-done');
-    }
-  }
-
-  static assignColor(newCard) {
-    const card = document.getElementById(`${newCard.id}`);
-    if (newCard.importance === 1) {
-      card.style.backgroundColor = document.getElementById(
-        'color-not-important'
-      ).value;
-    } else if (newCard.importance === 2) {
-      card.style.backgroundColor =
-        document.getElementById('color-important').value;
-    } else if (newCard.importance === 3) {
-      card.style.backgroundColor =
-        document.getElementById('color-urgent').value;
-    }
-  }
-
-  static currentCard;
-
   static removeCardFromDOM() {
     const cardToRemove = document.getElementById(`${this.currentCard.id}`);
     cardToRemove.remove();
   }
+}
 
-  static removeCardObj() {
-    const id = UI.currentCard.id;
-    for (let card of Lists.listOfCards) {
-      if (card.id == id) {
-        Lists.listOfCards.splice(Lists.listOfCards[id - 1], 1);
-        break;
-      }
-    }
-    UI.removeCardFromDOM();
-    Storage.update();
-  }
-
-  static clearAll() {
-    for (let i = 0; i < Lists.listOfCards.length; i++) {
-      document.getElementById(`${Lists.listOfCards[i].id}`).remove();
-    }
-    Lists.listOfCards = [];
-    Lists.listOfColors = [];
-    Card.counter = 1;
-    Storage.clear();
-    UI.init();
-  }
-
+class Colors {
   static changeColor(event) {
     const id = event.target.id;
     if (id === 'color-not-important') {
@@ -248,6 +224,21 @@ class UI {
     colorPickerImportant.setAttribute('value', Lists.listOfColors[1]);
     colorPickerUrgent.setAttribute('value', Lists.listOfColors[2]);
   }
+
+  static assignColor(newCard) {
+    const card = document.getElementById(`${newCard.id}`);
+    if (newCard.importance === 1) {
+      card.style.backgroundColor = document.getElementById(
+        'color-not-important'
+      ).value;
+    } else if (newCard.importance === 2) {
+      card.style.backgroundColor =
+        document.getElementById('color-important').value;
+    } else if (newCard.importance === 3) {
+      card.style.backgroundColor =
+        document.getElementById('color-urgent').value;
+    }
+  }
 }
 
-export { Storage, Card, UI };
+export { Storage, Card, UI, Colors };
