@@ -1,5 +1,4 @@
 import Card from './Card.js';
-import Colors from './Colors.js';
 import Lists from './Lists.js';
 import Storage from './Storage.js';
 
@@ -7,7 +6,7 @@ export default class UI {
   static currentCard;
 
   static init() {
-    Colors.setColors();
+    Lists.setColors();
     UI.displayCards();
   }
 
@@ -47,7 +46,7 @@ export default class UI {
         </section>
       </div>`
     );
-    Colors.assignColor(card);
+    Card.assignColor(card);
     const newCard = document.getElementById(`${card.id}`);
     newCard.addEventListener('dragstart', Card.onDragStart);
     this.cleanTextArea();

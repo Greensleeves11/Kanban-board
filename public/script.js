@@ -1,6 +1,6 @@
 import Card from './Card.js';
-import Colors from './Colors.js';
 import UI from './UI.js';
+import Lists from './Lists.js';
 
 const form = document.querySelector('.new-card');
 form.addEventListener('submit', Card.createCard);
@@ -8,9 +8,9 @@ form.addEventListener('submit', Card.createCard);
 const colorPickerNotImportant = document.getElementById('color-not-important');
 const colorPickerImportant = document.getElementById('color-important');
 const colorPickerUrgent = document.getElementById('color-urgent');
-colorPickerNotImportant.addEventListener('input', Colors.changeColor, false);
-colorPickerImportant.addEventListener('input', Colors.changeColor, false);
-colorPickerUrgent.addEventListener('input', Colors.changeColor, false);
+colorPickerNotImportant.addEventListener('input', Lists.changeColor, false);
+colorPickerImportant.addEventListener('input', Lists.changeColor, false);
+colorPickerUrgent.addEventListener('input', Lists.changeColor, false);
 
 const bin = document.getElementById('bin');
 bin.addEventListener('dragover', Card.onDragOver);

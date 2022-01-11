@@ -62,4 +62,19 @@ export default class Card {
       return document.querySelector('.col-done');
     }
   }
+
+  static assignColor(newCard) {
+    const card = document.getElementById(`${newCard.id}`);
+    if (newCard.importance === 1) {
+      card.style.backgroundColor = document.getElementById(
+        'color-not-important'
+      ).value;
+    } else if (newCard.importance === 2) {
+      card.style.backgroundColor =
+        document.getElementById('color-important').value;
+    } else if (newCard.importance === 3) {
+      card.style.backgroundColor =
+        document.getElementById('color-urgent').value;
+    }
+  }
 }
