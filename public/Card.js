@@ -10,17 +10,6 @@ export default class Card {
     this.column = 1;
     this.importance = importance;
   }
-  static createCard(e) {
-    e.preventDefault();
-    const body = document.querySelector('#new-card-text');
-    if (body.value !== '') {
-      const importance = UI.checkImportance();
-      const card = new Card(body.value, importance);
-      Lists.listOfCards.push(card);
-      UI.renderCard(card);
-      Storage.update();
-    }
-  }
 
   static removeCardObj() {
     const id = UI.currentCard.id;

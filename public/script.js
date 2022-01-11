@@ -1,9 +1,13 @@
 import Card from './Card.js';
 import UI from './UI.js';
 import Lists from './Lists.js';
+import CardFactory from './CardFactory.js';
 
 const form = document.querySelector('.new-card');
-form.addEventListener('submit', Card.createCard);
+form.addEventListener('submit', e => {
+  e.preventDefault();
+  CardFactory.create();
+});
 
 const colorPickerNotImportant = document.getElementById('color-not-important');
 const colorPickerImportant = document.getElementById('color-important');
