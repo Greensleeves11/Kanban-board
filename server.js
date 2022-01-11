@@ -1,6 +1,5 @@
 const express = require('express');
 const path = require('path');
-const data = require('./api/data');
 const logger = require('./api/logger');
 
 const app = express();
