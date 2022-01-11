@@ -19,23 +19,19 @@ export default class Card {
     Storage.update();
   }
 
-  static onDragStart(event) {
-    event.dataTransfer.setData('text/plain', event.target.id);
-    UI.currentCard = event.currentTarget;
+  static onDragStart(e) {
+    e.dataTransfer.setData('text/plain', e.target.id);
+    UI.currentCard = e.currentTarget;
   }
 
-  static onDragOver(event) {
-    event.preventDefault();
-  }
-
-  static onDrop(event) {
-    if (event.target.classList.contains('col-body')) {
-      const id = event.dataTransfer.getData('text');
+  static onDrop(e) {
+    if (e.target.classList.contains('col-body')) {
+      const id = e.dataTransfer.getData('text');
       const draggableElement = document.getElementById(id);
-      const dropzone = event.target;
-      Lists.assignColumnValue(event.target, id);
+      const dropzone = e.target;
+      Lists.assignColumnValue(e.target, id);
       dropzone.appendChild(draggableElement);
-      event.dataTransfer.clearData();
+      e.dataTransfer.clearData();
       Storage.update();
     }
   }
