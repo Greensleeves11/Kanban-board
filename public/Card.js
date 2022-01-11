@@ -24,9 +24,7 @@ export default class Card {
 
   static removeCardObj() {
     const id = UI.currentCard.id;
-    console.log(id);
     const index = Lists.findIndexById(id);
-    console.log(index);
     Lists.listOfCards.splice(index, 1);
     UI.removeCardFromDOM();
     Storage.update();
