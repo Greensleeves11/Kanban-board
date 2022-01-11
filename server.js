@@ -12,7 +12,7 @@ app.use(logger);
 
 app.use(express.static(path.join(__dirname, 'public')));
 
-app.use('/api/data', require('./api/routes'));
+app.use('/api/routes', require('./api/routes'));
 
 const PORT = process.env.PORT || 5000;
 
