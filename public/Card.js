@@ -25,22 +25,11 @@ export default class Card {
   static removeCardObj() {
     const id = UI.currentCard.id;
     console.log(id);
-    const index = Card.findIndexById(id);
+    const index = Lists.findIndexById(id);
     console.log(index);
     Lists.listOfCards.splice(index, 1);
     UI.removeCardFromDOM();
     Storage.update();
-  }
-
-  static findIndexById(id) {
-    let index;
-    for (let i = 0; i < Lists.listOfCards.length; i++) {
-      if (Lists.listOfCards[i].id == id) {
-        index = i;
-        break;
-      }
-    }
-    return index;
   }
 
   static onDragStart(event) {
@@ -57,21 +46,10 @@ export default class Card {
       const id = event.dataTransfer.getData('text');
       const draggableElement = document.getElementById(id);
       const dropzone = event.target;
-      Card.assignColumnValue(event.target, id);
+      Lists.assignColumnValue(event.target, id);
       dropzone.appendChild(draggableElement);
       event.dataTransfer.clearData();
       Storage.update();
-    }
-  }
-
-  static assignColumnValue(target, id) {
-    const index = this.findIndexById(id);
-    if (target.classList[1] === 'col-to-do') {
-      Lists.listOfCards[index].column = 1;
-    } else if (target.classList[1] === 'col-in-progress') {
-      Lists.listOfCards[index].column = 2;
-    } else if (target.classList[1] === 'col-done') {
-      Lists.listOfCards[index].column = 3;
     }
   }
 
