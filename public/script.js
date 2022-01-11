@@ -1,12 +1,12 @@
 import Card from './Card.js';
 import UI from './UI.js';
 import Lists from './Lists.js';
-import CardFactory from './CardFactory.js';
+import { cardFactory } from './card_factory.js';
 
 const form = document.querySelector('.new-card');
 form.addEventListener('submit', e => {
   e.preventDefault();
-  CardFactory.create();
+  cardFactory();
 });
 
 const colorPickerNotImportant = document.getElementById('color-not-important');
