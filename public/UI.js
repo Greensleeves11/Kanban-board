@@ -1,5 +1,4 @@
 import Card from './Card.js';
-import Lists from './Lists.js';
 import Storage from './Storage.js';
 import { dataLists } from './script.js';
 
@@ -9,7 +8,7 @@ export default class UI {
   }
 
   init() {
-    Lists.setColors();
+    dataLists.setColors();
     this.displayCards();
   }
 

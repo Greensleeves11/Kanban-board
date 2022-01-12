@@ -1,4 +1,3 @@
-import Lists from './Lists.js';
 import Storage from './Storage.js';
 import { panelUI } from './script.js';
 import { dataLists } from './script.js';

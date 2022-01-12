@@ -3,6 +3,9 @@ import UI from './UI.js';
 import Lists from './Lists.js';
 import { cardFactory } from './cardFactory.js';
 
+export const panelUI = new UI();
+export const dataLists = new Lists();
+
 const form = document.querySelector('.new-card');
 form.addEventListener('submit', e => {
   e.preventDefault();
@@ -12,9 +15,18 @@ form.addEventListener('submit', e => {
 const colorPickerNotImportant = document.getElementById('color-not-important');
 const colorPickerImportant = document.getElementById('color-important');
 const colorPickerUrgent = document.getElementById('color-urgent');
-colorPickerNotImportant.addEventListener('input', Lists.changeColor, false);
-colorPickerImportant.addEventListener('input', Lists.changeColor, false);
-colorPickerUrgent.addEventListener('input', Lists.changeColor, false);
+colorPickerNotImportant.addEventListener(
+  'input',
+  dataLists.changeColor.bind(dataLists)
+);
+colorPickerImportant.addEventListener(
+  'input',
+  dataLists.changeColor.bind(dataLists)
+);
+colorPickerUrgent.addEventListener(
+  'input',
+  dataLists.changeColor.bind(dataLists)
+);
 
 const bin = document.getElementById('bin');
 bin.addEventListener('dragover', e => {
@@ -39,9 +51,6 @@ colDone.addEventListener('dragover', e => {
   e.preventDefault();
 });
 colDone.addEventListener('drop', Card.onDrop);
-
-export const panelUI = new UI();
-export const dataLists = new Lists();
 
 panelUI.init();
 

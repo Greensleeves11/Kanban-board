@@ -1,4 +1,3 @@
-import Lists from './Lists.js';
 import Card from './Card.js';
 import { dataLists } from './script.js';
 
