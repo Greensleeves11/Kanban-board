@@ -14,7 +14,7 @@ export default class Card {
 
   static removeCardObj() {
     const id = panelUI.currentCard.id;
-    const index = Lists.findIndexById(id);
+    const index = dataLists.findIndexById(id);
     dataLists.listOfCards.splice(index, 1);
     panelUI.removeCardFromDOM();
     Storage.update();
@@ -30,7 +30,7 @@ export default class Card {
       const id = e.dataTransfer.getData('text');
       const draggableElement = document.getElementById(id);
       const dropzone = e.target;
-      Lists.assignColumnValue(e.target, id);
+      dataLists.assignColumnValue(e.target, id);
       dropzone.appendChild(draggableElement);
       e.dataTransfer.clearData();
       Storage.update();

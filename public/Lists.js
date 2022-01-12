@@ -7,10 +7,10 @@ export default class Lists {
     this.listOfColors = [];
   }
 
-  static findIndexById(id) {
+  findIndexById(id) {
     let index;
-    for (let i = 0; i < dataLists.listOfCards.length; i++) {
-      if (dataLists.listOfCards[i].id == id) {
+    for (let i = 0; i < this.listOfCards.length; i++) {
+      if (this.listOfCards[i].id == id) {
         index = i;
         break;
       }
@@ -18,14 +18,14 @@ export default class Lists {
     return index;
   }
 
-  static assignColumnValue(target, id) {
+  assignColumnValue(target, id) {
     const index = this.findIndexById(id);
     if (target.classList.contains('col-to-do')) {
-      dataLists.listOfCards[index].column = 1;
+      this.listOfCards[index].column = 1;
     } else if (target.classList.contains('col-in-progress')) {
-      dataLists.listOfCards[index].column = 2;
+      this.listOfCards[index].column = 2;
     } else if (target.classList.contains('col-done')) {
-      dataLists.listOfCards[index].column = 3;
+      this.listOfCards[index].column = 3;
     }
   }
 
