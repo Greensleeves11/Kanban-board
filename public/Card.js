@@ -1,6 +1,7 @@
 import Lists from './Lists.js';
 import Storage from './Storage.js';
 import UI from './UI.js';
+import { panelUI } from './script.js';
 
 export default class Card {
   static counter = Storage.getCounter();
@@ -12,16 +13,16 @@ export default class Card {
   }
 
   static removeCardObj() {
-    const id = UI.currentCard.id;
+    const id = panelUI.currentCard.id;
     const index = Lists.findIndexById(id);
     Lists.listOfCards.splice(index, 1);
-    UI.removeCardFromDOM();
+    panelUI.removeCardFromDOM();
     Storage.update();
   }
 
   static onDragStart(e) {
     e.dataTransfer.setData('text/plain', e.target.id);
-    UI.currentCard = e.currentTarget;
+    panelUI.currentCard = e.currentTarget;
   }
 
   static onDrop(e) {

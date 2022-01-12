@@ -3,21 +3,23 @@ import Lists from './Lists.js';
 import Storage from './Storage.js';
 
 export default class UI {
-  static currentCard;
-
-  static init() {
-    Lists.setColors();
-    UI.displayCards();
+  constructor() {
+    this.currentCard;
   }
 
-  static displayCards() {
+  init() {
+    Lists.setColors();
+    this.displayCards();
+  }
+
+  displayCards() {
     Lists.listOfCards = Storage.getCards();
     Lists.listOfCards.forEach(card => {
-      UI.renderCard(card);
+      this.renderCard(card);
     });
   }
 
-  static checkImportance() {
+  checkImportance() {
     const radioButtons = document.getElementsByName('importance');
     let importance;
     for (let button of radioButtons) {
@@ -28,7 +30,7 @@ export default class UI {
     return parseInt(importance);
   }
 
-  static renderCard(card) {
+  renderCard(card) {
     const body = card.body;
     const column = Card.assignToColumn(card);
     column.insertAdjacentHTML(
@@ -52,12 +54,12 @@ export default class UI {
     this.cleanTextArea();
   }
 
-  static cleanTextArea() {
+  cleanTextArea() {
     const textarea = document.querySelector('#new-card-text');
     textarea.value = '';
   }
 
-  static removeCardFromDOM() {
+  removeCardFromDOM() {
     const cardToRemove = document.getElementById(`${this.currentCard.id}`);
     cardToRemove.remove();
   }

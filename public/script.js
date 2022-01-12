@@ -40,4 +40,8 @@ colDone.addEventListener('dragover', e => {
 });
 colDone.addEventListener('drop', Card.onDrop);
 
-window.addEventListener('DOMContentLoaded', UI.init);
+export const panelUI = new UI();
+
+panelUI.init();
+
+// window.addEventListener('DOMContentLoaded', panelUI.init.bind(panelUI));
