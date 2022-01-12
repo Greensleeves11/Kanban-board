@@ -1,7 +1,7 @@
 import Card from './Card.js';
 import UI from './UI.js';
 import Lists from './Lists.js';
-import { cardFactory } from './card_factory.js';
+import { cardFactory } from './cardFactory.js';
 
 const form = document.querySelector('.new-card');
 form.addEventListener('submit', e => {
