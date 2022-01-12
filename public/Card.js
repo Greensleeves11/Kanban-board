@@ -28,12 +28,12 @@ export default class Card {
     }
   }
 
-  static assignToColumn(card) {
-    if (card.column === 1) {
+  assignToColumn() {
+    if (this.column === 1) {
       return document.querySelector('.col-to-do');
-    } else if (card.column === 2) {
+    } else if (this.column === 2) {
       return document.querySelector('.col-in-progress');
-    } else if (card.column === 3) {
+    } else if (this.column === 3) {
       return document.querySelector('.col-done');
     }
   }

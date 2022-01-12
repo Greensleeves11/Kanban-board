@@ -40,7 +40,7 @@ export default class UI {
 
   renderCard(card) {
     const body = card.body;
-    const column = Card.assignToColumn(card);
+    const column = card.assignToColumn();
     column.insertAdjacentHTML(
       'beforeend',
       `<div class='card' draggable='true' id='${card.id}'>
