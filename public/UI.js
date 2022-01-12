@@ -56,7 +56,7 @@ export default class UI {
         </section>
       </div>`
     );
-    Card.assignColor(card);
+    card.assignColor();
     const newCard = document.getElementById(`${card.id}`);
     newCard.addEventListener('dragstart', Card.onDragStart);
     this.cleanTextArea();
