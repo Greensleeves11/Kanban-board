@@ -11,14 +11,6 @@ export default class Card {
     this.importance = importance;
   }
 
-  static removeCardObj() {
-    const id = panelUI.currentCard.id;
-    const index = dataLists.findIndexById(id);
-    dataLists.listOfCards.splice(index, 1);
-    panelUI.removeCardFromDOM();
-    Storage.update();
-  }
-
   static onDragStart(e) {
     e.dataTransfer.setData('text/plain', e.target.id);
     panelUI.currentCard = e.currentTarget;

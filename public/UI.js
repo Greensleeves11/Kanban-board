@@ -1,6 +1,7 @@
 import Card from './Card.js';
 import Storage from './Storage.js';
 import { dataLists } from './script.js';
+import { panelUI } from './script.js';
 
 export default class UI {
   constructor() {
@@ -57,6 +58,14 @@ export default class UI {
   cleanTextArea() {
     const textarea = document.querySelector('#new-card-text');
     textarea.value = '';
+  }
+
+  removeCardObj() {
+    const id = panelUI.currentCard.id;
+    const index = dataLists.findIndexById(id);
+    dataLists.listOfCards.splice(index, 1);
+    panelUI.removeCardFromDOM();
+    Storage.update();
   }
 
   removeCardFromDOM() {

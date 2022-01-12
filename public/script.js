@@ -32,7 +32,7 @@ const bin = document.getElementById('bin');
 bin.addEventListener('dragover', e => {
   e.preventDefault();
 });
-bin.addEventListener('drop', Card.removeCardObj);
+bin.addEventListener('drop', panelUI.removeCardObj);
 
 const colToDo = document.querySelector('.col-to-do');
 colToDo.addEventListener('dragover', e => {
