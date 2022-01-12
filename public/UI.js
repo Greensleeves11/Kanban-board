@@ -1,6 +1,7 @@
 import Card from './Card.js';
 import Lists from './Lists.js';
 import Storage from './Storage.js';
+import { dataLists } from './script.js';
 
 export default class UI {
   constructor() {
@@ -13,8 +14,8 @@ export default class UI {
   }
 
   displayCards() {
-    Lists.listOfCards = Storage.getCards();
-    Lists.listOfCards.forEach(card => {
+    dataLists.listOfCards = Storage.getCards();
+    dataLists.listOfCards.forEach(card => {
       this.renderCard(card);
     });
   }

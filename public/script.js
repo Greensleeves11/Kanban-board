@@ -41,6 +41,7 @@ colDone.addEventListener('dragover', e => {
 colDone.addEventListener('drop', Card.onDrop);
 
 export const panelUI = new UI();
+export const dataLists = new Lists();
 
 panelUI.init();
 

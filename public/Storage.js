@@ -1,5 +1,6 @@
 import Lists from './Lists.js';
 import Card from './Card.js';
+import { dataLists } from './script.js';
 
 export default class Storage {
   static getCards() {
@@ -13,9 +14,9 @@ export default class Storage {
   }
 
   static update() {
-    localStorage.setItem('cards', JSON.stringify(Lists.listOfCards));
+    localStorage.setItem('cards', JSON.stringify(dataLists.listOfCards));
     localStorage.setItem('counter', Card.counter);
-    localStorage.setItem('colors', JSON.stringify(Lists.listOfColors));
+    localStorage.setItem('colors', JSON.stringify(dataLists.listOfColors));
   }
 
   static clear() {
