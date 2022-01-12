@@ -20,6 +20,7 @@ export default class UI {
     dataLists.listOfCards = [];
     tempList.forEach(card => {
       const newCard = new Card(card.body, card.importance);
+      newCard.column = card.column;
       dataLists.listOfCards.push(newCard);
       panelUI.renderCard(newCard);
       Storage.update();
