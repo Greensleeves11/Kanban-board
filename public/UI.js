@@ -15,8 +15,14 @@ export default class UI {
 
   displayCards() {
     dataLists.listOfCards = Storage.getCards();
-    dataLists.listOfCards.forEach(card => {
-      this.renderCard(card);
+    const tempList = dataLists.listOfCards;
+    Card.counter -= tempList.length;
+    dataLists.listOfCards = [];
+    tempList.forEach(card => {
+      const newCard = new Card(card.body, card.importance);
+      dataLists.listOfCards.push(newCard);
+      panelUI.renderCard(newCard);
+      Storage.update();
     });
   }
 
