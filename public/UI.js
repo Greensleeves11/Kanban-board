@@ -21,6 +21,7 @@ export default class UI {
     tempList.forEach(card => {
       const newCard = new Card(card.body, card.importance);
       newCard.column = card.column;
+      newCard.id = card.id;
       dataLists.listOfCards.push(newCard);
       panelUI.renderCard(newCard);
       Storage.update();
@@ -65,18 +66,5 @@ export default class UI {
   cleanTextArea() {
     const textarea = document.querySelector('#new-card-text');
     textarea.value = '';
-  }
-
-  removeCardObj() {
-    const id = this.currentCard.id;
-    const index = dataLists.findIndexById(id);
-    dataLists.listOfCards.splice(index, 1);
-    panelUI.removeCardFromDOM();
-    Storage.update();
-  }
-
-  removeCardFromDOM() {
-    const cardToRemove = document.getElementById(`${this.currentCard.id}`);
-    cardToRemove.remove();
   }
 }
