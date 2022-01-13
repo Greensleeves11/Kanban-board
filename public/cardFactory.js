@@ -1,9 +1,8 @@
-import UI from './UI.js';
 import Card from './Card.js';
-import Lists from './Lists.js';
 import Storage from './Storage.js';
 import { panelUI } from './script.js';
 import { dataLists } from './script.js';
+import { service } from './script.js';
 
 export const cardFactory = function () {
   const body = document.querySelector('#new-card-text');
@@ -13,6 +12,12 @@ export const cardFactory = function () {
     dataLists.listOfCards.push(card);
     panelUI.renderCard(card);
     Storage.update();
+    service.postData({
+      cards: dataLists.listOfCards,
+      colors: dataLists.listOfColors,
+      counter: Card.counter,
+    });
+    service.getData();
     return card;
   }
 };

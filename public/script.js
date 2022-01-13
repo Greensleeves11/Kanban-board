@@ -2,9 +2,11 @@ import Card from './Card.js';
 import UI from './UI.js';
 import Lists from './Lists.js';
 import { cardFactory } from './cardFactory.js';
+import Service from './Service.js';
 
 export const panelUI = new UI();
 export const dataLists = new Lists();
+export const service = new Service('http://localhost:5000/api/routes');
 
 const form = document.querySelector('.new-card');
 form.addEventListener('submit', e => {
