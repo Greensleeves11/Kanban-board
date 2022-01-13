@@ -12,7 +12,6 @@ export class TaskController {
     this.view = new UIView(this.model.getItems()[0]);
     this.view.render(this.root, 'beforeend');
     this.setColors();
-    this.colorTasks();
   };
 
   rerender = () => {
@@ -21,21 +20,29 @@ export class TaskController {
     // render UIView
   };
 
+  // setColors = () => {
+  //   this.categories = this.model.getItems()[1].map(category => {
+  //     const newCategory = new CategoryVO(
+  //       category.id,
+  //       category.label,
+  //       category.color
+  //     );
+  //     const picker = document.getElementById(category.id);
+  //     picker.value = category.color;
+  //   });
+  // };
+
   setColors = () => {
-    this.categories = this.model.getItems()[1].map(category => {
-      const newCategory = new CategoryVO(
-        category.id,
-        category.label,
-        category.color
-      );
+    this.model.getItems()[1].forEach(category => {
       const picker = document.getElementById(category.id);
       picker.value = category.color;
+
+      this.colorTasks();
     });
   };
 
   colorTasks = () => {
-    const columns = this.model.getItems()[0];
-    columns.forEach(column => {
+    this.model.getItems()[0].forEach(column => {
       column.items.forEach(task => {
         document.getElementById(task.id).style.backgroundColor =
           document.getElementById(task.category).value;
