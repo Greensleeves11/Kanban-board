@@ -58,7 +58,7 @@ export default class UI {
     );
     card.assignColor();
     const newCard = document.getElementById(`${card.id}`);
-    newCard.addEventListener('dragstart', Card.onDragStart);
+    newCard.addEventListener('dragstart', card.onDragStart);
     this.cleanTextArea();
   }
 
@@ -68,7 +68,7 @@ export default class UI {
   }
 
   removeCardObj() {
-    const id = panelUI.currentCard.id;
+    const id = this.currentCard.id;
     const index = dataLists.findIndexById(id);
     dataLists.listOfCards.splice(index, 1);
     panelUI.removeCardFromDOM();

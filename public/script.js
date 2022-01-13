@@ -29,27 +29,23 @@ colorPickerUrgent.addEventListener(
 );
 
 const bin = document.getElementById('bin');
-bin.addEventListener('dragover', e => {
-  e.preventDefault();
+bin.addEventListener('dragover', Card.onDragOver);
+bin.addEventListener('drop', () => {
+  const card =
+    dataLists.listOfCards[dataLists.findIndexById(panelUI.currentCard.id)];
+  card.remove();
 });
-bin.addEventListener('drop', panelUI.removeCardObj);
 
 const colToDo = document.querySelector('.col-to-do');
-colToDo.addEventListener('dragover', e => {
-  e.preventDefault();
-});
+colToDo.addEventListener('dragover', Card.onDragOver);
 colToDo.addEventListener('drop', Card.onDrop);
 
 const colInProgress = document.querySelector('.col-in-progress');
-colInProgress.addEventListener('dragover', e => {
-  e.preventDefault();
-});
+colInProgress.addEventListener('dragover', Card.onDragOver);
 colInProgress.addEventListener('drop', Card.onDrop);
 
 const colDone = document.querySelector('.col-done');
-colDone.addEventListener('dragover', e => {
-  e.preventDefault();
-});
+colDone.addEventListener('dragover', Card.onDragOver);
 colDone.addEventListener('drop', Card.onDrop);
 
 panelUI.init();

@@ -11,23 +11,6 @@ export default class Card {
     this.importance = importance;
   }
 
-  static onDragStart(e) {
-    e.dataTransfer.setData('text/plain', e.target.id);
-    panelUI.currentCard = e.currentTarget;
-  }
-
-  static onDrop(e) {
-    if (e.target.classList.contains('col-body')) {
-      const id = e.dataTransfer.getData('text');
-      const draggableElement = document.getElementById(id);
-      const dropzone = e.target;
-      dataLists.assignColumnValue(e.target, id);
-      dropzone.appendChild(draggableElement);
-      e.dataTransfer.clearData();
-      Storage.update();
-    }
-  }
-
   assignToColumn() {
     if (this.column === 1) {
       return document.querySelector('.col-to-do');
@@ -50,6 +33,40 @@ export default class Card {
     } else if (this.importance === 3) {
       card.style.backgroundColor =
         document.getElementById('color-urgent').value;
+    }
+  }
+
+  remove() {
+    const id = panelUI.currentCard.id;
+    const index = dataLists.findIndexById(id);
+    dataLists.listOfCards.splice(index, 1);
+    this.removeCardFromDOM();
+    Storage.update();
+  }
+
+  removeCardFromDOM() {
+    const cardToRemove = document.getElementById(`${panelUI.currentCard.id}`);
+    cardToRemove.remove();
+  }
+
+  onDragStart(e) {
+    e.dataTransfer.setData('text/plain', e.target.id);
+    panelUI.currentCard = e.currentTarget;
+  }
+
+  static onDragOver(e) {
+    e.preventDefault();
+  }
+
+  static onDrop(e) {
+    if (e.target.classList.contains('col-body')) {
+      const id = e.dataTransfer.getData('text');
+      const draggableElement = document.getElementById(id);
+      const dropzone = e.target;
+      dataLists.assignColumnValue(e.target, id);
+      dropzone.appendChild(draggableElement);
+      e.dataTransfer.clearData();
+      Storage.update();
     }
   }
 }
