@@ -15,7 +15,7 @@ const template = `<form action="#" class="new-card">
     <input
       type="color"
       name="not-important-picker"
-      id="color-not-important"
+      id="c-not-important"
     />
   </div>
   <label for="not-important">Not important</label>
@@ -32,7 +32,7 @@ const template = `<form action="#" class="new-card">
     <input
       type="color"
       name="important-picker"
-      id="color-important"
+      id="c-important"
     />
   </div>
   <label for="important">Important</label>
@@ -40,7 +40,7 @@ const template = `<form action="#" class="new-card">
 </div>
 <div class="importance">
   <div>
-    <input type="color" name="urgent-picker" id="color-urgent" />
+    <input type="color" name="urgent-picker" id="c-urgent" />
   </div>
   <label for="urgent">Urgent</label>
   <input type="radio" name="importance" id="urgent" value="3" />
