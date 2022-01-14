@@ -1,4 +1,4 @@
-export default class Service {
+export class Service {
   constructor(url) {
     this.url = url;
   }
@@ -6,9 +6,11 @@ export default class Service {
   async getData() {
     const response = await fetch(this.url);
     const data = await response.json();
+    return data;
   }
 
   async postData(data) {
+    console.log('hi from postData');
     const response = await fetch(this.url, {
       method: 'POST',
       headers: {

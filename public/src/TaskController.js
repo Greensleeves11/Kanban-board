@@ -10,30 +10,42 @@ export class TaskController {
     this.root = document.getElementById('root');
   }
 
-  init = () => {
-    this.view = new UIView(this.model.getItems()[0]);
+  init = async () => {
+    this.serverData = await this.model.service.getData();
+    this.view = new UIView(this.serverData[0]);
     this.view.render(this.root, 'beforeend');
     this.setCategories();
+
+    const form = document.querySelector('.new-card');
+    form.addEventListener('submit', async e => {
+      e.preventDefault();
+      this.createTask();
+      await this.model.addTask(data);
+      this.rerender();
+    });
   };
 
   rerender = () => {
+    document.querySelector('.board-container').remove();
+    data[1] = [];
+    this.init();
+
     // TODO: remove UIView from DOM
     // init data
     // render UIView
   };
 
   setCategories = () => {
-    this.model.getItems()[1].forEach(category => {
+    this.serverData[1].forEach(category => {
       data[1].push(new CategoryVO(category.id, category.label, category.color));
       const picker = document.getElementById(category.id);
       picker.value = category.color;
     });
     this.colorTasks();
-    console.log(data);
   };
 
   colorTasks = () => {
-    this.model.getItems()[0].forEach(column => {
+    this.serverData[0].forEach(column => {
       column.items.forEach(task => {
         document.getElementById(task.id).style.backgroundColor =
           document.getElementById(task.category).value;
@@ -47,7 +59,7 @@ export class TaskController {
       const category = this.checkCategory();
       const task = taskFactory(data[2].counter++, body.value, category);
       data[0][0].items.push(task);
-      console.log(data[0]);
+      body.value = '';
     }
   };
 

@@ -11,7 +11,7 @@ export class TaskView extends View {
   </section>
   <section class="card-body">
     <p class="card-text" contenteditable="true">
-      ${task.text}
+      ${task.body}
     </p>
   </section>
 </div>`;

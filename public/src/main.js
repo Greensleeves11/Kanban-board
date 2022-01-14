@@ -1,12 +1,14 @@
 import { TaskController } from './TaskController.js';
 import { data } from './model/data.js';
+import { Service } from './services/Service.js';
+import { localDataCreator } from './localDataCreator.js';
 
-const taskController = new TaskController();
+// const service = new Service('http://localhost:5000/api/routes');
+export const taskController = new TaskController();
+
+// taskController.fetchAndInit();
+
 taskController.init();
+localDataCreator();
 
-const form = document.querySelector('.new-card');
-form.addEventListener('submit', e => {
-  e.preventDefault();
-  taskController.createTask();
-  console.log(data);
-});
+// taskController.rerender();
