@@ -1,1 +1,22 @@
-[[{"label":"To do","items":[{"id":1,"body":"mock1","category":"c-not-important"},{"id":4,"body":"adsdas","category":"c-not-important"},{"id":5,"body":"dasd","category":"c-not-important"},{"id":6,"body":"asdas","category":"c-not-important"},{"id":7,"body":"asdas","category":"c-not-important"},{"id":8,"body":"asdas","category":"c-not-important"},{"id":9,"body":"dasd","category":"c-not-important"},{"id":10,"body":"asdsad","category":"c-not-important"},{"id":11,"body":"asd","category":"c-not-important"},{"id":12,"body":"asdasdasd","category":"c-urgent"},{"id":13,"body":"das","category":"c-not-important"},{"id":14,"body":"adasd","category":"c-important"}]},{"label":"In progress","items":[{"id":2,"body":"mock2","category":"c-important"}]},{"label":"Done","items":[{"id":3,"body":"mock3","category":"c-urgent"}]}],[{"id":"c-not-important","label":"not important","color":"#91c346"},{"id":"c-important","label":"important","color":"#0395e4"},{"id":"c-urgent","label":"urgent","color":"#db4d4d"}],{"counter":15}]
+[
+  [
+    {
+      "label": "To do",
+      "items": [
+        { "id": 15, "body": "asdasd", "category": "c-not-important" },
+        { "id": 20, "body": "adsdasd", "category": "c-important" }
+      ]
+    },
+    { "label": "In progress", "items": [] },
+    {
+      "label": "Done",
+      "items": [{ "id": 3, "body": "mock3", "category": "c-urgent" }]
+    }
+  ],
+  [
+    { "id": "c-not-important", "label": "not important", "color": "#91c346" },
+    { "id": "c-important", "label": "important", "color": "#0395e4" },
+    { "id": "c-urgent", "label": "urgent", "color": "#db4d4d" }
+  ],
+  { "counter": 22 }
+]

@@ -26,8 +26,13 @@ export class TaskController {
 
     const removeIcons = document.querySelectorAll('.remove-task');
     removeIcons.forEach(icon => {
-      icon.addEventListener('click', e => {
+      icon.addEventListener('click', async e => {
         console.log(e.target.parentElement.parentElement.id);
+        console.log(data[0]);
+        this.removeTaskById(parseInt(e.target.parentElement.parentElement.id));
+        await this.model.addTask(data);
+        this.rerender();
+        console.log(data[0]);
       });
     });
   };
@@ -89,5 +94,18 @@ export class TaskController {
     return category;
   };
 
-  removeTask = () => {};
+  removeTaskById = id => {
+    data[0].forEach(column => {
+      console.log(column);
+      for (let i = 0; i < column.items.length; i++) {
+        console.log(column.items[i].id);
+        console.log(id);
+        if (column.items[i].id === id) {
+          console.log('im working');
+          column.items.splice(i, 1);
+          break;
+        }
+      }
+    });
+  };
 }
