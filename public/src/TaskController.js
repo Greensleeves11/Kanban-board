@@ -20,7 +20,7 @@ export class TaskController {
     form.addEventListener('submit', async e => {
       e.preventDefault();
       this.createTask();
-      await this.model.addTask(data);
+      await this.model.updateData(data);
       this.rerender();
     });
 
@@ -30,7 +30,7 @@ export class TaskController {
         console.log(e.target.parentElement.parentElement.id);
         console.log(data[0]);
         this.removeTaskById(parseInt(e.target.parentElement.parentElement.id));
-        await this.model.addTask(data);
+        await this.model.updateData(data);
         this.rerender();
         console.log(data[0]);
       });

@@ -39,7 +39,7 @@ export class ListModel {
   //     { id: 'c-urgent', label: 'urgent', color: '#db4d4d' },
   //   ],
   // ];
-  addTask = data => {
+  updateData = data => {
     this.service.postData(data);
   };
   editTask = task => {};
