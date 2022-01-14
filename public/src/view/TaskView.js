@@ -8,6 +8,7 @@ export class TaskView extends View {
     <p class="card-text-header">
      Task #${task.id}
    </p>
+   <img src="img/cancel.png" alt="remove task" class="remove-task" />
   </section>
   <section class="card-body">
     <p class="card-text" contenteditable="true">

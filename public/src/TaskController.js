@@ -81,4 +81,6 @@ export class TaskController {
     }
     return category;
   };
+
+  removeTask = () => {};
 }

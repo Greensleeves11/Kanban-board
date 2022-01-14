@@ -47,7 +47,4 @@ const template = `<form action="#" class="new-card">
 </div>
 <label for="btn-form" hidden>Form button</label>
 <input type="submit" value="Create" class="btn" />
-</form>
-<div class="bin-img-container">
-<img src="img/recycle-bin.png" alt="bin" id="bin" />
-</div>`;
+</form>`;
