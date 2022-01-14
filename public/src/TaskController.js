@@ -23,6 +23,13 @@ export class TaskController {
       await this.model.addTask(data);
       this.rerender();
     });
+
+    const removeIcons = document.querySelectorAll('.remove-task');
+    removeIcons.forEach(icon => {
+      icon.addEventListener('click', e => {
+        console.log(e.target.parentElement.parentElement.id);
+      });
+    });
   };
 
   rerender = () => {
