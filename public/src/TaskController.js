@@ -42,7 +42,7 @@ export class TaskController {
       const picker = document.getElementById(this.model.localData[1][i].id);
       picker.value = this.model.localData[1][i].color;
     }
-    this.colorTasks();
+    this.colorAllTasks();
   };
 
   setColumns = () => {
@@ -66,7 +66,12 @@ export class TaskController {
     });
   };
 
-  colorTasks = () => {
+  colorTask = task => {
+    document.getElementById(task.id).style.backgroundColor =
+      document.getElementById(task.category).value;
+  };
+
+  colorAllTasks = () => {
     this.model.localData[0].forEach(column => {
       column.items.forEach(task => {
         document.getElementById(task.id).style.backgroundColor =
@@ -120,6 +125,13 @@ export class TaskController {
     });
   };
 
+  addRemoveListener = task => {
+    const icon = document.getElementById(task.id).children[0].children[1];
+    icon.addEventListener('click', e => {
+      this.processRemoval(e);
+    });
+  };
+
   addRemoveListeners = () => {
     const removeIcons = document.querySelectorAll('.remove-task');
     removeIcons.forEach(icon => {
@@ -129,13 +141,13 @@ export class TaskController {
     });
   };
 
-  processRemoval = async function (e) {
+  processRemoval = function (e) {
     this.removeTaskById(parseInt(e.target.parentElement.parentElement.id));
-    await this.model.updateData(this.model.localData);
     const task = document.getElementById(
       e.target.parentElement.parentElement.id
     );
     task.remove();
+    this.model.updateData(this.model.localData);
   };
 
   addFormListener = () => {
@@ -145,25 +157,23 @@ export class TaskController {
     });
   };
 
-  processSubmit = async function (e) {
+  processSubmit = function (e) {
     e.preventDefault();
     const task = this.createTask();
-    await this.model.updateData(this.model.localData);
     const taskView = new TaskView(task);
     const column = document.querySelectorAll('.col-body')[1];
     taskView.render(column, 'beforeend');
-    this.colorTasks();
-    this.addRemoveListeners();
-    this.addOnDragStartListener();
-    this.addTaskEditListener();
+    this.colorTask(task);
+    this.addRemoveListener(task);
+    this.addOnDragStartListener(task);
+    this.addTaskEditListener(task);
+    this.model.updateData(this.model.localData);
   };
 
-  addOnDragStartListener = () => {
-    const tasks = document.querySelectorAll('.card');
-    tasks.forEach(task => {
-      task.addEventListener('dragstart', e => {
-        e.dataTransfer.setData('text/plain', e.target.id);
-      });
+  addOnDragStartListener = task => {
+    const item = document.getElementById(task.id);
+    item.addEventListener('dragstart', e => {
+      e.dataTransfer.setData('text/plain', e.target.id);
     });
   };
 
@@ -242,29 +252,33 @@ export class TaskController {
     });
   };
 
-  addTaskEditListener = () => {
-    const editableAreas = document.querySelectorAll('.card-text');
-    editableAreas.forEach(editableArea => {
-      editableArea.addEventListener('blur', () => {
-        this.model.localData[0].forEach(column => {
-          column.items.forEach(item => {
-            if (item.id === parseInt(editableArea.parentNode.parentNode.id)) {
-              item.body = editableArea.innerText;
-            }
-          });
+  addTaskEditListener = task => {
+    const contentEditable = document.getElementById(task.id).children[1]
+      .children[0];
+    contentEditable.addEventListener('blur', () => {
+      this.model.localData[0].forEach(column => {
+        column.items.forEach(item => {
+          if (item.id === parseInt(contentEditable.parentNode.parentNode.id)) {
+            item.body = contentEditable.innerText;
+          }
         });
-        this.model.updateData(this.model.localData);
       });
+      this.model.updateData(this.model.localData);
     });
   };
 
   addEventListeners = () => {
     this.addFormListener();
-    this.addRemoveListeners();
-    this.addOnDragStartListener();
     this.addOnDragOverListener();
     this.addOnDropListener();
     this.addColorChangeListeners();
-    this.addTaskEditListener();
+
+    this.model.localData[0].forEach(column => {
+      column.items.forEach(task => {
+        this.addRemoveListener(task);
+        this.addTaskEditListener(task);
+        this.addOnDragStartListener(task);
+      });
+    });
   };
 }

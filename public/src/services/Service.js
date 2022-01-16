@@ -10,8 +10,6 @@ export class Service {
   }
 
   async postData(data) {
-    console.log('hi from postData');
-    console.log(this.url);
     const response = await fetch(this.url, {
       method: 'POST',
       headers: {
@@ -19,6 +17,18 @@ export class Service {
       },
       body: JSON.stringify(data),
     });
+    console.log(response);
+    console.log('hi post');
     return response.json();
   }
+
+  // async editTask(task) {
+  //   const response = await fetch(this.url, {
+  //     method: 'PUT',
+  //     headers: {
+  //       'Content-Type': 'application/json',
+  //     },
+  //     body: JSON.stringify(data),
+  //   });
+  // }
 }
