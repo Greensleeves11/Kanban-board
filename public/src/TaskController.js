@@ -16,9 +16,7 @@ export class TaskController {
     this.model.localData = await this.model.service.getData();
     this.view = new UIView(this.model.localData[0]);
     this.view.render(this.root, 'beforeend');
-    this.setCategories();
-    this.setColumns();
-    this.setTasks();
+    this.setData();
     this.addEventListeners();
   };
 
@@ -26,6 +24,12 @@ export class TaskController {
     document.querySelector('.board-container').remove();
     this.model.localData[1] = [];
     this.init();
+  };
+
+  setData = () => {
+    this.setCategories();
+    this.setColumns();
+    this.setTasks();
   };
 
   setCategories = () => {
@@ -120,31 +124,38 @@ export class TaskController {
   addRemoveListeners = () => {
     const removeIcons = document.querySelectorAll('.remove-task');
     removeIcons.forEach(icon => {
-      icon.addEventListener('click', async e => {
-        this.removeTaskById(parseInt(e.target.parentElement.parentElement.id));
-        await this.model.updateData(this.model.localData);
-        const task = document.getElementById(
-          e.target.parentElement.parentElement.id
-        );
-        task.remove();
+      icon.addEventListener('click', e => {
+        this.processRemoval(e);
       });
     });
   };
 
+  processRemoval = async function (e) {
+    this.removeTaskById(parseInt(e.target.parentElement.parentElement.id));
+    await this.model.updateData(this.model.localData);
+    const task = document.getElementById(
+      e.target.parentElement.parentElement.id
+    );
+    task.remove();
+  };
+
   addFormListener = () => {
     const form = document.querySelector('.new-card');
-    form.addEventListener('submit', async e => {
-      e.preventDefault();
-      const task = this.createTask();
-      await this.model.updateData(this.model.localData);
-      // this.rerender();
-      const taskView = new TaskView(task);
-      const column = document.querySelectorAll('.col-body')[1];
-      taskView.render(column, 'beforeend');
-      this.colorTasks();
-      this.addRemoveListeners();
-      this.addOnDragStartListener();
+    form.addEventListener('submit', e => {
+      this.processSubmit(e);
     });
+  };
+
+  processSubmit = async function (e) {
+    e.preventDefault();
+    const task = this.createTask();
+    await this.model.updateData(this.model.localData);
+    const taskView = new TaskView(task);
+    const column = document.querySelectorAll('.col-body')[1];
+    taskView.render(column, 'beforeend');
+    this.colorTasks();
+    this.addRemoveListeners();
+    this.addOnDragStartListener();
   };
 
   addOnDragStartListener = () => {
