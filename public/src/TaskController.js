@@ -124,10 +124,10 @@ export class TaskController {
       icon.addEventListener('click', async e => {
         this.removeTaskById(parseInt(e.target.parentElement.parentElement.id));
         await this.model.updateData(this.model.localData);
-        // this.rerender();
         const task = document.getElementById(
           e.target.parentElement.parentElement.id
         );
+        console.log(task);
         task.remove();
       });
     });
@@ -212,11 +212,34 @@ export class TaskController {
     });
   };
 
+  addColorChangeListeners = () => {
+    const pickers = document.querySelectorAll('*[id^="c-"]');
+    pickers.forEach(picker => {
+      picker.addEventListener('change', e => {
+        this.model.localData[1].forEach(category => {
+          if (category.id === picker.id) {
+            category.color = e.target.value;
+          }
+        });
+        this.model.localData[0].forEach(column => {
+          column.items.forEach(item => {
+            if (item.category === picker.id) {
+              document.getElementById(item.id).style.backgroundColor =
+                e.target.value;
+            }
+          });
+        });
+        this.model.updateData(this.model.localData);
+      });
+    });
+  };
+
   addEventListeners = () => {
     this.addFormListener();
     this.addRemoveListeners();
     this.addOnDragStartListener();
     this.addOnDragOverListener();
     this.addOnDropListener();
+    this.addColorChangeListeners();
   };
 }
