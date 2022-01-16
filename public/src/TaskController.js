@@ -3,6 +3,8 @@ import { UIView } from './view/UIView.js';
 import { CategoryVO } from './Model/CategoryVO.js';
 import { taskFactory } from './TaskFactory.js';
 import { TaskView } from './view/TaskView.js';
+import { ListVO } from './model/ListVO.js';
+import { TaskVO } from './model/TaskVO.js';
 
 export class TaskController {
   constructor() {
@@ -15,6 +17,8 @@ export class TaskController {
     this.view = new UIView(this.model.localData[0]);
     this.view.render(this.root, 'beforeend');
     this.setCategories();
+    this.setColumns();
+    this.setTasks();
     this.addEventListeners();
   };
 
@@ -22,32 +26,7 @@ export class TaskController {
     document.querySelector('.board-container').remove();
     this.model.localData[1] = [];
     this.init();
-
-    // TODO: remove UIView from DOM
-    // init data
-    // render UIView
   };
-
-  // model.localDataCreator = async () => {
-  //   const model.localData = await this.model.service.getData();
-
-  //   data[0] = model.localData[0];
-  //   data[1] = model.localData[1];
-  //   data[2] = model.localData[2];
-  // };
-
-  // setCategories = () => {
-  //   this.model.localData[1].forEach(category => {
-  //     data[1].push(new CategoryVO(category.id, category.label, category.color));
-  //     const picker = document.getElementById(category.id);
-  //     picker.value = category.color;
-  //     console.log(data);
-  //     console.log(data[1]);
-  //     console.log(this.model.localData);
-  //     console.log(this.model.localData[1]);
-  //   });
-  //   this.colorTasks();
-  // };
 
   setCategories = () => {
     for (let i = 0; i < this.model.localData[1].length; i++) {
@@ -58,9 +37,29 @@ export class TaskController {
       );
       const picker = document.getElementById(this.model.localData[1][i].id);
       picker.value = this.model.localData[1][i].color;
-      console.log(this.model.localData[1]);
     }
     this.colorTasks();
+  };
+
+  setColumns = () => {
+    for (let i = 0; i < this.model.localData[0].length; i++) {
+      this.model.localData[0][i] = new ListVO(
+        this.model.localData[0][i].label,
+        this.model.localData[0][i].items
+      );
+    }
+  };
+
+  setTasks = () => {
+    this.model.localData[0].forEach(column => {
+      for (let i = 0; i < column.items.length; i++) {
+        column.items[i] = new TaskVO(
+          column.items[i].id,
+          column.items[i].body,
+          column.items[i].category
+        );
+      }
+    });
   };
 
   colorTasks = () => {
@@ -127,7 +126,6 @@ export class TaskController {
         const task = document.getElementById(
           e.target.parentElement.parentElement.id
         );
-        console.log(task);
         task.remove();
       });
     });
@@ -151,7 +149,6 @@ export class TaskController {
 
   addOnDragStartListener = () => {
     const tasks = document.querySelectorAll('.card');
-    console.log(tasks);
     tasks.forEach(task => {
       task.addEventListener('dragstart', e => {
         e.dataTransfer.setData('text/plain', e.target.id);

@@ -8,7 +8,6 @@ export class ListModel {
     this.listService = new ListService();
     this.categoryService = new CategoryService();
   }
-  #items = [];
   getItems = () => {
     this.service.getData().then(data => {
       return data;

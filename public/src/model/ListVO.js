@@ -1,5 +1,5 @@
 export class ListVO {
-  constructor(id) {
-    (this.id = id), (this.label = `Task ${id}`), (this.items = []);
+  constructor(label, items) {
+    (this.label = label), (this.items = items);
   }
 }
