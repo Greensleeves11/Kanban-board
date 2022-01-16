@@ -1,7 +1,6 @@
 import { ListModel } from './model/ListModel.js';
 import { UIView } from './view/UIView.js';
 import { CategoryVO } from './Model/CategoryVO.js';
-import { data } from './model/data.js';
 import { taskFactory } from './TaskFactory.js';
 import { TaskView } from './view/TaskView.js';
 
@@ -12,20 +11,16 @@ export class TaskController {
   }
 
   init = async () => {
-    this.serverData = await this.model.service.getData();
-    this.view = new UIView(this.serverData[0]);
+    this.model.localData = await this.model.service.getData();
+    this.view = new UIView(this.model.localData[0]);
     this.view.render(this.root, 'beforeend');
     this.setCategories();
-    this.addFormListener();
-    this.addRemoveListeners();
-    this.addOnDragStartListener();
-    this.addOnDragOverListener();
-    this.addOnDropListener();
+    this.addEventListeners();
   };
 
   rerender = () => {
     document.querySelector('.board-container').remove();
-    data[1] = [];
+    this.model.localData[1] = [];
     this.init();
 
     // TODO: remove UIView from DOM
@@ -33,17 +28,43 @@ export class TaskController {
     // render UIView
   };
 
+  // model.localDataCreator = async () => {
+  //   const model.localData = await this.model.service.getData();
+
+  //   data[0] = model.localData[0];
+  //   data[1] = model.localData[1];
+  //   data[2] = model.localData[2];
+  // };
+
+  // setCategories = () => {
+  //   this.model.localData[1].forEach(category => {
+  //     data[1].push(new CategoryVO(category.id, category.label, category.color));
+  //     const picker = document.getElementById(category.id);
+  //     picker.value = category.color;
+  //     console.log(data);
+  //     console.log(data[1]);
+  //     console.log(this.model.localData);
+  //     console.log(this.model.localData[1]);
+  //   });
+  //   this.colorTasks();
+  // };
+
   setCategories = () => {
-    this.serverData[1].forEach(category => {
-      data[1].push(new CategoryVO(category.id, category.label, category.color));
-      const picker = document.getElementById(category.id);
-      picker.value = category.color;
-    });
+    for (let i = 0; i < this.model.localData[1].length; i++) {
+      this.model.localData[1][i] = new CategoryVO(
+        this.model.localData[1][i].id,
+        this.model.localData[1][i].label,
+        this.model.localData[1][i].color
+      );
+      const picker = document.getElementById(this.model.localData[1][i].id);
+      picker.value = this.model.localData[1][i].color;
+      console.log(this.model.localData[1]);
+    }
     this.colorTasks();
   };
 
   colorTasks = () => {
-    this.serverData[0].forEach(column => {
+    this.model.localData[0].forEach(column => {
       column.items.forEach(task => {
         document.getElementById(task.id).style.backgroundColor =
           document.getElementById(task.category).value;
@@ -55,9 +76,13 @@ export class TaskController {
     const body = document.querySelector('#new-card-text');
     if (body.value !== '') {
       const category = this.checkCategory();
-      const task = taskFactory(data[2].counter++, body.value, category);
-      data[0][0].items.push(task);
-      this.serverData[0][0].items.push(task);
+      const task = taskFactory(
+        this.model.localData[2].counter++,
+        body.value,
+        category
+      );
+      // data[0][0].items.push(task);
+      this.model.localData[0][0].items.push(task);
       body.value = '';
       return task;
     }
@@ -83,15 +108,7 @@ export class TaskController {
   };
 
   removeTaskById = id => {
-    data[0].forEach(column => {
-      for (let i = 0; i < column.items.length; i++) {
-        if (column.items[i].id === id) {
-          column.items.splice(i, 1);
-          break;
-        }
-      }
-    });
-    this.serverData[0].forEach(column => {
+    this.model.localData[0].forEach(column => {
       for (let i = 0; i < column.items.length; i++) {
         if (column.items[i].id === id) {
           column.items.splice(i, 1);
@@ -106,7 +123,7 @@ export class TaskController {
     removeIcons.forEach(icon => {
       icon.addEventListener('click', async e => {
         this.removeTaskById(parseInt(e.target.parentElement.parentElement.id));
-        await this.model.updateData(data);
+        await this.model.updateData(this.model.localData);
         // this.rerender();
         const task = document.getElementById(
           e.target.parentElement.parentElement.id
@@ -121,7 +138,7 @@ export class TaskController {
     form.addEventListener('submit', async e => {
       e.preventDefault();
       const task = this.createTask();
-      await this.model.updateData(data);
+      await this.model.updateData(this.model.localData);
       // this.rerender();
       const taskView = new TaskView(task);
       const column = document.querySelectorAll('.col-body')[1];
@@ -159,12 +176,11 @@ export class TaskController {
           const id = e.dataTransfer.getData('text');
           const draggableElement = document.getElementById(id);
           const dropzone = e.target;
-          // dataLists.assignColumnValue(e.target, id);
           dropzone.appendChild(draggableElement);
           e.dataTransfer.clearData();
 
           let columnFrom;
-          data[0].forEach(column => {
+          this.model.localData[0].forEach(column => {
             column.items.forEach(task => {
               if (task.id === parseInt(draggableElement.id)) {
                 columnFrom = column;
@@ -173,12 +189,10 @@ export class TaskController {
           });
 
           let columnTo;
-          let columnTo2;
           const columns = document.querySelectorAll('.col-body');
           for (let i = 1; i < columns.length; i++) {
             if (columns[i] === dropzone) {
-              columnTo = data[0][i - 1];
-              columnTo2 = this.serverData[0][i - 1];
+              columnTo = this.model.localData[0][i - 1];
               break;
             }
           }
@@ -191,17 +205,18 @@ export class TaskController {
             }
           }
 
-          const task = columnFrom.items[taskIndex];
-
           columnTo.items.push(columnFrom.items.splice(taskIndex, 1)[0]);
-          columnTo2.items.push(task);
-
-          this.model.updateData(data);
-
-          console.log(columnFrom);
-          console.log(columnTo);
+          this.model.updateData(this.model.localData);
         }
       });
     });
+  };
+
+  addEventListeners = () => {
+    this.addFormListener();
+    this.addRemoveListeners();
+    this.addOnDragStartListener();
+    this.addOnDragOverListener();
+    this.addOnDropListener();
   };
 }
