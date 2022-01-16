@@ -11,6 +11,7 @@ export class Service {
 
   async postData(data) {
     console.log('hi from postData');
+    console.log(this.url);
     const response = await fetch(this.url, {
       method: 'POST',
       headers: {

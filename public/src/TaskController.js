@@ -84,7 +84,6 @@ export class TaskController {
         body.value,
         category
       );
-      // data[0][0].items.push(task);
       this.model.localData[0][0].items.push(task);
       body.value = '';
       return task;
@@ -156,6 +155,7 @@ export class TaskController {
     this.colorTasks();
     this.addRemoveListeners();
     this.addOnDragStartListener();
+    this.addTaskEditListener();
   };
 
   addOnDragStartListener = () => {
@@ -242,6 +242,22 @@ export class TaskController {
     });
   };
 
+  addTaskEditListener = () => {
+    const editableAreas = document.querySelectorAll('.card-text');
+    editableAreas.forEach(editableArea => {
+      editableArea.addEventListener('blur', () => {
+        this.model.localData[0].forEach(column => {
+          column.items.forEach(item => {
+            if (item.id === parseInt(editableArea.parentNode.parentNode.id)) {
+              item.body = editableArea.innerText;
+            }
+          });
+        });
+        this.model.updateData(this.model.localData);
+      });
+    });
+  };
+
   addEventListeners = () => {
     this.addFormListener();
     this.addRemoveListeners();
@@ -249,5 +265,6 @@ export class TaskController {
     this.addOnDragOverListener();
     this.addOnDropListener();
     this.addColorChangeListeners();
+    this.addTaskEditListener();
   };
 }

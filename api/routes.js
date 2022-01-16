@@ -2,6 +2,7 @@ const express = require('express');
 const router = express.Router();
 const fs = require('fs');
 const path = require('path');
+const data = require('./data.json');
 
 router.get('/', (req, res) => {
   const data = fs.readFileSync(
@@ -36,5 +37,7 @@ router.post('/', (req, res) => {
   res.send(data);
   console.log(data);
 });
+
+console.log(data);
 
 module.exports = router;
