@@ -3,7 +3,6 @@ const path = require('path');
 const logger = require('./api/logger');
 const dotenv = require('dotenv');
 const connectDB = require('./config/db');
-// const categoriesRouter = require('./api/routes/category.js');
 
 dotenv.config({ path: './config/config.env' });
 
@@ -14,9 +13,13 @@ const app = express();
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 
-// app.use(categoriesRouter);
-
 app.use('/api/routes/category', require('./api/routes/category'));
+app.use('/api/routes/counter', require('./api/routes/counter'));
+app.use('/api/routes/list', require('./api/routes/list'));
+app.use('/api/routes/task', require('./api/routes/task'));
+app.use('/api/routes/todo', require('./api/routes/todo'));
+app.use('/api/routes/inprogress', require('./api/routes/inprogress'));
+app.use('/api/routes/done', require('./api/routes/done'));
 
 app.use(logger);
 

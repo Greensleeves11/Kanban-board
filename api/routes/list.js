@@ -33,6 +33,57 @@ router.patch('/:id', async (req, res) => {
   }
 });
 
+router.patch('/todo', async (req, res) => {
+  try {
+    await listModel.findOneAndUpdate(
+      {
+        label: 'To do',
+      },
+      {
+        $push: {
+          items: req.body,
+        },
+      }
+    );
+  } catch (err) {
+    res.status(500).send(err);
+  }
+});
+
+router.patch('/inprogress', async (req, res) => {
+  try {
+    await listModel.findOneAndUpdate(
+      {
+        label: 'In progress',
+      },
+      {
+        $push: {
+          items: req.body,
+        },
+      }
+    );
+  } catch (err) {
+    res.status(500).send(err);
+  }
+});
+
+router.patch('/done', async (req, res) => {
+  try {
+    await listModel.findOneAndUpdate(
+      {
+        label: 'Done',
+      },
+      {
+        $push: {
+          items: req.body,
+        },
+      }
+    );
+  } catch (err) {
+    res.status(500).send(err);
+  }
+});
+
 router.delete('/:id', async (req, res) => {
   try {
     const list = await listModel.findByIdAndDelete(req.params.id);
