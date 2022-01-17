@@ -20,12 +20,6 @@ export class TaskController {
     this.addEventListeners();
   };
 
-  rerender = () => {
-    document.querySelector('.board-container').remove();
-    this.model.localData[1] = [];
-    this.init();
-  };
-
   setData = () => {
     this.setCategories();
     this.setColumns();
@@ -281,4 +275,10 @@ export class TaskController {
       });
     });
   };
+
+  // rerender = () => {
+  //   document.querySelector('.board-container').remove();
+  //   this.model.localData[1] = [];
+  //   this.init();
+  // };
 }
