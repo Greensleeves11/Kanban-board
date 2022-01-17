@@ -1,6 +1,12 @@
 const express = require('express');
 const path = require('path');
 const logger = require('./api/logger');
+const dotenv = require('dotenv');
+const connectDB = require('./config/db');
+
+dotenv.config({ path: './config/config.env' });
+
+connectDB();
 
 const app = express();
 

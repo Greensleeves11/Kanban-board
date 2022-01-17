@@ -24,9 +24,9 @@ router.post('/', (req, res) => {
   });
 });
 
-router.put('/', (req, res) => {
-  const modifiedTask = JSON.stringify(req.body);
-  console.log(data);
-});
+// router.put('/', (req, res) => {
+//   const modifiedTask = JSON.stringify(req.body);
+//   console.log(data);
+// });
 
 module.exports = router;
