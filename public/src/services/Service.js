@@ -17,8 +17,6 @@ export class Service {
       },
       body: JSON.stringify(data),
     });
-    console.log(response);
-    console.log('hi post');
     return response.json();
   }
 
