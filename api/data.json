@@ -1,1 +1,24 @@
-[[{"label":"To do","items":[{"id":16,"body":"dassdsdadsad","category":"c-not-important"}]},{"label":"In progress","items":[{"id":6,"body":"dasda","category":"c-urgent"}]},{"label":"Done","items":[{"id":4,"body":"dasdasd","category":"c-not-important"}]}],[{"id":"c-not-important","label":"not important","color":"#8dcb2a"},{"id":"c-important","label":"important","color":"#0395e4"},{"id":"c-urgent","label":"urgent","color":"#db4d4d"}],{"counter":17}]
+[
+  [
+    {
+      "label": "To do",
+      "items": [
+        { "id": 16, "body": "dassdsdadsad", "category": "c-not-important" }
+      ]
+    },
+    {
+      "label": "In progress",
+      "items": [{ "id": 6, "body": "dasda", "category": "c-urgent" }]
+    },
+    {
+      "label": "Done",
+      "items": [{ "id": 4, "body": "dasdasd", "category": "c-not-important" }]
+    }
+  ],
+  [
+    { "id": "c-not-important", "label": "not important", "color": "#8dcb2a" },
+    { "id": "c-important", "label": "important", "color": "#0395e4" },
+    { "id": "c-urgent", "label": "urgent", "color": "#db4d4d" }
+  ],
+  { "counter": 17 }
+]
