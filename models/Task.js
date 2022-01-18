@@ -1,7 +1,7 @@
 const mongoose = require('mongoose');
 
 const TaskSchema = new mongoose.Schema({
-  id: {
+  index: {
     type: Number,
     required: true,
   },
@@ -10,6 +10,10 @@ const TaskSchema = new mongoose.Schema({
     required: true,
   },
   category: {
+    type: String,
+    required: true,
+  },
+  columnID: {
     type: String,
     required: true,
   },

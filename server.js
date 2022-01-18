@@ -18,8 +18,10 @@ app.use('/api/routes/counter', require('./api/routes/counter'));
 app.use('/api/routes/list', require('./api/routes/list'));
 app.use('/api/routes/task', require('./api/routes/task'));
 app.use('/api/routes/todo', require('./api/routes/todo'));
+app.use('/api/routes/todoEdit', require('./api/routes/todoEdit'));
 app.use('/api/routes/inprogress', require('./api/routes/inprogress'));
 app.use('/api/routes/done', require('./api/routes/done'));
+app.use('/api/routes/data', require('./api/routes/data'));
 
 app.use(logger);
 

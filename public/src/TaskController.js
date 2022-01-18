@@ -13,7 +13,9 @@ export class TaskController {
   }
 
   init = async () => {
-    this.model.localData = await this.model.service.getData();
+    this.model.localData = await this.model.listService.getData();
+    console.log(this.model.localData);
+    // this.model.localData = await this.model.listService.getData();
     this.view = new UIView(this.model.localData[0]);
     this.view.render(this.root, 'beforeend');
     this.setData();

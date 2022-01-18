@@ -1,4 +1,4 @@
-export class CategoryService {
+export class CounterService {
   constructor(url) {
     this.url = url;
   }
@@ -8,5 +8,4 @@ export class CategoryService {
     const data = await response.json();
     return data;
   }
-  setItems = categories => {};
 }

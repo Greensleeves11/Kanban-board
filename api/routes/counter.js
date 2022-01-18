@@ -4,9 +4,8 @@ const router = express.Router();
 
 router.get('/', async (req, res) => {
   const counter = await counterModel.find({});
-
   try {
-    res.send(counter);
+    res.send(counter[0]);
   } catch (err) {
     res.status(500).send(err);
   }
