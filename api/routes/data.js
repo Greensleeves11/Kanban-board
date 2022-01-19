@@ -23,6 +23,8 @@ router.get('/', async (req, res) => {
     }
   });
 
+  console.log(data[0][0]);
+
   try {
     res.send(data);
   } catch (err) {

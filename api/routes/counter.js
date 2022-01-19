@@ -24,9 +24,12 @@ router.post('/', async (req, res) => {
 
 router.patch('/:id', async (req, res) => {
   try {
-    await counterModel.findByIdAndUpdate(req.params.id, req.body);
-    await counterModel.save();
-    res.send(counter);
+    const counter = await counterModel.findByIdAndUpdate(
+      req.params.id,
+      req.body
+    );
+    // await counterModel.save();
+    res.status(200);
   } catch (err) {
     res.status(500).send(err);
   }

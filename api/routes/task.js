@@ -26,8 +26,8 @@ router.post('/', async (req, res) => {
 router.patch('/:id', async (req, res) => {
   try {
     await taskModel.findByIdAndUpdate(req.params.id, req.body);
-    await taskModel.save();
-    res.send(task);
+    // await taskModel.save();
+    res.status(200).send();
   } catch (err) {
     res.status(500).send(err);
   }

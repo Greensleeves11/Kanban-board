@@ -30,5 +30,23 @@ export class TaskService {
     });
   }
 
-  setItems = lists => {};
+  async delete(task) {
+    await fetch(this.url + `/${task._id}`, {
+      method: 'DELETE',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(task),
+    });
+  }
+
+  async edit(task) {
+    await fetch(this.url + `/${task._id}`, {
+      method: 'PATCH',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(task),
+    });
+  }
 }

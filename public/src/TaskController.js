@@ -14,12 +14,10 @@ export class TaskController {
 
   init = async () => {
     this.model.localData = await this.model.listService.getData();
-    // this.model.localData = await this.model.listService.getData();
     this.view = new UIView(this.model.localData[0]);
     this.view.render(this.root, 'beforeend');
     this.setData();
     this.addEventListeners();
-    console.log(this.model.localData);
   };
 
   setData = () => {
@@ -57,7 +55,8 @@ export class TaskController {
           column.items[i].index,
           column.items[i].body,
           column.items[i].category,
-          column.label
+          column.label,
+          column.items[i]._id
         );
       }
     });
@@ -79,19 +78,17 @@ export class TaskController {
 
   createTask = () => {
     const body = document.querySelector('#new-card-text');
-    if (body.value !== '') {
-      const category = this.checkCategory();
-      const column = document.querySelectorAll('.col-body')[1];
-      const task = taskFactory(
-        this.model.localData[2].counter++,
-        body.value,
-        category,
-        column.label
-      );
-      this.model.localData[0][0].items.push(task);
-      body.value = '';
-      return task;
-    }
+    const category = this.checkCategory();
+    const column = document.querySelectorAll('.col-body')[1];
+    const task = taskFactory(
+      this.model.localData[2].counter++,
+      body.value,
+      category,
+      column.label
+    );
+    this.model.localData[0][0].items.push(task);
+    body.value = '';
+    return task;
   };
 
   checkCategory = () => {
@@ -141,12 +138,21 @@ export class TaskController {
   };
 
   processRemoval = function (e) {
-    this.removeTaskById(parseInt(e.target.parentElement.parentElement.id));
     const task = document.getElementById(
       e.target.parentElement.parentElement.id
     );
     task.remove();
-    this.model.updateData(this.model.localData);
+    // this.model.updateData(this.model.localData);
+    let taskDB;
+    this.model.localData[0].forEach(column => {
+      column.items.forEach(item => {
+        if (item.index === parseInt(task.id)) {
+          taskDB = item;
+        }
+      });
+    });
+    this.removeTaskById(parseInt(e.target.parentElement.parentElement.id));
+    this.model.taskService.delete(taskDB);
   };
 
   addFormListener = () => {
@@ -156,18 +162,24 @@ export class TaskController {
     });
   };
 
-  processSubmit = function (e) {
+  processSubmit = async function (e) {
     e.preventDefault();
-    const task = this.createTask();
-    const taskView = new TaskView(task);
-    const column = document.querySelectorAll('.col-body')[1];
-    taskView.render(column, 'beforeend');
-    this.colorTask(task);
-    this.addRemoveListener(task);
-    this.addOnDragStartListener(task);
-    this.addTaskEditListener(task);
-    // this.model.updateData(this.model.localData);
-    this.model.taskService.postTask(task);
+    const body = document.querySelector('#new-card-text');
+    if (body.value !== '') {
+      const task = this.createTask();
+      const taskView = new TaskView(task);
+      const column = document.querySelectorAll('.col-body')[1];
+      taskView.render(column, 'beforeend');
+      this.colorTask(task);
+      this.addRemoveListener(task);
+      this.addOnDragStartListener(task);
+      this.addTaskEditListener(task);
+      // this.model.updateData(this.model.localData);
+      this.model.taskService.postTask(task);
+      this.model.counterService.update(this.model.localData[2]);
+      this.model.localData = await this.model.listService.getData();
+      this.setTasks();
+    }
   };
 
   addOnDragStartListener = task => {
@@ -265,7 +277,8 @@ export class TaskController {
           }
         });
       });
-      this.model.updateData(this.model.localData);
+      // this.model.updateData(this.model.localData);
+      this.model.taskService.edit(task);
     });
   };
 
