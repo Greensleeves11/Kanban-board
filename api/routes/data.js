@@ -13,8 +13,6 @@ router.get('/', async (req, res) => {
 
   const data = [[lists[0], lists[1], lists[2]], categories, counter[0]];
 
-  console.log(data);
-
   tasks.forEach(task => {
     if (task.columnID === data[0][0].id) {
       lists[0].items.push(task);

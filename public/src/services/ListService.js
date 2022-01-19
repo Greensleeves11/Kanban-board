@@ -8,5 +8,6 @@ export class ListService {
     const data = await response.json();
     return data;
   }
+
   setItems = lists => {};
 }

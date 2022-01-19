@@ -1,5 +1,8 @@
 export class TaskVO {
-  constructor(id, body, category) {
-    (this.id = id), (this.body = body), (this.category = category);
+  constructor(index, body, category, column) {
+    (this.index = index),
+      (this.body = body),
+      (this.category = category),
+      (this.column = column);
   }
 }

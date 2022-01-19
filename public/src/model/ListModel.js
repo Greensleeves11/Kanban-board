@@ -2,6 +2,7 @@ import { ListService } from '../services/ListService.js';
 import { CategoryService } from '../services/CategoryService.js';
 import { CounterService } from '../services/CounterService.js';
 import { Service } from '../services/Service.js';
+import { TaskService } from '../services/TaskService.js';
 
 export class ListModel {
   constructor() {
@@ -13,6 +14,7 @@ export class ListModel {
     this.counterService = new CounterService(
       'http://localhost:5000/api/routes/counter'
     );
+    this.taskService = new TaskService('http://localhost:5000/api/routes/task');
   }
 
   getItems = () => {

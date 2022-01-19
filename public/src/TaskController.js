@@ -14,12 +14,12 @@ export class TaskController {
 
   init = async () => {
     this.model.localData = await this.model.listService.getData();
-    console.log(this.model.localData);
     // this.model.localData = await this.model.listService.getData();
     this.view = new UIView(this.model.localData[0]);
     this.view.render(this.root, 'beforeend');
     this.setData();
     this.addEventListeners();
+    console.log(this.model.localData);
   };
 
   setData = () => {
@@ -31,7 +31,7 @@ export class TaskController {
   setCategories = () => {
     for (let i = 0; i < this.model.localData[1].length; i++) {
       this.model.localData[1][i] = new CategoryVO(
-        this.model.localData[1][i].id,
+        this.model.localData[1][i].index,
         this.model.localData[1][i].label,
         this.model.localData[1][i].color
       );
@@ -54,23 +54,24 @@ export class TaskController {
     this.model.localData[0].forEach(column => {
       for (let i = 0; i < column.items.length; i++) {
         column.items[i] = new TaskVO(
-          column.items[i].id,
+          column.items[i].index,
           column.items[i].body,
-          column.items[i].category
+          column.items[i].category,
+          column.label
         );
       }
     });
   };
 
   colorTask = task => {
-    document.getElementById(task.id).style.backgroundColor =
+    document.getElementById(task.index).style.backgroundColor =
       document.getElementById(task.category).value;
   };
 
   colorAllTasks = () => {
     this.model.localData[0].forEach(column => {
       column.items.forEach(task => {
-        document.getElementById(task.id).style.backgroundColor =
+        document.getElementById(task.index).style.backgroundColor =
           document.getElementById(task.category).value;
       });
     });
@@ -80,10 +81,12 @@ export class TaskController {
     const body = document.querySelector('#new-card-text');
     if (body.value !== '') {
       const category = this.checkCategory();
+      const column = document.querySelectorAll('.col-body')[1];
       const task = taskFactory(
         this.model.localData[2].counter++,
         body.value,
-        category
+        category,
+        column.label
       );
       this.model.localData[0][0].items.push(task);
       body.value = '';
@@ -110,10 +113,10 @@ export class TaskController {
     return category;
   };
 
-  removeTaskById = id => {
+  removeTaskById = index => {
     this.model.localData[0].forEach(column => {
       for (let i = 0; i < column.items.length; i++) {
-        if (column.items[i].id === id) {
+        if (column.items[i].index === index) {
           column.items.splice(i, 1);
           break;
         }
@@ -122,7 +125,7 @@ export class TaskController {
   };
 
   addRemoveListener = task => {
-    const icon = document.getElementById(task.id).children[0].children[1];
+    const icon = document.getElementById(task.index).children[0].children[1];
     icon.addEventListener('click', e => {
       this.processRemoval(e);
     });
@@ -163,11 +166,12 @@ export class TaskController {
     this.addRemoveListener(task);
     this.addOnDragStartListener(task);
     this.addTaskEditListener(task);
-    this.model.updateData(this.model.localData);
+    // this.model.updateData(this.model.localData);
+    this.model.taskService.postTask(task);
   };
 
   addOnDragStartListener = task => {
-    const item = document.getElementById(task.id);
+    const item = document.getElementById(task.index);
     item.addEventListener('dragstart', e => {
       e.dataTransfer.setData('text/plain', e.target.id);
     });
@@ -196,7 +200,7 @@ export class TaskController {
           let columnFrom;
           this.model.localData[0].forEach(column => {
             column.items.forEach(task => {
-              if (task.id === parseInt(draggableElement.id)) {
+              if (task.index === parseInt(draggableElement.id)) {
                 columnFrom = column;
               }
             });
@@ -213,7 +217,7 @@ export class TaskController {
 
           let taskIndex;
           for (let i = 0; i < columnFrom.items.length; i++) {
-            if (columnFrom.items[i].id === parseInt(draggableElement.id)) {
+            if (columnFrom.items[i].index === parseInt(draggableElement.id)) {
               taskIndex = i;
               break;
             }
@@ -249,12 +253,14 @@ export class TaskController {
   };
 
   addTaskEditListener = task => {
-    const contentEditable = document.getElementById(task.id).children[1]
+    const contentEditable = document.getElementById(task.index).children[1]
       .children[0];
     contentEditable.addEventListener('blur', () => {
       this.model.localData[0].forEach(column => {
         column.items.forEach(item => {
-          if (item.id === parseInt(contentEditable.parentNode.parentNode.id)) {
+          if (
+            item.index === parseInt(contentEditable.parentNode.parentNode.id)
+          ) {
             item.body = contentEditable.innerText;
           }
         });

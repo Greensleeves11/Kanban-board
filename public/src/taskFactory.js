@@ -1,5 +1,5 @@
 import { TaskVO } from './model/TaskVO.js';
 
-export const taskFactory = (id, body, category) => {
-  return new TaskVO(id, body, category);
+export const taskFactory = (index, body, category, column) => {
+  return new TaskVO(index, body, category, column);
 };

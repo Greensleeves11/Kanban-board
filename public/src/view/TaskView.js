@@ -3,10 +3,10 @@ import { View } from './View.js';
 export class TaskView extends View {
   constructor(task) {
     super();
-    this.template = `<div class='card' draggable='true' id='${task.id}'>
+    this.template = `<div class='card' draggable='true' id='${task.index}'>
   <section class="card-header">
     <p class="card-text-header">
-     Task #${task.id}
+     Task #${task.index}
    </p>
    <img src="img/cancel.png" alt="remove task" class="remove-task" />
   </section>
