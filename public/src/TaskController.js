@@ -43,7 +43,8 @@ export class TaskController {
     for (let i = 0; i < this.model.localData[0].length; i++) {
       this.model.localData[0][i] = new ListVO(
         this.model.localData[0][i].label,
-        this.model.localData[0][i].items
+        this.model.localData[0][i].items,
+        this.model.localData[0][i]._id
       );
     }
   };
@@ -56,7 +57,8 @@ export class TaskController {
           column.items[i].body,
           column.items[i].category,
           column.label,
-          column.items[i]._id
+          column.items[i]._id,
+          column.items[i].columnID
         );
       }
     });
@@ -236,7 +238,10 @@ export class TaskController {
           }
 
           columnTo.items.push(columnFrom.items.splice(taskIndex, 1)[0]);
-          this.model.updateData(this.model.localData);
+          // this.model.updateData(this.model.localData);
+          const task = columnTo.items[columnTo.items.length - 1];
+          task.columnID = columnTo._id;
+          this.model.taskService.edit(task);
         }
       });
     });
