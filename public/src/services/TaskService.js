@@ -3,13 +3,13 @@ export class TaskService {
     this.TASK_URL = TASK_URL;
   }
 
-  async getData() {
+  async get() {
     const response = await fetch(this.TASK_URL);
     const data = await response.json();
     return data;
   }
 
-  async postTask(task) {
+  async add(task) {
     if ((task.column = 'To do')) {
       task.columnID = '61e59d4f75cc8be14f148e0b';
     } else if ((task.column = 'In progress')) {

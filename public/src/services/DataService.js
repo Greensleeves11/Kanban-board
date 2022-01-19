@@ -3,7 +3,7 @@ export class DataService {
     this.DATA_URL = DATA_URL;
   }
 
-  async getData() {
+  async get() {
     const response = await fetch(this.DATA_URL);
     const data = await response.json();
     return data;

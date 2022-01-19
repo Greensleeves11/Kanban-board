@@ -13,7 +13,7 @@ export class TaskController {
   }
 
   init = async () => {
-    this.model.localData = await this.model.dataService.getData();
+    this.model.localData = await this.model.dataService.get();
     this.view = new UIView(this.model.localData[0]);
     this.view.render(this.root, 'beforeend');
     this.setData();
@@ -34,7 +34,7 @@ export class TaskController {
         this.model.localData[1][i].color,
         this.model.localData[1][i]._id
       );
-      const picker = document.getElementById(this.model.localData[1][i].id);
+      const picker = document.getElementById(this.model.localData[1][i].index);
       picker.value = this.model.localData[1][i].color;
     }
     this.colorAllTasks();
@@ -176,9 +176,9 @@ export class TaskController {
       this.addRemoveListener(task);
       this.addOnDragStartListener(task);
       this.addTaskEditListener(task);
-      this.model.taskService.postTask(task);
+      this.model.taskService.add(task);
       this.model.counterService.update(this.model.localData[2]);
-      this.model.localData = await this.model.dataService.getData();
+      this.model.localData = await this.model.dataService.get();
       this.setTasks();
     }
   };
@@ -250,7 +250,7 @@ export class TaskController {
     pickers.forEach(picker => {
       picker.addEventListener('change', e => {
         this.model.localData[1].forEach(category => {
-          if (category.id === picker.id) {
+          if (category.index === picker.id) {
             category.color = e.target.value;
             console.log(category);
             this.model.categoryService.edit(category);

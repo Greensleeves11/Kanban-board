@@ -3,7 +3,7 @@ export class CounterService {
     this.COUNTER_URL = COUNTER_URL;
   }
 
-  async getData() {
+  async get() {
     const response = await fetch(this.COUNTER_URL);
     const data = await response.json();
     return data;

@@ -3,7 +3,7 @@ export class CategoryService {
     this.CATEGORY_URL = CATEGORY_URL;
   }
 
-  async getData() {
+  async get() {
     const response = await fetch(this.CATEGORY_URL);
     const data = await response.json();
     return data;
