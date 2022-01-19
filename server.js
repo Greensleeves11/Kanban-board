@@ -1,6 +1,6 @@
 const express = require('express');
 const path = require('path');
-const logger = require('./api/logger');
+const logger = require('./api/middleware/logger');
 const dotenv = require('dotenv');
 const connectDB = require('./config/db');
 
