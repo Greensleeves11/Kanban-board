@@ -1,18 +1,15 @@
 export class TaskService {
-  constructor(url) {
-    this.url = url;
+  constructor(TASK_URL) {
+    this.TASK_URL = TASK_URL;
   }
 
   async getData() {
-    const response = await fetch(this.url);
+    const response = await fetch(this.TASK_URL);
     const data = await response.json();
     return data;
   }
 
   async postTask(task) {
-    console.log(task);
-    // task.index = task.id;
-
     if ((task.column = 'To do')) {
       task.columnID = '61e59d4f75cc8be14f148e0b';
     } else if ((task.column = 'In progress')) {
@@ -21,7 +18,7 @@ export class TaskService {
       task.columnID = '61e59d7975cc8be14f148e0f';
     }
 
-    await fetch(this.url, {
+    await fetch(this.TASK_URL, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -31,7 +28,7 @@ export class TaskService {
   }
 
   async delete(task) {
-    await fetch(this.url + `/${task._id}`, {
+    await fetch(this.TASK_URL + `/${task._id}`, {
       method: 'DELETE',
       headers: {
         'Content-Type': 'application/json',
@@ -41,7 +38,7 @@ export class TaskService {
   }
 
   async edit(task) {
-    await fetch(this.url + `/${task._id}`, {
+    await fetch(this.TASK_URL + `/${task._id}`, {
       method: 'PATCH',
       headers: {
         'Content-Type': 'application/json',

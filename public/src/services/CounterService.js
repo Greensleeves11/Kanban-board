@@ -1,16 +1,16 @@
 export class CounterService {
-  constructor(url) {
-    this.url = url;
+  constructor(COUNTER_URL) {
+    this.COUNTER_URL = COUNTER_URL;
   }
 
   async getData() {
-    const response = await fetch(this.url);
+    const response = await fetch(this.COUNTER_URL);
     const data = await response.json();
     return data;
   }
 
   async update(counter) {
-    await fetch(this.url + `/${counter._id}`, {
+    await fetch(this.COUNTER_URL + `/${counter._id}`, {
       method: 'PATCH',
       headers: {
         'Content-Type': 'application/json',
