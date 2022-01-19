@@ -31,7 +31,8 @@ export class TaskController {
       this.model.localData[1][i] = new CategoryVO(
         this.model.localData[1][i].index,
         this.model.localData[1][i].label,
-        this.model.localData[1][i].color
+        this.model.localData[1][i].color,
+        this.model.localData[1][i]._id
       );
       const picker = document.getElementById(this.model.localData[1][i].id);
       picker.value = this.model.localData[1][i].color;
@@ -254,17 +255,20 @@ export class TaskController {
         this.model.localData[1].forEach(category => {
           if (category.id === picker.id) {
             category.color = e.target.value;
+            console.log(category);
+            this.model.categoryService.edit(category);
           }
         });
         this.model.localData[0].forEach(column => {
           column.items.forEach(item => {
             if (item.category === picker.id) {
-              document.getElementById(item.id).style.backgroundColor =
+              document.getElementById(item.index).style.backgroundColor =
                 e.target.value;
             }
           });
         });
-        this.model.updateData(this.model.localData);
+        console.log(this.model.localData[1]);
+        // this.model.updateData(this.model.localData);
       });
     });
   };

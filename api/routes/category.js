@@ -26,8 +26,8 @@ router.post('/', async (req, res) => {
 router.patch('/:id', async (req, res) => {
   try {
     await categoryModel.findByIdAndUpdate(req.params.id, req.body);
-    await categoryModel.save();
-    res.send(category);
+    // await categoryModel.save();
+    res.status(200).send();
   } catch (err) {
     res.status(500).send(err);
   }

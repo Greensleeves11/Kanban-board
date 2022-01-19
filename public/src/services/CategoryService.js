@@ -8,5 +8,14 @@ export class CategoryService {
     const data = await response.json();
     return data;
   }
-  setItems = categories => {};
+
+  async edit(category) {
+    await fetch(this.url + `/${category._id}`, {
+      method: 'PATCH',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(category),
+    });
+  }
 }
