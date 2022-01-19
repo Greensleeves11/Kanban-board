@@ -1,4 +1,4 @@
-export class ListService {
+export class DataService {
   constructor(url) {
     this.url = url;
   }
@@ -8,6 +8,4 @@ export class ListService {
     const data = await response.json();
     return data;
   }
-
-  setItems = lists => {};
 }

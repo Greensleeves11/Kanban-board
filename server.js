@@ -17,17 +17,11 @@ app.use('/api/routes/category', require('./api/routes/category'));
 app.use('/api/routes/counter', require('./api/routes/counter'));
 app.use('/api/routes/list', require('./api/routes/list'));
 app.use('/api/routes/task', require('./api/routes/task'));
-app.use('/api/routes/todo', require('./api/routes/todo'));
-app.use('/api/routes/todoEdit', require('./api/routes/todoEdit'));
-app.use('/api/routes/inprogress', require('./api/routes/inprogress'));
-app.use('/api/routes/done', require('./api/routes/done'));
 app.use('/api/routes/data', require('./api/routes/data'));
 
 app.use(logger);
 
 app.use(express.static(path.join(__dirname, 'public')));
-
-app.use('/api/routes', require('./api/routes'));
 
 const PORT = process.env.PORT || 5000;
 

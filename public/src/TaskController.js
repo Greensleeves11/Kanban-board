@@ -1,4 +1,4 @@
-import { ListModel } from './model/ListModel.js';
+import { Model } from './model/Model.js';
 import { UIView } from './view/UIView.js';
 import { CategoryVO } from './Model/CategoryVO.js';
 import { taskFactory } from './TaskFactory.js';
@@ -8,12 +8,12 @@ import { TaskVO } from './model/TaskVO.js';
 
 export class TaskController {
   constructor() {
-    this.model = new ListModel();
+    this.model = new Model();
     this.root = document.getElementById('root');
   }
 
   init = async () => {
-    this.model.localData = await this.model.listService.getData();
+    this.model.localData = await this.model.dataService.getData();
     this.view = new UIView(this.model.localData[0]);
     this.view.render(this.root, 'beforeend');
     this.setData();
@@ -145,7 +145,6 @@ export class TaskController {
       e.target.parentElement.parentElement.id
     );
     task.remove();
-    // this.model.updateData(this.model.localData);
     let taskDB;
     this.model.localData[0].forEach(column => {
       column.items.forEach(item => {
@@ -177,10 +176,9 @@ export class TaskController {
       this.addRemoveListener(task);
       this.addOnDragStartListener(task);
       this.addTaskEditListener(task);
-      // this.model.updateData(this.model.localData);
       this.model.taskService.postTask(task);
       this.model.counterService.update(this.model.localData[2]);
-      this.model.localData = await this.model.listService.getData();
+      this.model.localData = await this.model.dataService.getData();
       this.setTasks();
     }
   };
@@ -239,7 +237,6 @@ export class TaskController {
           }
 
           columnTo.items.push(columnFrom.items.splice(taskIndex, 1)[0]);
-          // this.model.updateData(this.model.localData);
           const task = columnTo.items[columnTo.items.length - 1];
           task.columnID = columnTo._id;
           this.model.taskService.edit(task);
@@ -268,7 +265,6 @@ export class TaskController {
           });
         });
         console.log(this.model.localData[1]);
-        // this.model.updateData(this.model.localData);
       });
     });
   };
@@ -286,7 +282,6 @@ export class TaskController {
           }
         });
       });
-      // this.model.updateData(this.model.localData);
       this.model.taskService.edit(task);
     });
   };
@@ -305,10 +300,4 @@ export class TaskController {
       });
     });
   };
-
-  // rerender = () => {
-  //   document.querySelector('.board-container').remove();
-  //   this.model.localData[1] = [];
-  //   this.init();
-  // };
 }
