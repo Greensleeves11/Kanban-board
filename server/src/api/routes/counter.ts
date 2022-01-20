@@ -1,5 +1,8 @@
-const express = require('express');
-const counterModel = require('../../models/Counter');
+import express from 'express';
+
+// const express = require('express');
+import { CounterSchema as counterModel } from '../../models/Counter';
+// const counterModel = require('../../models/Counter');
 const router = express.Router();
 
 router.get('/', async (req, res) => {
@@ -39,7 +42,7 @@ router.delete('/:id', async (req, res) => {
   try {
     const counter = await counterModel.findByIdAndDelete(req.params.id);
 
-    if (!counter) response.status(404).send('No item found');
+    if (!counter) res.status(404).send('No item found');
     res.status(200).send();
   } catch (err) {
     res.status(500).send(err);

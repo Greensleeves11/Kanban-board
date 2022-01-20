@@ -1,5 +1,8 @@
-const express = require('express');
-const taskModel = require('../../models/Task');
+import express from 'express';
+import { TaskSchema as taskModel } from '../../models/Task';
+
+// const express = require('express');
+// const taskModel = require('../../models/Task');
 const router = express.Router();
 
 router.get('/', async (req, res) => {

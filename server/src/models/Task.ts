@@ -1,6 +1,8 @@
-const mongoose = require('mongoose');
+import mongoose from 'mongoose';
 
-const TaskSchema = new mongoose.Schema({
+// const mongoose = require('mongoose');
+
+export const TaskSchema = new mongoose.Schema({
   index: {
     type: Number,
     required: true,
@@ -19,4 +21,4 @@ const TaskSchema = new mongoose.Schema({
   },
 });
 
-module.exports = mongoose.model('Task', TaskSchema);
+// module.exports = mongoose.model('Task', TaskSchema);

@@ -1,0 +1,1 @@
+{"version":3,"file":"List.js","sourceRoot":"","sources":["../../server/src/models/List.ts"],"names":[],"mappings":";;;;;;AAAA,sDAAgC;AAEhC,wCAAwC;AAE3B,QAAA,UAAU,GAAG,IAAI,kBAAQ,CAAC,MAAM,CAAC;IAC5C,KAAK,EAAE;QACL,IAAI,EAAE,MAAM;QACZ,QAAQ,EAAE,IAAI;KACf;IACD,KAAK,EAAE;QACL,IAAI,EAAE,CAAC,MAAM,CAAC;QACd,QAAQ,EAAE,IAAI;KACf;CACF,CAAC,CAAC;AAEH,uDAAuD"}

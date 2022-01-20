@@ -1,8 +1,14 @@
-const express = require('express');
-const path = require('path');
-const logger = require('./api/middleware/logger');
-const dotenv = require('dotenv');
-const connectDB = require('./config/db');
+import express from 'express';
+import path from 'path';
+import dotenv from 'dotenv';
+import { logger } from './api/middleware/logger';
+import { connectDB } from './config/db';
+
+// const express = require('express');
+// const path = require('path');
+// const logger = require('./api/middleware/logger');
+// const dotenv = require('dotenv');
+// const connectDB = require('./config/db');
 
 dotenv.config({ path: './config/config.env' });
 
@@ -21,7 +27,7 @@ app.use('/api/routes/data', require('./api/routes/data'));
 
 app.use(logger);
 
-app.use(express.static(path.join(__dirname, '../', 'public')));
+app.use(express.static(path.join(__dirname, '../', '../', 'public')));
 
 const PORT = process.env.PORT || 5000;
 

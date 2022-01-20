@@ -1,5 +1,7 @@
-const express = require('express');
-const categoryModel = require('../../models/Category');
+import express from 'express';
+
+import { CategorySchema as categoryModel } from '../../models/Category';
+// const categoryModel = require('../../models/Category');
 const router = express.Router();
 
 router.get('/', async (req, res) => {
@@ -37,7 +39,7 @@ router.delete('/:id', async (req, res) => {
   try {
     const category = await categoryModel.findByIdAndDelete(req.params.id);
 
-    if (!category) response.status(404).send('No item found');
+    if (!category) res.status(404).send('No item found');
     res.status(200).send();
   } catch (err) {
     res.status(500).send(err);

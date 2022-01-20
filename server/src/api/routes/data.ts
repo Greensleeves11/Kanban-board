@@ -1,8 +1,14 @@
-const express = require('express');
-const taskModel = require('../../models/Task');
-const listModel = require('../../models/List');
-const categoryModel = require('../../models/Category');
-const counterModel = require('../../models/Counter');
+import express from 'express';
+import { TaskSchema as taskModel } from '../../models/Task';
+import { CategorySchema as categoryModel } from '../../models/Category';
+import { ListSchema as listModel } from '../../models/List';
+import { CounterSchema as counterModel } from '../../models/Counter';
+
+// const express = require('express');
+// const taskModel = require('../../models/Task');
+// const listModel = require('../../models/List');
+// const categoryModel = require('../../models/Category');
+// const counterModel = require('../../models/Counter');
 const router = express.Router();
 
 router.get('/', async (req, res) => {
