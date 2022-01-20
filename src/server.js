@@ -21,7 +21,7 @@ app.use('/api/routes/data', require('./api/routes/data'));
 
 app.use(logger);
 
-app.use(express.static(path.join(__dirname, 'public')));
+app.use(express.static(path.join(__dirname, '../', 'public')));
 
 const PORT = process.env.PORT || 5000;
 

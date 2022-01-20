@@ -2,10 +2,11 @@
   "name": "kanban-board",
   "version": "1.0.0",
   "description": "Kanban-board project",
-  "main": "server.js",
+  "main": "./src/server.js",
   "scripts": {
     "start": "node server",
-    "dev": "nodemon server"
+    "dev": "nodemon server",
+    "build": "tsc"
   },
   "repository": {
     "type": "git",
@@ -18,7 +19,8 @@
   },
   "homepage": "https://github.com/Greensleeves11/Kanban-board#readme",
   "devDependencies": {
-    "nodemon": "^2.0.15"
+    "nodemon": "^2.0.15",
+    "typescript": "^4.5.4"
   },
   "dependencies": {
     "dotenv": "^14.1.0",
