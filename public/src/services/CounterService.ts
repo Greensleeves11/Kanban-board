@@ -1,5 +1,7 @@
 export class CounterService {
-  constructor(COUNTER_URL) {
+  COUNTER_URL: string;
+
+  constructor(COUNTER_URL: string) {
     this.COUNTER_URL = COUNTER_URL;
   }
 

@@ -7,6 +7,9 @@ import { ListVO } from './model/ListVO.js';
 import { TaskVO } from './model/TaskVO.js';
 
 export class TaskController {
+  model: Model;
+  root: HTMLElement | null;
+  view!: UIView;
   constructor() {
     this.model = new Model();
     this.root = document.getElementById('root');
@@ -34,7 +37,9 @@ export class TaskController {
         this.model.localData[1][i].color,
         this.model.localData[1][i]._id
       );
-      const picker = document.getElementById(this.model.localData[1][i].index);
+      const picker = <HTMLInputElement>(
+        document.getElementById(this.model.localData[1][i].index)
+      );
       picker.value = this.model.localData[1][i].color;
     }
     this.colorAllTasks();
@@ -66,28 +71,34 @@ export class TaskController {
   };
 
   colorTask = task => {
-    document.getElementById(task.index).style.backgroundColor =
-      document.getElementById(task.category).value;
+    // not sure if this is a good idea
+    const picker = <HTMLInputElement>document.getElementById(task.category);
+    document.getElementById(task.index)!.style.backgroundColor = picker.value;
   };
 
   colorAllTasks = () => {
     this.model.localData[0].forEach(column => {
       column.items.forEach(task => {
-        document.getElementById(task.index).style.backgroundColor =
-          document.getElementById(task.category).value;
+        const picker = <HTMLInputElement>document.getElementById(task.category);
+        document.getElementById(task.index)!.style.backgroundColor =
+          picker.value;
       });
     });
   };
 
   createTask = () => {
-    const body = document.querySelector('#new-card-text');
+    const body = <HTMLTextAreaElement>document.querySelector('#new-card-text');
     const category = this.checkCategory();
     const column = document.querySelectorAll('.col-body')[1];
+    // I put here 2 nulls to have 6 arguments matching 6 parameters
     const task = taskFactory(
       this.model.localData[2].counter++,
       body.value,
       category,
-      column.label
+      // not sure here, to do
+      column.label,
+      null,
+      null
     );
     this.model.localData[0][0].items.push(task);
     body.value = '';
@@ -98,9 +109,12 @@ export class TaskController {
     const radioButtons = document.getElementsByName('importance');
     let importance;
     let category;
-    for (let button of radioButtons) {
+    radioButtons.forEach(btn => {
+      const button = btn as HTMLInputElement;
       if (button.checked) {
-        importance = parseInt(button.attributes.value.value);
+        // importance = parseInt(button.attributes.value.value);
+        // not sure if this will work
+        importance = parseInt(button.value);
         if (importance === 1) {
           category = 'c-not-important';
         } else if (importance === 2) {
@@ -109,7 +123,7 @@ export class TaskController {
           category = 'c-urgent';
         }
       }
-    }
+    });
     return category;
   };
 
@@ -125,7 +139,7 @@ export class TaskController {
   };
 
   addRemoveListener = task => {
-    const icon = document.getElementById(task.index).children[0].children[1];
+    const icon = document.getElementById(task.index)!.children[0].children[1];
     icon.addEventListener('click', e => {
       this.processRemoval(e);
     });
@@ -140,33 +154,39 @@ export class TaskController {
     });
   };
 
-  processRemoval = function (e) {
+  // this function was converted to arrow function while doing TS
+  processRemoval = e => {
     const task = document.getElementById(
       e.target.parentElement.parentElement.id
     );
-    task.remove();
-    let taskDB;
-    this.model.localData[0].forEach(column => {
-      column.items.forEach(item => {
-        if (item.index === parseInt(task.id)) {
-          taskDB = item;
-        }
+    if (task) {
+      task.remove();
+      let taskDB;
+      this.model.localData[0].forEach(column => {
+        column.items.forEach(item => {
+          if (item.index === parseInt(task.id)) {
+            taskDB = item;
+          }
+        });
       });
-    });
-    this.removeTaskById(parseInt(e.target.parentElement.parentElement.id));
-    this.model.taskService.delete(taskDB);
+      this.removeTaskById(parseInt(e.target.parentElement.parentElement.id));
+      this.model.taskService.delete(taskDB);
+    }
   };
 
   addFormListener = () => {
     const form = document.querySelector('.new-card');
-    form.addEventListener('submit', e => {
-      this.processSubmit(e);
-    });
+    if (form) {
+      form.addEventListener('submit', e => {
+        this.processSubmit(e);
+      });
+    }
   };
 
-  processSubmit = async function (e) {
+  // this function was converted to arrow function while doing TS
+  processSubmit = async e => {
     e.preventDefault();
-    const body = document.querySelector('#new-card-text');
+    const body = <HTMLTextAreaElement>document.querySelector('#new-card-text');
     if (body.value !== '') {
       const task = this.createTask();
       const taskView = new TaskView(task);
@@ -185,9 +205,11 @@ export class TaskController {
 
   addOnDragStartListener = task => {
     const item = document.getElementById(task.index);
-    item.addEventListener('dragstart', e => {
-      e.dataTransfer.setData('text/plain', e.target.id);
-    });
+    if (item) {
+      item.addEventListener('dragstart', e => {
+        e.dataTransfer!.setData('text/plain', (e.target! as HTMLElement).id);
+      });
+    }
   };
 
   addOnDragOverListener = () => {
@@ -203,17 +225,17 @@ export class TaskController {
     const columns = document.querySelectorAll('.col-body');
     columns.forEach(column => {
       column.addEventListener('drop', e => {
-        if (e.target.classList.contains('col-body')) {
+        if ((e.target! as HTMLElement).classList.contains('col-body')) {
           const id = e.dataTransfer.getData('text');
           const draggableElement = document.getElementById(id);
           const dropzone = e.target;
-          dropzone.appendChild(draggableElement);
+          (dropzone! as HTMLElement).appendChild(draggableElement!);
           e.dataTransfer.clearData();
 
           let columnFrom;
           this.model.localData[0].forEach(column => {
             column.items.forEach(task => {
-              if (task.index === parseInt(draggableElement.id)) {
+              if (task.index === parseInt(draggableElement!.id)) {
                 columnFrom = column;
               }
             });
@@ -230,7 +252,7 @@ export class TaskController {
 
           let taskIndex;
           for (let i = 0; i < columnFrom.items.length; i++) {
-            if (columnFrom.items[i].index === parseInt(draggableElement.id)) {
+            if (columnFrom.items[i].index === parseInt(draggableElement!.id)) {
               taskIndex = i;
               break;
             }
@@ -251,7 +273,7 @@ export class TaskController {
       picker.addEventListener('change', e => {
         this.model.localData[1].forEach(category => {
           if (category.index === picker.id) {
-            category.color = e.target.value;
+            category.color = (e.target! as HTMLInputElement).value;
             console.log(category);
             this.model.categoryService.edit(category);
           }
@@ -259,8 +281,9 @@ export class TaskController {
         this.model.localData[0].forEach(column => {
           column.items.forEach(item => {
             if (item.category === picker.id) {
-              document.getElementById(item.index).style.backgroundColor =
-                e.target.value;
+              document.getElementById(item.index)!.style.backgroundColor = (
+                e.target! as HTMLInputElement
+              ).value;
             }
           });
         });
@@ -270,15 +293,18 @@ export class TaskController {
   };
 
   addTaskEditListener = task => {
-    const contentEditable = document.getElementById(task.index).children[1]
+    const contentEditable = document.getElementById(task.index)!.children[1]
       .children[0];
     contentEditable.addEventListener('blur', () => {
       this.model.localData[0].forEach(column => {
         column.items.forEach(item => {
           if (
-            item.index === parseInt(contentEditable.parentNode.parentNode.id)
+            item.index ===
+            parseInt(
+              (contentEditable.parentNode!.parentNode! as HTMLElement).id
+            )
           ) {
-            item.body = contentEditable.innerText;
+            item.body = (contentEditable as HTMLElement).innerText;
           }
         });
       });

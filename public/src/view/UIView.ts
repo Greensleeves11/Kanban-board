@@ -4,8 +4,11 @@ import { ColumnView } from './ColumnView.js';
 
 export class UIView {
   template = '<div class="board-container"></div>';
+  // to do: give children better type;
+  children: any;
+  element!: HTMLElement;
   constructor(columnList) {
-    this.children = [];
+    // this.children = [];
 
     const controlPanelView = new ColumnView(
       'Create/remove task',

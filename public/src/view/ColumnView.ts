@@ -1,4 +1,10 @@
 export class ColumnView {
+  title: string;
+  // to do: give better type for childElement
+  childElement: any;
+  template: string;
+  // to do: give better type for columnBody
+  columnBody: any;
   constructor(title, childElement) {
     this.title = title;
     this.childElement = childElement;

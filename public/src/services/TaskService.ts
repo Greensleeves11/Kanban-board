@@ -1,5 +1,7 @@
 export class TaskService {
-  constructor(TASK_URL) {
+  TASK_URL: string;
+
+  constructor(TASK_URL: string) {
     this.TASK_URL = TASK_URL;
   }
 

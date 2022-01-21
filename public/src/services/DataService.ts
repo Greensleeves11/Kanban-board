@@ -1,5 +1,7 @@
 export class DataService {
-  constructor(DATA_URL) {
+  DATA_URL: string;
+
+  constructor(DATA_URL: string) {
     this.DATA_URL = DATA_URL;
   }
 

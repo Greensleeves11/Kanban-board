@@ -1,5 +1,7 @@
 export class CategoryService {
-  constructor(CATEGORY_URL) {
+  CATEGORY_URL: string;
+
+  constructor(CATEGORY_URL: string) {
     this.CATEGORY_URL = CATEGORY_URL;
   }
 
