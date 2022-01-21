@@ -41,14 +41,12 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 var express_1 = __importDefault(require("express"));
 var List_1 = require("../../models/List");
-// const express = require('express');
-// const listModel = require('../../models/List');
 var router = express_1.default.Router();
 router.get('/', function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
     var lists;
     return __generator(this, function (_a) {
         switch (_a.label) {
-            case 0: return [4 /*yield*/, List_1.ListSchema.find({})];
+            case 0: return [4 /*yield*/, List_1.listModel.find({})];
             case 1:
                 lists = _a.sent();
                 try {
@@ -66,7 +64,7 @@ router.post('/', function (req, res) { return __awaiter(void 0, void 0, void 0, 
     return __generator(this, function (_a) {
         switch (_a.label) {
             case 0:
-                list = new List_1.ListSchema(req.body);
+                list = new List_1.listModel(req.body);
                 _a.label = 1;
             case 1:
                 _a.trys.push([1, 3, , 4]);
@@ -88,20 +86,18 @@ router.patch('/:id', function (req, res) { return __awaiter(void 0, void 0, void
     return __generator(this, function (_a) {
         switch (_a.label) {
             case 0:
-                _a.trys.push([0, 3, , 4]);
-                return [4 /*yield*/, List_1.ListSchema.findByIdAndUpdate(req.params.id, req.body)];
+                _a.trys.push([0, 2, , 3]);
+                return [4 /*yield*/, List_1.listModel.findByIdAndUpdate(req.params.id, req.body)];
             case 1:
                 _a.sent();
-                return [4 /*yield*/, List_1.ListSchema.save()];
-            case 2:
-                _a.sent();
+                // await listModel.save();
                 res.status(200);
-                return [3 /*break*/, 4];
-            case 3:
+                return [3 /*break*/, 3];
+            case 2:
                 err_2 = _a.sent();
                 res.status(500).send(err_2);
-                return [3 /*break*/, 4];
-            case 4: return [2 /*return*/];
+                return [3 /*break*/, 3];
+            case 3: return [2 /*return*/];
         }
     });
 }); });
@@ -111,7 +107,7 @@ router.delete('/:id', function (req, res) { return __awaiter(void 0, void 0, voi
         switch (_a.label) {
             case 0:
                 _a.trys.push([0, 2, , 3]);
-                return [4 /*yield*/, List_1.ListSchema.findByIdAndDelete(req.params.id)];
+                return [4 /*yield*/, List_1.listModel.findByIdAndDelete(req.params.id)];
             case 1:
                 list = _a.sent();
                 if (!list)

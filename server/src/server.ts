@@ -4,12 +4,6 @@ import dotenv from 'dotenv';
 import { logger } from './api/middleware/logger';
 import { connectDB } from './config/db';
 
-// const express = require('express');
-// const path = require('path');
-// const logger = require('./api/middleware/logger');
-// const dotenv = require('dotenv');
-// const connectDB = require('./config/db');
-
 dotenv.config({ path: './config/config.env' });
 
 connectDB();

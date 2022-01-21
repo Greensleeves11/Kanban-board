@@ -1,7 +1,6 @@
 import express from 'express';
 
-import { CategorySchema as categoryModel } from '../../models/Category';
-// const categoryModel = require('../../models/Category');
+import { categoryModel } from '../../models/Category';
 const router = express.Router();
 
 router.get('/', async (req, res) => {

@@ -1,16 +1,26 @@
-import mongoose from 'mongoose';
+import { Schema, model, Types } from 'mongoose';
 
-// const mongoose = require('mongoose');
+interface List {
+  label: string;
+  items: Types.Array<object>;
+}
 
-export const ListSchema = new mongoose.Schema({
-  label: {
-    type: String,
-    required: true,
-  },
-  items: {
-    type: [Object],
-    required: true,
-  },
+const ListSchema = new Schema<List>({
+  label: { type: String, required: true },
+  items: { type: [Object], required: true },
 });
 
-// module.exports = mongoose.model('List', ListSchema);
+export const listModel = model<List>('List', ListSchema);
+
+// import mongoose from 'mongoose';
+
+// export const ListSchema = new mongoose.Schema({
+//   label: {
+//     type: String,
+//     required: true,
+//   },
+//   items: {
+//     type: [Object],
+//     required: true,
+//   },
+// });

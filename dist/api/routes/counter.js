@@ -40,15 +40,13 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 var express_1 = __importDefault(require("express"));
-// const express = require('express');
 var Counter_1 = require("../../models/Counter");
-// const counterModel = require('../../models/Counter');
 var router = express_1.default.Router();
 router.get('/', function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
     var counter;
     return __generator(this, function (_a) {
         switch (_a.label) {
-            case 0: return [4 /*yield*/, Counter_1.CounterSchema.find({})];
+            case 0: return [4 /*yield*/, Counter_1.counterModel.find({})];
             case 1:
                 counter = _a.sent();
                 try {
@@ -66,7 +64,7 @@ router.post('/', function (req, res) { return __awaiter(void 0, void 0, void 0, 
     return __generator(this, function (_a) {
         switch (_a.label) {
             case 0:
-                counter = new Counter_1.CounterSchema(req.body);
+                counter = new Counter_1.counterModel(req.body);
                 _a.label = 1;
             case 1:
                 _a.trys.push([1, 3, , 4]);
@@ -89,7 +87,7 @@ router.patch('/:id', function (req, res) { return __awaiter(void 0, void 0, void
         switch (_a.label) {
             case 0:
                 _a.trys.push([0, 2, , 3]);
-                return [4 /*yield*/, Counter_1.CounterSchema.findByIdAndUpdate(req.params.id, req.body)];
+                return [4 /*yield*/, Counter_1.counterModel.findByIdAndUpdate(req.params.id, req.body)];
             case 1:
                 counter = _a.sent();
                 // await counterModel.save();
@@ -109,7 +107,7 @@ router.delete('/:id', function (req, res) { return __awaiter(void 0, void 0, voi
         switch (_a.label) {
             case 0:
                 _a.trys.push([0, 2, , 3]);
-                return [4 /*yield*/, Counter_1.CounterSchema.findByIdAndDelete(req.params.id)];
+                return [4 /*yield*/, Counter_1.counterModel.findByIdAndDelete(req.params.id)];
             case 1:
                 counter = _a.sent();
                 if (!counter)

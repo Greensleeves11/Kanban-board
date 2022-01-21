@@ -41,13 +41,12 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 var express_1 = __importDefault(require("express"));
 var Category_1 = require("../../models/Category");
-// const categoryModel = require('../../models/Category');
 var router = express_1.default.Router();
 router.get('/', function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
     var categories;
     return __generator(this, function (_a) {
         switch (_a.label) {
-            case 0: return [4 /*yield*/, Category_1.CategorySchema.find({})];
+            case 0: return [4 /*yield*/, Category_1.categoryModel.find({})];
             case 1:
                 categories = _a.sent();
                 try {
@@ -65,7 +64,7 @@ router.post('/', function (req, res) { return __awaiter(void 0, void 0, void 0, 
     return __generator(this, function (_a) {
         switch (_a.label) {
             case 0:
-                category = new Category_1.CategorySchema(req.body);
+                category = new Category_1.categoryModel(req.body);
                 _a.label = 1;
             case 1:
                 _a.trys.push([1, 3, , 4]);
@@ -88,7 +87,7 @@ router.patch('/:id', function (req, res) { return __awaiter(void 0, void 0, void
         switch (_a.label) {
             case 0:
                 _a.trys.push([0, 2, , 3]);
-                return [4 /*yield*/, Category_1.CategorySchema.findByIdAndUpdate(req.params.id, req.body)];
+                return [4 /*yield*/, Category_1.categoryModel.findByIdAndUpdate(req.params.id, req.body)];
             case 1:
                 _a.sent();
                 // await categoryModel.save();
@@ -108,7 +107,7 @@ router.delete('/:id', function (req, res) { return __awaiter(void 0, void 0, voi
         switch (_a.label) {
             case 0:
                 _a.trys.push([0, 2, , 3]);
-                return [4 /*yield*/, Category_1.CategorySchema.findByIdAndDelete(req.params.id)];
+                return [4 /*yield*/, Category_1.categoryModel.findByIdAndDelete(req.params.id)];
             case 1:
                 category = _a.sent();
                 if (!category)

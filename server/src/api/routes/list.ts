@@ -1,8 +1,6 @@
 import express from 'express';
-import { ListSchema as listModel } from '../../models/List';
+import { listModel } from '../../models/List';
 
-// const express = require('express');
-// const listModel = require('../../models/List');
 const router = express.Router();
 
 router.get('/', async (req, res) => {
@@ -29,7 +27,7 @@ router.post('/', async (req, res) => {
 router.patch('/:id', async (req, res) => {
   try {
     await listModel.findByIdAndUpdate(req.params.id, req.body);
-    await listModel.save();
+    // await listModel.save();
     res.status(200);
   } catch (err) {
     res.status(500).send(err);

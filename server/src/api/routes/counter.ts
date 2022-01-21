@@ -1,8 +1,6 @@
 import express from 'express';
+import { counterModel } from '../../models/Counter';
 
-// const express = require('express');
-import { CounterSchema as counterModel } from '../../models/Counter';
-// const counterModel = require('../../models/Counter');
 const router = express.Router();
 
 router.get('/', async (req, res) => {

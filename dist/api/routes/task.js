@@ -41,14 +41,12 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 var express_1 = __importDefault(require("express"));
 var Task_1 = require("../../models/Task");
-// const express = require('express');
-// const taskModel = require('../../models/Task');
 var router = express_1.default.Router();
 router.get('/', function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
     var tasks;
     return __generator(this, function (_a) {
         switch (_a.label) {
-            case 0: return [4 /*yield*/, Task_1.TaskSchema.find({})];
+            case 0: return [4 /*yield*/, Task_1.taskModel.find({})];
             case 1:
                 tasks = _a.sent();
                 try {
@@ -66,7 +64,7 @@ router.post('/', function (req, res) { return __awaiter(void 0, void 0, void 0, 
     return __generator(this, function (_a) {
         switch (_a.label) {
             case 0:
-                task = new Task_1.TaskSchema(req.body);
+                task = new Task_1.taskModel(req.body);
                 _a.label = 1;
             case 1:
                 _a.trys.push([1, 3, , 4]);
@@ -89,7 +87,7 @@ router.patch('/:id', function (req, res) { return __awaiter(void 0, void 0, void
         switch (_a.label) {
             case 0:
                 _a.trys.push([0, 2, , 3]);
-                return [4 /*yield*/, Task_1.TaskSchema.findByIdAndUpdate(req.params.id, req.body)];
+                return [4 /*yield*/, Task_1.taskModel.findByIdAndUpdate(req.params.id, req.body)];
             case 1:
                 _a.sent();
                 // await taskModel.save();
@@ -109,11 +107,11 @@ router.delete('/:id', function (req, res) { return __awaiter(void 0, void 0, voi
         switch (_a.label) {
             case 0:
                 _a.trys.push([0, 2, , 3]);
-                return [4 /*yield*/, Task_1.TaskSchema.findByIdAndDelete(req.params.id)];
+                return [4 /*yield*/, Task_1.taskModel.findByIdAndDelete(req.params.id)];
             case 1:
                 task = _a.sent();
                 if (!task)
-                    response.status(404).send('No item found');
+                    res.status(404).send('No item found');
                 res.status(200).send();
                 return [3 /*break*/, 3];
             case 2:

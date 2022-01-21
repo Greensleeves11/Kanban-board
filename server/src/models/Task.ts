@@ -1,24 +1,38 @@
-import mongoose from 'mongoose';
+import { Schema, model } from 'mongoose';
 
-// const mongoose = require('mongoose');
+interface Task {
+  index: number;
+  body: string;
+  category: string;
+  columnID: string;
+}
 
-export const TaskSchema = new mongoose.Schema({
-  index: {
-    type: Number,
-    required: true,
-  },
-  body: {
-    type: String,
-    required: true,
-  },
-  category: {
-    type: String,
-    required: true,
-  },
-  columnID: {
-    type: String,
-    required: true,
-  },
+const TaskSchema = new Schema<Task>({
+  index: { type: Number, required: true },
+  body: { type: String, required: true },
+  category: { type: String, required: true },
+  columnID: { type: String, required: true },
 });
 
-// module.exports = mongoose.model('Task', TaskSchema);
+export const taskModel = model<Task>('Task', TaskSchema);
+
+// import mongoose from 'mongoose';
+
+// export const TaskSchema = new mongoose.Schema({
+//   index: {
+//     type: Number,
+//     required: true,
+//   },
+//   body: {
+//     type: String,
+//     required: true,
+//   },
+//   category: {
+//     type: String,
+//     required: true,
+//   },
+//   columnID: {
+//     type: String,
+//     required: true,
+//   },
+// });

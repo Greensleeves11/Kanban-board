@@ -1,20 +1,32 @@
-import mongoose from 'mongoose';
+import { Schema, model } from 'mongoose';
 
-// const mongoose = require('mongoose');
+interface Category {
+  index: string;
+  label: string;
+  color: string;
+}
 
-export const CategorySchema = new mongoose.Schema({
-  index: {
-    type: String,
-    required: true,
-  },
-  label: {
-    type: String,
-    required: true,
-  },
-  color: {
-    type: String,
-    required: true,
-  },
+const CategorySchema = new Schema<Category>({
+  index: { type: String, required: true },
+  label: { type: String, required: true },
+  color: { type: String, required: true },
 });
 
-// module.exports = mongoose.model('Category', CategorySchema);
+export const categoryModel = model<Category>('Category', CategorySchema);
+
+// import mongoose from 'mongoose';
+
+// export const CategorySchema = new mongoose.Schema({
+//   index: {
+//     type: String,
+//     required: true,
+//   },
+//   label: {
+//     type: String,
+//     required: true,
+//   },
+//   color: {
+//     type: String,
+//     required: true,
+//   },
+// });

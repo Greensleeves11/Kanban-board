@@ -1,28 +1,31 @@
 "use strict";
-var __importDefault = (this && this.__importDefault) || function (mod) {
-    return (mod && mod.__esModule) ? mod : { "default": mod };
-};
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.TaskSchema = void 0;
-var mongoose_1 = __importDefault(require("mongoose"));
-// const mongoose = require('mongoose');
-exports.TaskSchema = new mongoose_1.default.Schema({
-    index: {
-        type: Number,
-        required: true,
-    },
-    body: {
-        type: String,
-        required: true,
-    },
-    category: {
-        type: String,
-        required: true,
-    },
-    columnID: {
-        type: String,
-        required: true,
-    },
+exports.taskModel = void 0;
+var mongoose_1 = require("mongoose");
+var TaskSchema = new mongoose_1.Schema({
+    index: { type: Number, required: true },
+    body: { type: String, required: true },
+    category: { type: String, required: true },
+    columnID: { type: String, required: true },
 });
-// module.exports = mongoose.model('Task', TaskSchema);
+exports.taskModel = (0, mongoose_1.model)('Task', TaskSchema);
+// import mongoose from 'mongoose';
+// export const TaskSchema = new mongoose.Schema({
+//   index: {
+//     type: Number,
+//     required: true,
+//   },
+//   body: {
+//     type: String,
+//     required: true,
+//   },
+//   category: {
+//     type: String,
+//     required: true,
+//   },
+//   columnID: {
+//     type: String,
+//     required: true,
+//   },
+// });
 //# sourceMappingURL=Task.js.map

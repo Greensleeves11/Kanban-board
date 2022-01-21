@@ -44,26 +44,21 @@ var Task_1 = require("../../models/Task");
 var Category_1 = require("../../models/Category");
 var List_1 = require("../../models/List");
 var Counter_1 = require("../../models/Counter");
-// const express = require('express');
-// const taskModel = require('../../models/Task');
-// const listModel = require('../../models/List');
-// const categoryModel = require('../../models/Category');
-// const counterModel = require('../../models/Counter');
 var router = express_1.default.Router();
 router.get('/', function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
     var lists, tasks, categories, counter, data;
     return __generator(this, function (_a) {
         switch (_a.label) {
-            case 0: return [4 /*yield*/, List_1.ListSchema.find({})];
+            case 0: return [4 /*yield*/, List_1.listModel.find({})];
             case 1:
                 lists = _a.sent();
-                return [4 /*yield*/, Task_1.TaskSchema.find({})];
+                return [4 /*yield*/, Task_1.taskModel.find({})];
             case 2:
                 tasks = _a.sent();
-                return [4 /*yield*/, Category_1.CategorySchema.find({})];
+                return [4 /*yield*/, Category_1.categoryModel.find({})];
             case 3:
                 categories = _a.sent();
-                return [4 /*yield*/, Counter_1.CounterSchema.find({})];
+                return [4 /*yield*/, Counter_1.counterModel.find({})];
             case 4:
                 counter = _a.sent();
                 data = [[lists[0], lists[1], lists[2]], categories, counter[0]];

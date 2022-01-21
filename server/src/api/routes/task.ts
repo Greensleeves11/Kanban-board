@@ -1,8 +1,6 @@
 import express from 'express';
-import { TaskSchema as taskModel } from '../../models/Task';
+import { taskModel } from '../../models/Task';
 
-// const express = require('express');
-// const taskModel = require('../../models/Task');
 const router = express.Router();
 
 router.get('/', async (req, res) => {
@@ -40,7 +38,7 @@ router.delete('/:id', async (req, res) => {
   try {
     const task = await taskModel.findByIdAndDelete(req.params.id);
 
-    if (!task) response.status(404).send('No item found');
+    if (!task) res.status(404).send('No item found');
     res.status(200).send();
   } catch (err) {
     res.status(500).send(err);

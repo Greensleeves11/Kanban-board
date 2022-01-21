@@ -1,14 +1,10 @@
 import express from 'express';
-import { TaskSchema as taskModel } from '../../models/Task';
-import { CategorySchema as categoryModel } from '../../models/Category';
-import { ListSchema as listModel } from '../../models/List';
-import { CounterSchema as counterModel } from '../../models/Counter';
+import { taskModel } from '../../models/Task';
+import { categoryModel } from '../../models/Category';
+import { listModel } from '../../models/List';
+import { counterModel } from '../../models/Counter';
+import { model } from 'mongoose';
 
-// const express = require('express');
-// const taskModel = require('../../models/Task');
-// const listModel = require('../../models/List');
-// const categoryModel = require('../../models/Category');
-// const counterModel = require('../../models/Counter');
 const router = express.Router();
 
 router.get('/', async (req, res) => {
@@ -17,7 +13,8 @@ router.get('/', async (req, res) => {
   const categories = await categoryModel.find({});
   const counter = await counterModel.find({});
 
-  const data = [[lists[0], lists[1], lists[2]], categories, counter[0]];
+  // to do: turn any into type
+  const data: any = [[lists[0], lists[1], lists[2]], categories, counter[0]];
 
   tasks.forEach(task => {
     if (task.columnID === data[0][0].id) {

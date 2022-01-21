@@ -1,12 +1,20 @@
-import mongoose from 'mongoose';
+import { Schema, model } from 'mongoose';
 
-// const mongoose = require('mongoose');
+interface Counter {
+  counter: number;
+}
 
-export const CounterSchema = new mongoose.Schema({
-  counter: {
-    type: Number,
-    required: true,
-  },
+const CounterSchema = new Schema<Counter>({
+  counter: { type: Number, required: true },
 });
 
-// module.exports = mongoose.model('Counter', CounterSchema);
+export const counterModel = model<Counter>('Counter', CounterSchema);
+
+// import mongoose from 'mongoose';
+
+// export const CounterSchema = new mongoose.Schema({
+//   counter: {
+//     type: Number,
+//     required: true,
+//   },
+// });
