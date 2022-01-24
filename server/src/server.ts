@@ -24,12 +24,6 @@ app.use('/api/routes/list', list);
 app.use('/api/routes/task', task);
 app.use('/api/routes/data', data);
 
-// app.use('/api/routes/category', require('./api/routes/category'));
-// app.use('/api/routes/counter', require('./api/routes/counter'));
-// app.use('/api/routes/list', require('./api/routes/list'));
-// app.use('/api/routes/task', require('./api/routes/task'));
-// app.use('/api/routes/data', require('./api/routes/data'));
-
 app.use(logger);
 
 app.use(express.static(path.join(__dirname, '../', '../', 'public')));

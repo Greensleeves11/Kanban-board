@@ -2,6 +2,8 @@ import { CategoryService } from '../services/CategoryService.js';
 import { CounterService } from '../services/CounterService.js';
 import { TaskService } from '../services/TaskService.js';
 import { DataService } from '../services/DataService.js';
+import { ListVO } from './ListVO.js';
+import { CategoryVO } from './CategoryVO.js';
 
 export class Model {
   dataService: DataService;
@@ -9,7 +11,13 @@ export class Model {
   counterService: CounterService;
   taskService: TaskService;
   // to do: better type for localData
-  localData: any;
+  localData:
+    | [
+        [ListVO, ListVO, ListVO],
+        [CategoryVO, CategoryVO, CategoryVO],
+        { counter: number; _id: string }
+      ]
+    | undefined;
   constructor() {
     this.dataService = new DataService('http://localhost:5000/api/routes/data');
     this.categoryService = new CategoryService(

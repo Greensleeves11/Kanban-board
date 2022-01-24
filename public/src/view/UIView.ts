@@ -1,13 +1,14 @@
 import { TaskListView } from './TaskListView.js';
 import { ControlPanelView } from './ControlPanelView.js';
 import { ColumnView } from './ColumnView.js';
+import { ListVO } from '../model/ListVO.js';
 
 export class UIView {
   template = '<div class="board-container"></div>';
   // to do: give children better type;
-  children: any;
-  element!: HTMLElement;
-  constructor(columnList) {
+  children;
+  element: HTMLElement | undefined;
+  constructor(columnList: ListVO[]) {
     // this.children = [];
 
     const controlPanelView = new ColumnView(
@@ -19,11 +20,14 @@ export class UIView {
     );
     this.children = [controlPanelView, ...columnViewList];
   }
-  render = (element, position) => {
-    //TODO: we need to clear root element before render
-    element.insertAdjacentHTML(position, this.template);
-    this.element = element.querySelector('.board-container');
+  render = (element: HTMLElement | null, position: InsertPosition) => {
+    if (element) {
+      element.insertAdjacentHTML(position, this.template);
+      this.element = element.querySelector('.board-container') as HTMLElement;
 
-    this.children.forEach(child => child.render(this.element, position));
+      this.children.forEach(child =>
+        child.render(this.element as HTMLElement, position)
+      );
+    }
   };
 }

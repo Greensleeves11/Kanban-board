@@ -1,3 +1,8 @@
+interface Counter {
+  counter: number;
+  _id: string;
+}
+
 export class CounterService {
   COUNTER_URL: string;
 
@@ -11,7 +16,7 @@ export class CounterService {
     return data;
   }
 
-  async update(counter) {
+  async update(counter: Counter) {
     await fetch(this.COUNTER_URL + `/${counter._id}`, {
       method: 'PATCH',
       headers: {

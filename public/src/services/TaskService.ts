@@ -1,3 +1,5 @@
+import { TaskVO } from '../model/TaskVO';
+
 export class TaskService {
   TASK_URL: string;
 
@@ -11,7 +13,7 @@ export class TaskService {
     return data;
   }
 
-  async add(task) {
+  async add(task: TaskVO) {
     if ((task.column = 'To do')) {
       task.columnID = '61e59d4f75cc8be14f148e0b';
     } else if ((task.column = 'In progress')) {
@@ -29,7 +31,7 @@ export class TaskService {
     });
   }
 
-  async delete(task) {
+  async delete(task: TaskVO) {
     await fetch(this.TASK_URL + `/${task._id}`, {
       method: 'DELETE',
       headers: {
@@ -39,7 +41,7 @@ export class TaskService {
     });
   }
 
-  async edit(task) {
+  async edit(task: TaskVO) {
     await fetch(this.TASK_URL + `/${task._id}`, {
       method: 'PATCH',
       headers: {

@@ -15,9 +15,13 @@ var UIView = (function () {
         var _this = this;
         this.template = '<div class="board-container"></div>';
         this.render = function (element, position) {
-            element.insertAdjacentHTML(position, _this.template);
-            _this.element = element.querySelector('.board-container');
-            _this.children.forEach(function (child) { return child.render(_this.element, position); });
+            if (element) {
+                element.insertAdjacentHTML(position, _this.template);
+                _this.element = element.querySelector('.board-container');
+                _this.children.forEach(function (child) {
+                    return child.render(_this.element, position);
+                });
+            }
         };
         var controlPanelView = new ColumnView('Create/remove task', new ControlPanelView());
         var columnViewList = columnList.map(function (column) { return new ColumnView(column.label, new TaskListView(column.items)); });

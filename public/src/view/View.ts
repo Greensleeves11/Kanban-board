@@ -1,6 +1,6 @@
 export class View {
   template = '';
-  render = (element, position) => {
+  render = (element: HTMLElement, position: InsertPosition) => {
     element.insertAdjacentHTML(position, this.template);
   };
 }

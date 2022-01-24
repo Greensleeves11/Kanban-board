@@ -5,7 +5,7 @@ export class ColumnView {
   template: string;
   // to do: give better type for columnBody
   columnBody: any;
-  constructor(title, childElement) {
+  constructor(title: string, childElement: object) {
     this.title = title;
     this.childElement = childElement;
     this.template = `<div class="col">
@@ -17,7 +17,7 @@ export class ColumnView {
     </div>`;
   }
 
-  render = (parentElement, position) => {
+  render = (parentElement: HTMLElement, position: InsertPosition) => {
     parentElement.insertAdjacentHTML(position, this.template);
     const allColumnBodies = parentElement.querySelectorAll('.col-body');
     this.columnBody = allColumnBodies[allColumnBodies.length - 1];

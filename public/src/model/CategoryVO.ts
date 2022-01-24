@@ -1,10 +1,10 @@
 export class CategoryVO {
-  index: number;
+  index: string;
   label: string;
   color: string;
   _id: string;
 
-  constructor(index: number, label: string, color: string, _id: string) {
+  constructor(index: string, label: string, color: string, _id: string) {
     (this.index = index),
       (this.label = label),
       (this.color = color),

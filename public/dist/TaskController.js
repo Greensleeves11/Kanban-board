@@ -53,10 +53,12 @@ var TaskController = (function () {
                         return [4, this.model.dataService.get()];
                     case 1:
                         _a.localData = _b.sent();
-                        this.view = new UIView(this.model.localData[0]);
-                        this.view.render(this.root, 'beforeend');
-                        this.setData();
-                        this.addEventListeners();
+                        if (this.model.localData) {
+                            this.view = new UIView(this.model.localData[0]);
+                            this.view.render(this.root, 'beforeend');
+                            this.setData();
+                            this.addEventListeners();
+                        }
                         return [2];
                 }
             });
@@ -67,37 +69,47 @@ var TaskController = (function () {
             _this.setTasks();
         };
         this.setCategories = function () {
-            for (var i = 0; i < _this.model.localData[1].length; i++) {
-                _this.model.localData[1][i] = new CategoryVO(_this.model.localData[1][i].index, _this.model.localData[1][i].label, _this.model.localData[1][i].color, _this.model.localData[1][i]._id);
-                var picker = (document.getElementById(_this.model.localData[1][i].index));
-                picker.value = _this.model.localData[1][i].color;
+            if (_this.model.localData) {
+                for (var i = 0; i < _this.model.localData[1].length; i++) {
+                    _this.model.localData[1][i] = new CategoryVO(_this.model.localData[1][i].index, _this.model.localData[1][i].label, _this.model.localData[1][i].color, _this.model.localData[1][i]._id);
+                    var picker = (document.getElementById(_this.model.localData[1][i].index.toString()));
+                    picker.value = _this.model.localData[1][i].color;
+                }
+                _this.colorAllTasks();
             }
-            _this.colorAllTasks();
         };
         this.setColumns = function () {
-            for (var i = 0; i < _this.model.localData[0].length; i++) {
-                _this.model.localData[0][i] = new ListVO(_this.model.localData[0][i].label, _this.model.localData[0][i].items, _this.model.localData[0][i]._id);
+            if (_this.model.localData) {
+                for (var i = 0; i < _this.model.localData[0].length; i++) {
+                    _this.model.localData[0][i] = new ListVO(_this.model.localData[0][i].label, _this.model.localData[0][i].items, _this.model.localData[0][i]._id);
+                }
             }
         };
         this.setTasks = function () {
-            _this.model.localData[0].forEach(function (column) {
-                for (var i = 0; i < column.items.length; i++) {
-                    column.items[i] = new TaskVO(column.items[i].index, column.items[i].body, column.items[i].category, column.label, column.items[i]._id, column.items[i].columnID);
-                }
-            });
+            var _a;
+            if (_this.model.localData) {
+                (_a = _this.model.localData[0]) === null || _a === void 0 ? void 0 : _a.forEach(function (column) {
+                    for (var i = 0; i < column.items.length; i++) {
+                        column.items[i] = new TaskVO(column.items[i].index, column.items[i].body, column.items[i].category, column.label, column.items[i]._id, column.items[i].columnID);
+                    }
+                });
+            }
         };
         this.colorTask = function (task) {
             var picker = document.getElementById(task.category);
-            document.getElementById(task.index).style.backgroundColor = picker.value;
+            document.getElementById(task.index.toString()).style.backgroundColor =
+                picker.value;
         };
         this.colorAllTasks = function () {
-            _this.model.localData[0].forEach(function (column) {
-                column.items.forEach(function (task) {
-                    var picker = document.getElementById(task.category);
-                    document.getElementById(task.index).style.backgroundColor =
-                        picker.value;
+            var _a;
+            if (_this.model.localData) {
+                (_a = _this.model.localData[0]) === null || _a === void 0 ? void 0 : _a.forEach(function (column) {
+                    column.items.forEach(function (task) {
+                        var picker = (document.getElementById(task.category));
+                        document.getElementById(task.index.toString()).style.backgroundColor = picker.value;
+                    });
                 });
-            });
+            }
         };
         this.createTask = function () {
             var body = document.querySelector('#new-card-text');
@@ -111,7 +123,7 @@ var TaskController = (function () {
         this.checkCategory = function () {
             var radioButtons = document.getElementsByName('importance');
             var importance;
-            var category;
+            var category = '';
             radioButtons.forEach(function (btn) {
                 var button = btn;
                 if (button.checked) {
@@ -130,17 +142,21 @@ var TaskController = (function () {
             return category;
         };
         this.removeTaskById = function (index) {
-            _this.model.localData[0].forEach(function (column) {
-                for (var i = 0; i < column.items.length; i++) {
-                    if (column.items[i].index === index) {
-                        column.items.splice(i, 1);
-                        break;
+            var _a;
+            if (_this.model.localData) {
+                (_a = _this.model.localData[0]) === null || _a === void 0 ? void 0 : _a.forEach(function (column) {
+                    for (var i = 0; i < column.items.length; i++) {
+                        if (column.items[i].index === index) {
+                            column.items.splice(i, 1);
+                            break;
+                        }
                     }
-                }
-            });
+                });
+            }
         };
         this.addRemoveListener = function (task) {
-            var icon = document.getElementById(task.index).children[0].children[1];
+            var icon = document.getElementById(task.index.toString()).children[0]
+                .children[1];
             icon.addEventListener('click', function (e) {
                 _this.processRemoval(e);
             });
@@ -154,19 +170,24 @@ var TaskController = (function () {
             });
         };
         this.processRemoval = function (e) {
+            var _a;
             var task = document.getElementById(e.target.parentElement.parentElement.id);
             if (task) {
                 task.remove();
                 var taskDB_1;
-                _this.model.localData[0].forEach(function (column) {
-                    column.items.forEach(function (item) {
-                        if (item.index === parseInt(task.id)) {
-                            taskDB_1 = item;
-                        }
+                if (_this.model.localData) {
+                    (_a = _this.model.localData[0]) === null || _a === void 0 ? void 0 : _a.forEach(function (column) {
+                        column.items.forEach(function (item) {
+                            if (item.index === parseInt(task.id)) {
+                                taskDB_1 = item;
+                            }
+                        });
                     });
-                });
+                }
                 _this.removeTaskById(parseInt(e.target.parentElement.parentElement.id));
-                _this.model.taskService.delete(taskDB_1);
+                if (taskDB_1) {
+                    _this.model.taskService.delete(taskDB_1);
+                }
             }
         };
         this.addFormListener = function () {
@@ -194,7 +215,9 @@ var TaskController = (function () {
                         this.addOnDragStartListener(task);
                         this.addTaskEditListener(task);
                         this.model.taskService.add(task);
-                        this.model.counterService.update(this.model.localData[2]);
+                        if (this.model.localData) {
+                            this.model.counterService.update(this.model.localData[2]);
+                        }
                         _a = this.model;
                         return [4, this.model.dataService.get()];
                     case 1:
@@ -206,7 +229,7 @@ var TaskController = (function () {
             });
         }); };
         this.addOnDragStartListener = function (task) {
-            var item = document.getElementById(task.index);
+            var item = document.getElementById(task.index.toString());
             if (item) {
                 item.addEventListener('dragstart', function (e) {
                     e.dataTransfer.setData('text/plain', e.target.id);
@@ -231,23 +254,33 @@ var TaskController = (function () {
                         var dropzone = e.target;
                         dropzone.appendChild(draggableElement_1);
                         e.dataTransfer.clearData();
-                        var columnFrom_1;
-                        _this.model.localData[0].forEach(function (column) {
-                            column.items.forEach(function (task) {
-                                if (task.index === parseInt(draggableElement_1.id)) {
-                                    columnFrom_1 = column;
-                                }
+                        var columnFrom_1 = {
+                            label: '',
+                            items: [],
+                            _id: '',
+                        };
+                        if (_this.model.localData) {
+                            _this.model.localData[0].forEach(function (column) {
+                                column.items.forEach(function (task) {
+                                    if (task.index === parseInt(draggableElement_1.id)) {
+                                        columnFrom_1 = column;
+                                    }
+                                });
                             });
-                        });
-                        var columnTo = void 0;
+                        }
+                        var columnTo = {
+                            label: '',
+                            items: [],
+                            _id: '',
+                        };
                         var columns_1 = document.querySelectorAll('.col-body');
                         for (var i = 1; i < columns_1.length; i++) {
-                            if (columns_1[i] === dropzone) {
+                            if (columns_1[i] === dropzone && _this.model.localData) {
                                 columnTo = _this.model.localData[0][i - 1];
                                 break;
                             }
                         }
-                        var taskIndex = void 0;
+                        var taskIndex = 0;
                         for (var i = 0; i < columnFrom_1.items.length; i++) {
                             if (columnFrom_1.items[i].index === parseInt(draggableElement_1.id)) {
                                 taskIndex = i;
@@ -266,37 +299,41 @@ var TaskController = (function () {
             var pickers = document.querySelectorAll('*[id^="c-"]');
             pickers.forEach(function (picker) {
                 picker.addEventListener('change', function (e) {
-                    _this.model.localData[1].forEach(function (category) {
-                        if (category.index === picker.id) {
-                            category.color = e.target.value;
-                            console.log(category);
-                            _this.model.categoryService.edit(category);
-                        }
-                    });
-                    _this.model.localData[0].forEach(function (column) {
-                        column.items.forEach(function (item) {
-                            if (item.category === picker.id) {
-                                document.getElementById(item.index).style.backgroundColor = e.target.value;
+                    if (_this.model.localData) {
+                        _this.model.localData[1].forEach(function (category) {
+                            if (category.index === picker.id) {
+                                category.color = e.target.value;
+                                _this.model.categoryService.edit(category);
                             }
                         });
-                    });
-                    console.log(_this.model.localData[1]);
+                    }
+                    if (_this.model.localData) {
+                        _this.model.localData[0].forEach(function (column) {
+                            column.items.forEach(function (item) {
+                                if (item.category === picker.id) {
+                                    document.getElementById(item.index.toString()).style.backgroundColor = e.target.value;
+                                }
+                            });
+                        });
+                    }
                 });
             });
         };
         this.addTaskEditListener = function (task) {
-            var contentEditable = document.getElementById(task.index).children[1]
-                .children[0];
+            var contentEditable = document.getElementById(task.index.toString())
+                .children[1].children[0];
             contentEditable.addEventListener('blur', function () {
-                _this.model.localData[0].forEach(function (column) {
-                    column.items.forEach(function (item) {
-                        if (item.index ===
-                            parseInt(contentEditable.parentNode.parentNode.id)) {
-                            item.body = contentEditable.innerText;
-                        }
+                if (_this.model.localData) {
+                    _this.model.localData[0].forEach(function (column) {
+                        column.items.forEach(function (item) {
+                            if (item.index ===
+                                parseInt(contentEditable.parentNode.parentNode.id)) {
+                                item.body = contentEditable.innerText;
+                            }
+                        });
                     });
-                });
-                _this.model.taskService.edit(task);
+                    _this.model.taskService.edit(task);
+                }
             });
         };
         this.addEventListeners = function () {
@@ -304,13 +341,15 @@ var TaskController = (function () {
             _this.addOnDragOverListener();
             _this.addOnDropListener();
             _this.addColorChangeListeners();
-            _this.model.localData[0].forEach(function (column) {
-                column.items.forEach(function (task) {
-                    _this.addRemoveListener(task);
-                    _this.addTaskEditListener(task);
-                    _this.addOnDragStartListener(task);
+            if (_this.model.localData) {
+                _this.model.localData[0].forEach(function (column) {
+                    column.items.forEach(function (task) {
+                        _this.addRemoveListener(task);
+                        _this.addTaskEditListener(task);
+                        _this.addOnDragStartListener(task);
+                    });
                 });
-            });
+            }
         };
         this.model = new Model();
         this.root = document.getElementById('root');

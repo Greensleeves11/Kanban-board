@@ -1,7 +1,8 @@
+import { TaskVO } from '../model/TaskVO.js';
 import { View } from './View.js';
 
 export class TaskView extends View {
-  constructor(task) {
+  constructor(task: TaskVO) {
     super();
     this.template = `<div class='card' draggable='true' id='${task.index}'>
   <section class="card-header">
