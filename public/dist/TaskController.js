@@ -114,8 +114,7 @@ var TaskController = (function () {
         this.createTask = function () {
             var body = document.querySelector('#new-card-text');
             var category = _this.checkCategory();
-            var column = document.querySelectorAll('.col-body')[1];
-            var task = taskFactory(_this.model.localData[2].counter++, body.value, category, column.label);
+            var task = taskFactory(_this.model.localData[2].counter++, body.value, category);
             _this.model.localData[0][0].items.push(task);
             body.value = '';
             return task;

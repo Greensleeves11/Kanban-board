@@ -105,13 +105,10 @@ export class TaskController {
   createTask = () => {
     const body = <HTMLTextAreaElement>document.querySelector('#new-card-text');
     const category: string = this.checkCategory();
-    const column = document.querySelectorAll('.col-body')[1];
     const task: TaskVO = taskFactory(
       this.model.localData![2].counter++,
       body.value,
-      category,
-      // not sure here, to do - maybe I don't need column property at all
-      column.label
+      category
     );
     this.model.localData![0][0].items.push(task);
     body.value = '';
