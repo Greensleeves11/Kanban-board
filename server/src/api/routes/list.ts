@@ -1,7 +1,7 @@
 import express from 'express';
-import { listModel } from '../../models/List';
+import { listModel } from '../../models/List.js';
 
-const router = express.Router();
+export const router = express.Router();
 
 router.get('/', async (req, res) => {
   const lists = await listModel.find({});
@@ -45,4 +45,4 @@ router.delete('/:id', async (req, res) => {
   }
 });
 
-module.exports = router;
+// module.exports = router;

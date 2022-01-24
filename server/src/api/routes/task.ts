@@ -1,7 +1,7 @@
 import express from 'express';
-import { taskModel } from '../../models/Task';
+import { taskModel } from '../../models/Task.js';
 
-const router = express.Router();
+export const router = express.Router();
 
 router.get('/', async (req, res) => {
   const tasks = await taskModel.find({});
@@ -45,4 +45,4 @@ router.delete('/:id', async (req, res) => {
   }
 });
 
-module.exports = router;
+// module.exports = router;

@@ -1,7 +1,7 @@
 import { Model } from './model/Model.js';
 import { UIView } from './view/UIView.js';
-import { CategoryVO } from './Model/CategoryVO.js';
-import { taskFactory } from './TaskFactory.js';
+import { CategoryVO } from './model/CategoryVO.js';
+import { taskFactory } from './taskFactory.js';
 import { TaskView } from './view/TaskView.js';
 import { ListVO } from './model/ListVO.js';
 import { TaskVO } from './model/TaskVO.js';
@@ -95,10 +95,8 @@ export class TaskController {
       this.model.localData[2].counter++,
       body.value,
       category,
-      // not sure here, to do
-      column.label,
-      null,
-      null
+      // not sure here, to do - maybe I don't need column property at all
+      column.label
     );
     this.model.localData[0][0].items.push(task);
     body.value = '';
@@ -225,12 +223,12 @@ export class TaskController {
     const columns = document.querySelectorAll('.col-body');
     columns.forEach(column => {
       column.addEventListener('drop', e => {
-        if ((e.target! as HTMLElement).classList.contains('col-body')) {
-          const id = e.dataTransfer.getData('text');
+        if ((e.target as HTMLElement).classList.contains('col-body')) {
+          const id = (e as DragEvent).dataTransfer!.getData('text');
           const draggableElement = document.getElementById(id);
           const dropzone = e.target;
-          (dropzone! as HTMLElement).appendChild(draggableElement!);
-          e.dataTransfer.clearData();
+          (dropzone as HTMLElement).appendChild(draggableElement!);
+          (e as DragEvent).dataTransfer!.clearData();
 
           let columnFrom;
           this.model.localData[0].forEach(column => {

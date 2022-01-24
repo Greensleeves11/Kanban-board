@@ -1,11 +1,11 @@
 import express from 'express';
-import { taskModel } from '../../models/Task';
-import { categoryModel } from '../../models/Category';
-import { listModel } from '../../models/List';
-import { counterModel } from '../../models/Counter';
+import { taskModel } from '../../models/Task.js';
+import { categoryModel } from '../../models/Category.js';
+import { listModel } from '../../models/List.js';
+import { counterModel } from '../../models/Counter.js';
 import { model } from 'mongoose';
 
-const router = express.Router();
+export const router = express.Router();
 
 router.get('/', async (req, res) => {
   const lists = await listModel.find({});
@@ -33,4 +33,4 @@ router.get('/', async (req, res) => {
   }
 });
 
-module.exports = router;
+// module.exports = router;

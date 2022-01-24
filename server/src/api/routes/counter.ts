@@ -1,7 +1,7 @@
 import express from 'express';
-import { counterModel } from '../../models/Counter';
+import { counterModel } from '../../models/Counter.js';
 
-const router = express.Router();
+export const router = express.Router();
 
 router.get('/', async (req, res) => {
   const counter = await counterModel.find({});
@@ -47,4 +47,4 @@ router.delete('/:id', async (req, res) => {
   }
 });
 
-module.exports = router;
+// module.exports = router;

@@ -1,7 +1,7 @@
 import express from 'express';
 
-import { categoryModel } from '../../models/Category';
-const router = express.Router();
+import { categoryModel } from '../../models/Category.js';
+export const router = express.Router();
 
 router.get('/', async (req, res) => {
   const categories = await categoryModel.find({});
@@ -45,4 +45,4 @@ router.delete('/:id', async (req, res) => {
   }
 });
 
-module.exports = router;
+// module.exports = router;
