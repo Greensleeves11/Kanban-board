@@ -10,7 +10,6 @@ export class Model {
   categoryService: CategoryService;
   counterService: CounterService;
   taskService: TaskService;
-  // to do: better type for localData
   localData:
     | [
         [ListVO, ListVO, ListVO],

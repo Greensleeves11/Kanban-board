@@ -9,7 +9,7 @@ import { TaskVO } from './model/TaskVO.js';
 export class TaskController {
   model: Model;
   root: HTMLElement | null;
-  view!: UIView;
+  view: UIView | undefined;
   constructor() {
     this.model = new Model();
     this.root = document.getElementById('root');
@@ -79,14 +79,13 @@ export class TaskController {
   };
 
   colorTask = (task: TaskVO) => {
-    // not sure if this is a good idea
-    // task.index stringified
     const picker = <HTMLInputElement>document.getElementById(task.category);
-    document.getElementById(task.index.toString())!.style.backgroundColor =
-      picker.value;
+    const taskToColor = document.getElementById(task.index.toString());
+    if (taskToColor) {
+      taskToColor.style.backgroundColor = picker.value;
+    }
   };
 
-  // task.index stringified
   colorAllTasks = () => {
     if (this.model.localData) {
       this.model.localData[0]?.forEach(column => {
@@ -94,9 +93,10 @@ export class TaskController {
           const picker = <HTMLInputElement>(
             document.getElementById(task.category)
           );
-          document.getElementById(
-            task.index.toString()
-          )!.style.backgroundColor = picker.value;
+          const taskToColor = document.getElementById(task.index.toString());
+          if (taskToColor) {
+            taskToColor.style.backgroundColor = picker.value;
+          }
         });
       });
     }
@@ -122,8 +122,6 @@ export class TaskController {
     radioButtons.forEach(btn => {
       const button = btn as HTMLInputElement;
       if (button.checked) {
-        // importance = parseInt(button.attributes.value.value);
-        // not sure if this will work
         importance = parseInt(button.value);
         if (importance === 1) {
           category = 'c-not-important';
@@ -151,11 +149,13 @@ export class TaskController {
   };
 
   addRemoveListener = (task: TaskVO) => {
-    const icon = document.getElementById(task.index.toString())!.children[0]
-      .children[1];
-    icon.addEventListener('click', e => {
-      this.processRemoval(e);
-    });
+    const iconParent = document.getElementById(task.index.toString());
+    if (iconParent) {
+      const icon = iconParent.children[0].children[1];
+      icon.addEventListener('click', e => {
+        this.processRemoval(e);
+      });
+    }
   };
 
   addRemoveListeners = () => {
@@ -167,7 +167,6 @@ export class TaskController {
     });
   };
 
-  // this function was converted to arrow function while doing TS
   processRemoval = (e: Event) => {
     // to do: think about better solution
     const task = document.getElementById(
@@ -204,7 +203,6 @@ export class TaskController {
     }
   };
 
-  // this function was converted to arrow function while doing TS
   processSubmit = async (e: Event) => {
     e.preventDefault();
     const body = <HTMLTextAreaElement>document.querySelector('#new-card-text');
@@ -230,7 +228,9 @@ export class TaskController {
     const item = document.getElementById(task.index.toString());
     if (item) {
       item.addEventListener('dragstart', e => {
-        e.dataTransfer!.setData('text/plain', (e.target! as HTMLElement).id);
+        if (e.dataTransfer) {
+          e.dataTransfer.setData('text/plain', (e.target as HTMLElement).id);
+        }
       });
     }
   };
@@ -249,21 +249,21 @@ export class TaskController {
     columns.forEach(column => {
       column.addEventListener('drop', e => {
         if ((e.target as HTMLElement).classList.contains('col-body')) {
-          const id = (e as DragEvent).dataTransfer!.getData('text');
-          const draggableElement = document.getElementById(id);
+          const id = (e as DragEvent).dataTransfer?.getData('text');
+          const draggableElement = document.getElementById(id!);
           const dropzone = e.target;
-          (dropzone as HTMLElement).appendChild(draggableElement!);
-          (e as DragEvent).dataTransfer!.clearData();
+          (dropzone as HTMLElement).appendChild(draggableElement as Node);
+          (e as DragEvent).dataTransfer?.clearData();
 
           let columnFrom: ListVO = {
             label: '',
             items: [],
             _id: '',
           };
-          if (this.model.localData) {
+          if (this.model.localData && draggableElement) {
             this.model.localData[0].forEach((column: ListVO) => {
               column.items.forEach((task: TaskVO) => {
-                if (task.index === parseInt(draggableElement!.id)) {
+                if (task.index === parseInt(draggableElement.id)) {
                   columnFrom = column;
                 }
               });
@@ -284,10 +284,12 @@ export class TaskController {
           }
 
           let taskIndex: number = 0;
-          for (let i = 0; i < columnFrom.items.length; i++) {
-            if (columnFrom.items[i].index === parseInt(draggableElement!.id)) {
-              taskIndex = i;
-              break;
+          if (draggableElement) {
+            for (let i = 0; i < columnFrom.items.length; i++) {
+              if (columnFrom.items[i].index === parseInt(draggableElement.id)) {
+                taskIndex = i;
+                break;
+              }
             }
           }
 
@@ -316,11 +318,14 @@ export class TaskController {
           this.model.localData[0].forEach((column: ListVO) => {
             column.items.forEach(item => {
               if (item.category === picker.id) {
-                document.getElementById(
+                const colorPicker = document.getElementById(
                   item.index.toString()
-                )!.style.backgroundColor = (
-                  e.target! as HTMLInputElement
-                ).value;
+                );
+                if (colorPicker) {
+                  colorPicker.style.backgroundColor = (
+                    e.target as HTMLInputElement
+                  ).value;
+                }
               }
             });
           });
@@ -330,25 +335,27 @@ export class TaskController {
   };
 
   addTaskEditListener = (task: TaskVO) => {
-    const contentEditable = document.getElementById(task.index.toString())!
-      .children[1].children[0];
-    contentEditable.addEventListener('blur', () => {
-      if (this.model.localData) {
-        this.model.localData[0].forEach((column: ListVO) => {
-          column.items.forEach(item => {
-            if (
-              item.index ===
-              parseInt(
-                (contentEditable.parentNode!.parentNode! as HTMLElement).id
-              )
-            ) {
-              item.body = (contentEditable as HTMLElement).innerText;
-            }
+    const taskItem = document.getElementById(task.index.toString());
+    if (taskItem) {
+      const contentEditable = taskItem.children[1].children[0];
+      contentEditable.addEventListener('blur', () => {
+        if (this.model.localData) {
+          this.model.localData[0].forEach((column: ListVO) => {
+            column.items.forEach(item => {
+              if (
+                item.index ===
+                parseInt(
+                  (contentEditable.parentNode!.parentNode! as HTMLElement).id
+                )
+              ) {
+                item.body = (contentEditable as HTMLElement).innerText;
+              }
+            });
           });
-        });
-        this.model.taskService.edit(task);
-      }
-    });
+          this.model.taskService.edit(task);
+        }
+      });
+    }
   };
 
   addEventListeners = () => {

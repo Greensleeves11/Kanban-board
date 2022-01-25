@@ -5,12 +5,9 @@ import { ListVO } from '../model/ListVO.js';
 
 export class UIView {
   template = '<div class="board-container"></div>';
-  // to do: give children better type;
   children;
   element: HTMLElement | undefined;
   constructor(columnList: ListVO[]) {
-    // this.children = [];
-
     const controlPanelView = new ColumnView(
       'Create/remove task',
       new ControlPanelView()

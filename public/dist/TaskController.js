@@ -97,8 +97,10 @@ var TaskController = (function () {
         };
         this.colorTask = function (task) {
             var picker = document.getElementById(task.category);
-            document.getElementById(task.index.toString()).style.backgroundColor =
-                picker.value;
+            var taskToColor = document.getElementById(task.index.toString());
+            if (taskToColor) {
+                taskToColor.style.backgroundColor = picker.value;
+            }
         };
         this.colorAllTasks = function () {
             var _a;
@@ -106,7 +108,10 @@ var TaskController = (function () {
                 (_a = _this.model.localData[0]) === null || _a === void 0 ? void 0 : _a.forEach(function (column) {
                     column.items.forEach(function (task) {
                         var picker = (document.getElementById(task.category));
-                        document.getElementById(task.index.toString()).style.backgroundColor = picker.value;
+                        var taskToColor = document.getElementById(task.index.toString());
+                        if (taskToColor) {
+                            taskToColor.style.backgroundColor = picker.value;
+                        }
                     });
                 });
             }
@@ -154,11 +159,13 @@ var TaskController = (function () {
             }
         };
         this.addRemoveListener = function (task) {
-            var icon = document.getElementById(task.index.toString()).children[0]
-                .children[1];
-            icon.addEventListener('click', function (e) {
-                _this.processRemoval(e);
-            });
+            var iconParent = document.getElementById(task.index.toString());
+            if (iconParent) {
+                var icon = iconParent.children[0].children[1];
+                icon.addEventListener('click', function (e) {
+                    _this.processRemoval(e);
+                });
+            }
         };
         this.addRemoveListeners = function () {
             var removeIcons = document.querySelectorAll('.remove-task');
@@ -231,7 +238,9 @@ var TaskController = (function () {
             var item = document.getElementById(task.index.toString());
             if (item) {
                 item.addEventListener('dragstart', function (e) {
-                    e.dataTransfer.setData('text/plain', e.target.id);
+                    if (e.dataTransfer) {
+                        e.dataTransfer.setData('text/plain', e.target.id);
+                    }
                 });
             }
         };
@@ -247,18 +256,19 @@ var TaskController = (function () {
             var columns = document.querySelectorAll('.col-body');
             columns.forEach(function (column) {
                 column.addEventListener('drop', function (e) {
+                    var _a, _b;
                     if (e.target.classList.contains('col-body')) {
-                        var id = e.dataTransfer.getData('text');
+                        var id = (_a = e.dataTransfer) === null || _a === void 0 ? void 0 : _a.getData('text');
                         var draggableElement_1 = document.getElementById(id);
                         var dropzone = e.target;
                         dropzone.appendChild(draggableElement_1);
-                        e.dataTransfer.clearData();
+                        (_b = e.dataTransfer) === null || _b === void 0 ? void 0 : _b.clearData();
                         var columnFrom_1 = {
                             label: '',
                             items: [],
                             _id: '',
                         };
-                        if (_this.model.localData) {
+                        if (_this.model.localData && draggableElement_1) {
                             _this.model.localData[0].forEach(function (column) {
                                 column.items.forEach(function (task) {
                                     if (task.index === parseInt(draggableElement_1.id)) {
@@ -280,10 +290,12 @@ var TaskController = (function () {
                             }
                         }
                         var taskIndex = 0;
-                        for (var i = 0; i < columnFrom_1.items.length; i++) {
-                            if (columnFrom_1.items[i].index === parseInt(draggableElement_1.id)) {
-                                taskIndex = i;
-                                break;
+                        if (draggableElement_1) {
+                            for (var i = 0; i < columnFrom_1.items.length; i++) {
+                                if (columnFrom_1.items[i].index === parseInt(draggableElement_1.id)) {
+                                    taskIndex = i;
+                                    break;
+                                }
                             }
                         }
                         columnTo.items.push(columnFrom_1.items.splice(taskIndex, 1)[0]);
@@ -310,7 +322,10 @@ var TaskController = (function () {
                         _this.model.localData[0].forEach(function (column) {
                             column.items.forEach(function (item) {
                                 if (item.category === picker.id) {
-                                    document.getElementById(item.index.toString()).style.backgroundColor = e.target.value;
+                                    var colorPicker = document.getElementById(item.index.toString());
+                                    if (colorPicker) {
+                                        colorPicker.style.backgroundColor = e.target.value;
+                                    }
                                 }
                             });
                         });
@@ -319,21 +334,23 @@ var TaskController = (function () {
             });
         };
         this.addTaskEditListener = function (task) {
-            var contentEditable = document.getElementById(task.index.toString())
-                .children[1].children[0];
-            contentEditable.addEventListener('blur', function () {
-                if (_this.model.localData) {
-                    _this.model.localData[0].forEach(function (column) {
-                        column.items.forEach(function (item) {
-                            if (item.index ===
-                                parseInt(contentEditable.parentNode.parentNode.id)) {
-                                item.body = contentEditable.innerText;
-                            }
+            var taskItem = document.getElementById(task.index.toString());
+            if (taskItem) {
+                var contentEditable_1 = taskItem.children[1].children[0];
+                contentEditable_1.addEventListener('blur', function () {
+                    if (_this.model.localData) {
+                        _this.model.localData[0].forEach(function (column) {
+                            column.items.forEach(function (item) {
+                                if (item.index ===
+                                    parseInt(contentEditable_1.parentNode.parentNode.id)) {
+                                    item.body = contentEditable_1.innerText;
+                                }
+                            });
                         });
-                    });
-                    _this.model.taskService.edit(task);
-                }
-            });
+                        _this.model.taskService.edit(task);
+                    }
+                });
+            }
         };
         this.addEventListeners = function () {
             _this.addFormListener();
