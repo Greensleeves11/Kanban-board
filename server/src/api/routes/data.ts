@@ -3,7 +3,6 @@ import { taskModel } from '../../models/Task.js';
 import { categoryModel } from '../../models/Category.js';
 import { listModel } from '../../models/List.js';
 import { counterModel } from '../../models/Counter.js';
-import { model } from 'mongoose';
 
 export const router = express.Router();
 
@@ -13,8 +12,11 @@ router.get('/', async (req, res) => {
   const categories = await categoryModel.find({});
   const counter = await counterModel.find({});
 
-  // to do: turn any into type
-  const data: any = [[lists[0], lists[1], lists[2]], categories, counter[0]];
+  const data: [
+    [typeof lists[0], typeof lists[1], typeof lists[2]],
+    typeof categories,
+    typeof counter[0]
+  ] = [[lists[0], lists[1], lists[2]], categories, counter[0]];
 
   tasks.forEach(task => {
     if (task.columnID === data[0][0].id) {
@@ -32,5 +34,3 @@ router.get('/', async (req, res) => {
     res.status(500).send(err);
   }
 });
-
-// module.exports = router;
