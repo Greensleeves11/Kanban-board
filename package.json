@@ -3,11 +3,11 @@
   "version": "1.0.0",
   "description": "Kanban-board project",
   "private": true,
-  "main": "./server/dist/server.js",
+  "main": "./dist/server/server.js",
   "scripts": {
     "start": "webpack serve",
     "build": "webpack",
-    "dev": "nodemon server/dist/server.js"
+    "dev": "nodemon ./dist/server/server.js"
   },
   "repository": {
     "type": "git",
