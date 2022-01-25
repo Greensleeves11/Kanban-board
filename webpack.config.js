@@ -1,7 +1,6 @@
 const path = require('path');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 module.exports = {
-  devtool: 'source-map',
   entry: './public/src/main.ts',
   module: {
     rules: [
@@ -37,9 +36,9 @@ module.exports = {
     new HtmlWebpackPlugin({
       template: './public/index.html',
       inject: true,
-      chunks: ['index'],
       filename: 'index.html',
     }),
   ],
-  mode: process.env.NODE_ENV === 'production' ? 'production' : 'development',
+  mode: 'production',
+  devtool: 'source-map',
 };
