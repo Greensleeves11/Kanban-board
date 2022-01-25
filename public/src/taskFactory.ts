@@ -1,4 +1,4 @@
-import { TaskVO } from './model/TaskVO.js';
+import { TaskVO } from './model/TaskVO';
 
 export const taskFactory = (
   index: number,

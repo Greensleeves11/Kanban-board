@@ -1,4 +1,4 @@
-import { TaskVO } from './model/TaskVO.js';
+import { TaskVO } from './model/TaskVO';
 export var taskFactory = function (index, body, category, column, _id, columnID) {
     return new TaskVO(index, body, category, column, _id, columnID);
 };

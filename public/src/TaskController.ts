@@ -1,10 +1,10 @@
-import { Model } from './model/Model.js';
-import { UIView } from './view/UIView.js';
-import { CategoryVO } from './model/CategoryVO.js';
-import { taskFactory } from './taskFactory.js';
-import { TaskView } from './view/TaskView.js';
-import { ListVO } from './model/ListVO.js';
-import { TaskVO } from './model/TaskVO.js';
+import { Model } from './model/Model';
+import { UIView } from './view/UIView';
+import { CategoryVO } from './model/CategoryVO';
+import { taskFactory } from './taskFactory';
+import { TaskView } from './view/TaskView';
+import { ListVO } from './model/ListVO';
+import { TaskVO } from './model/TaskVO';
 
 export class TaskController {
   model: Model;

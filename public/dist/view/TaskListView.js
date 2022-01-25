@@ -1,4 +1,4 @@
-import { TaskView } from './TaskView.js';
+import { TaskView } from './TaskView';
 var TaskListView = (function () {
     function TaskListView(cardItems) {
         this.children = cardItems.map(function (item) {

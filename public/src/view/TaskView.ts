@@ -1,5 +1,5 @@
-import { TaskVO } from '../model/TaskVO.js';
-import { View } from './View.js';
+import { TaskVO } from '../model/TaskVO';
+import { View } from './View';
 
 export class TaskView extends View {
   constructor(task: TaskVO) {

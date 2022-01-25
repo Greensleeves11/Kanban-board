@@ -1,7 +1,7 @@
-import { TaskListView } from './TaskListView.js';
-import { ControlPanelView } from './ControlPanelView.js';
-import { ColumnView } from './ColumnView.js';
-import { ListVO } from '../model/ListVO.js';
+import { TaskListView } from './TaskListView';
+import { ControlPanelView } from './ControlPanelView';
+import { ColumnView } from './ColumnView';
+import { ListVO } from '../model/ListVO';
 
 export class UIView {
   template = '<div class="board-container"></div>';

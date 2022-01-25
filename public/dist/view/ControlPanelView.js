@@ -13,7 +13,7 @@ var __extends = (this && this.__extends) || (function () {
         d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
     };
 })();
-import { View } from './View.js';
+import { View } from './View';
 var ControlPanelView = (function (_super) {
     __extends(ControlPanelView, _super);
     function ControlPanelView() {

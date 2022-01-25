@@ -1,7 +1,7 @@
-import { CategoryService } from '../services/CategoryService.js';
-import { CounterService } from '../services/CounterService.js';
-import { TaskService } from '../services/TaskService.js';
-import { DataService } from '../services/DataService.js';
+import { CategoryService } from '../services/CategoryService';
+import { CounterService } from '../services/CounterService';
+import { TaskService } from '../services/TaskService';
+import { DataService } from '../services/DataService';
 var Model = (function () {
     function Model() {
         this.dataService = new DataService('http://localhost:5000/api/routes/data');

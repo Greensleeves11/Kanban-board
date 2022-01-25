@@ -1,5 +1,5 @@
-import { TaskVO } from '../model/TaskVO.js';
-import { TaskView } from './TaskView.js';
+import { TaskVO } from '../model/TaskVO';
+import { TaskView } from './TaskView';
 
 export class TaskListView {
   children: TaskView[];

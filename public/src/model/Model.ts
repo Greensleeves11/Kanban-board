@@ -1,9 +1,9 @@
-import { CategoryService } from '../services/CategoryService.js';
-import { CounterService } from '../services/CounterService.js';
-import { TaskService } from '../services/TaskService.js';
-import { DataService } from '../services/DataService.js';
-import { ListVO } from './ListVO.js';
-import { CategoryVO } from './CategoryVO.js';
+import { CategoryService } from '../services/CategoryService';
+import { CounterService } from '../services/CounterService';
+import { TaskService } from '../services/TaskService';
+import { DataService } from '../services/DataService';
+import { ListVO } from './ListVO';
+import { CategoryVO } from './CategoryVO';
 
 export class Model {
   dataService: DataService;

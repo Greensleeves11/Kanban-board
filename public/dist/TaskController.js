@@ -34,13 +34,13 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
         if (op[0] & 5) throw op[1]; return { value: op[0] ? op[1] : void 0, done: true };
     }
 };
-import { Model } from './model/Model.js';
-import { UIView } from './view/UIView.js';
-import { CategoryVO } from './model/CategoryVO.js';
-import { taskFactory } from './taskFactory.js';
-import { TaskView } from './view/TaskView.js';
-import { ListVO } from './model/ListVO.js';
-import { TaskVO } from './model/TaskVO.js';
+import { Model } from './model/Model';
+import { UIView } from './view/UIView';
+import { CategoryVO } from './model/CategoryVO';
+import { taskFactory } from './taskFactory';
+import { TaskView } from './view/TaskView';
+import { ListVO } from './model/ListVO';
+import { TaskVO } from './model/TaskVO';
 var TaskController = (function () {
     function TaskController() {
         var _this = this;

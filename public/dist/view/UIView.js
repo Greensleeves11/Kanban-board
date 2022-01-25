@@ -7,9 +7,9 @@ var __spreadArray = (this && this.__spreadArray) || function (to, from, pack) {
     }
     return to.concat(ar || Array.prototype.slice.call(from));
 };
-import { TaskListView } from './TaskListView.js';
-import { ControlPanelView } from './ControlPanelView.js';
-import { ColumnView } from './ColumnView.js';
+import { TaskListView } from './TaskListView';
+import { ControlPanelView } from './ControlPanelView';
+import { ColumnView } from './ColumnView';
 var UIView = (function () {
     function UIView(columnList) {
         var _this = this;
