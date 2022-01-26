@@ -6,7 +6,7 @@ import { TaskView } from './view/TaskView';
 import { ListVO } from './model/ListVO';
 import { TaskVO } from './model/TaskVO';
 
-export class TaskController {
+export class Controller {
   model: Model;
   root: HTMLElement | null;
   view: UIView | undefined;
@@ -104,34 +104,39 @@ export class TaskController {
 
   createTask = () => {
     const body = <HTMLTextAreaElement>document.querySelector('#new-card-text');
-    const category: string = this.checkCategory();
+    const importance: number | undefined = this.checkCategory();
+    const category: string | undefined = this.setCategoryLabel(importance);
     const task: TaskVO = taskFactory(
       this.model.localData![2].counter++,
       body.value,
-      category
+      category!
     );
     this.model.localData![0][0].items.push(task);
     body.value = '';
     return task;
   };
 
-  checkCategory = (): string => {
+  checkCategory = (): number | undefined => {
     const radioButtons = document.getElementsByName('importance');
     let importance;
-    let category: string = '';
     radioButtons.forEach(btn => {
       const button = btn as HTMLInputElement;
       if (button.checked) {
         importance = parseInt(button.value);
-        if (importance === 1) {
-          category = 'c-not-important';
-        } else if (importance === 2) {
-          category = 'c-important';
-        } else if (importance === 3) {
-          category = 'c-urgent';
-        }
       }
     });
+    return importance;
+  };
+
+  setCategoryLabel = (importance: number | undefined): string | undefined => {
+    let category;
+    if (importance === 1) {
+      category = 'c-not-important';
+    } else if (importance === 2) {
+      category = 'c-important';
+    } else if (importance === 3) {
+      category = 'c-urgent';
+    }
     return category;
   };
 

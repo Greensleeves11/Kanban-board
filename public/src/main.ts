@@ -1,6 +1,6 @@
 import '../style.css';
 import '../img/cancel.png';
-import { TaskController } from './TaskController';
+import { Controller } from './Controller';
 
-export const taskController = new TaskController();
-taskController.init();
+export const controller = new Controller();
+controller.init();
