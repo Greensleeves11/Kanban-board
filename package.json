@@ -22,6 +22,7 @@
   },
   "homepage": "https://github.com/Greensleeves11/Kanban-board#readme",
   "devDependencies": {
+    "@4tw/cypress-drag-drop": "^2.1.0",
     "@types/jest": "^27.4.0",
     "@types/node": "^17.0.10",
     "css-loader": "^6.5.1",
