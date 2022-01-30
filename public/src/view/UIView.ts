@@ -9,7 +9,7 @@ export class UIView {
   element: HTMLElement | undefined;
   constructor(columnList: ListVO[]) {
     const controlPanelView = new ColumnView(
-      'Create/remove task',
+      'Create task',
       new ControlPanelView()
     );
     const columnViewList = columnList.map(
