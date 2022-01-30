@@ -8,6 +8,7 @@ import { router as counter } from './api/routes/counter.js';
 import { router as list } from './api/routes/list.js';
 import { router as task } from './api/routes/task.js';
 import { router as data } from './api/routes/data.js';
+import { router as user } from './api/routes/user.js';
 
 dotenv.config({ path: './config/config.env' });
 
@@ -23,6 +24,7 @@ app.use('/api/routes/counter', counter);
 app.use('/api/routes/list', list);
 app.use('/api/routes/task', task);
 app.use('/api/routes/data', data);
+app.use('/api/routes/user', user);
 
 app.use(logger);
 

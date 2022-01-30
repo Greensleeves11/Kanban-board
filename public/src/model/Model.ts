@@ -4,12 +4,14 @@ import { TaskService } from '../services/TaskService';
 import { DataService } from '../services/DataService';
 import { ListVO } from './ListVO';
 import { CategoryVO } from './CategoryVO';
+import { UserService } from '../services/UserService';
 
 export class Model {
   dataService: DataService;
   categoryService: CategoryService;
   counterService: CounterService;
   taskService: TaskService;
+  userService: UserService;
   localData:
     | [
         [ListVO, ListVO, ListVO],
@@ -26,5 +28,6 @@ export class Model {
       'http://localhost:5000/api/routes/counter'
     );
     this.taskService = new TaskService('http://localhost:5000/api/routes/task');
+    this.userService = new UserService('http://localhost:5000/api/routes/user');
   }
 }

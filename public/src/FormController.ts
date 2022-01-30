@@ -1,9 +1,12 @@
+import { Model } from './model/Model';
 import { FormView } from './view/FormView';
 
 export class FormController {
   root: HTMLElement | null;
   view: FormView | undefined;
+  model: Model;
   constructor() {
+    this.model = new Model();
     this.root = document.getElementById('root');
   }
 
@@ -13,6 +16,14 @@ export class FormController {
       this.view.render(this.root, 'beforeend');
       this.addEventListeners();
     }
+  };
+
+  createUser = (formUsername: string, formPassword: string) => {
+    const user = {
+      username: formUsername,
+      password: formPassword,
+    };
+    this.model.userService.add(user);
   };
 
   addEventListeners = () => {
@@ -51,8 +62,11 @@ export class FormController {
     const createAccountForm = forms[1];
     createAccountForm.addEventListener('submit', e => {
       e.preventDefault();
-      this.validateCreateAccountFormUsername();
-      this.validateCreateAccountFormPassword();
+      const username = this.validateCreateAccountFormUsername();
+      const password = this.validateCreateAccountFormPassword();
+      if (username && password) {
+        this.createUser(username, password);
+      }
     });
   };
 
@@ -84,18 +98,24 @@ export class FormController {
           'afterend',
           '<div class="form-input-error">Please enter the username</div>'
         );
+        return false;
       } else if (username.length < 3) {
         usernameInput.insertAdjacentHTML(
           'afterend',
           '<div class="form-input-error">Username must contain at least 3 characters</div>'
         );
+        return false;
       } else if (username.indexOf(' ') !== -1) {
         usernameInput.insertAdjacentHTML(
           'afterend',
           '<div class="form-input-error">Username cannot contain spaces</div>'
         );
+        return false;
+      } else {
+        return username;
       }
     }
+    return false;
   };
 
   validateCreateAccountFormPassword = () => {
@@ -109,18 +129,24 @@ export class FormController {
           'afterend',
           '<div class="form-input-error">Please enter the password</div>'
         );
+        return false;
       } else if (password.length < 6) {
         passwordInput.insertAdjacentHTML(
           'afterend',
           '<div class="form-input-error">Password must contain at least 6 characters</div>'
         );
+        return false;
       } else if (password.indexOf(' ') !== -1) {
         passwordInput.insertAdjacentHTML(
           'afterend',
           '<div class="form-input-error">Password cannot contain spaces</div>'
         );
+        return false;
+      } else {
+        return password;
       }
     }
+    return false;
   };
 
   validateLoginForm = () => {
