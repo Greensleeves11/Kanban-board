@@ -10,12 +10,25 @@ let currentPath = window.location.hash;
 
 if (currentPath === '') {
   root!.innerHTML = 'You are on home page';
+
+  if (sessionStorage.getItem('loggedUser') !== null) {
+    window.location.hash = '#board';
+    location.reload();
+  } else {
+    window.location.hash = '#login';
+    location.reload();
+  }
 } else if (currentPath === '#login') {
   var formController = new FormController();
   formController.init();
 } else if (currentPath === '#board') {
-  var controller = new Controller();
-  controller.init();
+  if (sessionStorage.getItem('loggedUser') === null) {
+    window.location.hash = '#login';
+    location.reload();
+  } else {
+    var controller = new Controller();
+    controller.init();
+  }
 }
 
 export { controller };

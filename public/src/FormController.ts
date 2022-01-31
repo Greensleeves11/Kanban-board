@@ -92,20 +92,23 @@ export class FormController {
     });
   };
 
+  signIn = async (e: Event) => {
+    e.preventDefault();
+
+    const data = await this.model.userService.get();
+
+    const userValidated = this.validateLoginForm(data);
+    if (userValidated) {
+      window.location.hash = '#board';
+      sessionStorage.setItem('loggedUser', userValidated);
+      location.reload();
+    }
+  };
+
   addLoginFormListener = () => {
     const forms = document.querySelectorAll('.form');
     const loginForm = forms[0];
-    loginForm.addEventListener('submit', async e => {
-      e.preventDefault();
-
-      const data = await this.model.userService.get();
-
-      const userValidated = this.validateLoginForm(data);
-      if (userValidated) {
-        window.location.hash = '#board';
-        location.reload();
-      }
-    });
+    loginForm.addEventListener('submit', this.signIn);
   };
 
   validateCreateAccountFormUsername = (data: any[]) => {
@@ -225,7 +228,7 @@ export class FormController {
         }
       }
       if (usernameValidated && passwordValidated) {
-        return true;
+        return usernameV;
       } else {
         const header = document.querySelector('.form-title');
         if (header) {
