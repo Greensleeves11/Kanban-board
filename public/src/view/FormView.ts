@@ -28,7 +28,7 @@ export class FormView extends View {
         Sign in
       </button>
       <p class="form-text">
-        <a href="#" class="form-link" id="link-create-account"
+        <a href="#login" class="form-link" id="link-create-account"
           >Create account</a
         >
       </p>
@@ -62,7 +62,7 @@ export class FormView extends View {
         Sign up
       </button>
       <p class="form-text">
-        <a href="#" class="form-link" id="link-login"
+        <a href="#login" class="form-link" id="link-login"
           >I already have an account</a
         >
       </p>

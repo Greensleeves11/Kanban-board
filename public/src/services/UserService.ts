@@ -5,6 +5,12 @@ export class UserService {
     this.TASK_URL = TASK_URL;
   }
 
+  async get() {
+    const response = await fetch(this.TASK_URL);
+    const data = await response.json();
+    return data;
+  }
+
   async add(user: any) {
     await fetch(this.TASK_URL, {
       method: 'POST',

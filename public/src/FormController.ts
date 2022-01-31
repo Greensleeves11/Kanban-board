@@ -60,12 +60,33 @@ export class FormController {
   addCreateAccountFormListener = () => {
     const forms = document.querySelectorAll('.form');
     const createAccountForm = forms[1];
-    createAccountForm.addEventListener('submit', e => {
+    createAccountForm.addEventListener('submit', async e => {
       e.preventDefault();
-      const username = this.validateCreateAccountFormUsername();
+
+      const message = document.querySelector('.form-message-success');
+      if (message) {
+        message.remove();
+      }
+
+      const data = await this.model.userService.get();
+
+      const username = this.validateCreateAccountFormUsername(data);
       const password = this.validateCreateAccountFormPassword();
       if (username && password) {
         this.createUser(username, password);
+
+        const header = document.querySelectorAll('.form-title')[1];
+        if (header) {
+          header.insertAdjacentHTML(
+            'afterend',
+            `<div class="form-message-success">
+              Account successfully created
+            </div>`
+          );
+        }
+
+        document.querySelector('#create-account-username')!.innerHTML = '';
+        document.querySelector('#create-account-password')!.innerHTML = '';
       }
     });
   };
@@ -73,15 +94,20 @@ export class FormController {
   addLoginFormListener = () => {
     const forms = document.querySelectorAll('.form');
     const loginForm = forms[0];
-    loginForm.addEventListener('submit', e => {
+    loginForm.addEventListener('submit', async e => {
       e.preventDefault();
-      // this.validateLoginForm();
-      window.location.hash = '#board';
-      location.reload();
+
+      const data = await this.model.userService.get();
+
+      const userValidated = this.validateLoginForm(data);
+      if (userValidated) {
+        window.location.hash = '#board';
+        location.reload();
+      }
     });
   };
 
-  validateCreateAccountFormUsername = () => {
+  validateCreateAccountFormUsername = (data: any[]) => {
     const errors = document.querySelectorAll('.form-input-error');
     if (errors) {
       errors.forEach(error => {
@@ -111,11 +137,24 @@ export class FormController {
           '<div class="form-input-error">Username cannot contain spaces</div>'
         );
         return false;
-      } else {
-        return username;
+      } else if (username) {
+        var usernameExists;
+        data.forEach(user => {
+          if (user.username === username) {
+            usernameInput.insertAdjacentHTML(
+              'afterend',
+              '<div class="form-input-error">User with this name already exists</div>'
+            );
+            usernameExists = true;
+          }
+        });
       }
     }
-    return false;
+    if (usernameExists) {
+      return false;
+    } else {
+      return username;
+    }
   };
 
   validateCreateAccountFormPassword = () => {
@@ -149,19 +188,55 @@ export class FormController {
     return false;
   };
 
-  validateLoginForm = () => {
+  validateLoginForm = (data: any[]) => {
     const error = document.querySelector('.form-message-error');
     if (error) {
       error.remove();
     }
-    const header = document.querySelector('.form-title');
-    if (header) {
-      header.insertAdjacentHTML(
-        'afterend',
-        `<div class="form-message-error">
+
+    let usernameValidated = false;
+    let passwordValidated = false;
+
+    const usernameInput = document.querySelector('#login-username');
+    const usernameV = (
+      document.getElementById('login-username') as HTMLInputElement
+    ).value;
+    if (usernameInput) {
+      if (usernameV) {
+        data.forEach(user => {
+          if (usernameV === user.username) {
+            usernameValidated = true;
+          }
+        });
+      }
+
+      const usernameInput = document.querySelector('#login-password');
+      const passwordV = (
+        document.getElementById('login-password') as HTMLInputElement
+      ).value;
+      if (usernameInput) {
+        if (passwordV) {
+          data.forEach(user => {
+            if (passwordV === user.password) {
+              passwordValidated = true;
+            }
+          });
+        }
+      }
+      if (usernameValidated && passwordValidated) {
+        return true;
+      } else {
+        const header = document.querySelector('.form-title');
+        if (header) {
+          header.insertAdjacentHTML(
+            'afterend',
+            `<div class="form-message-error">
       Wrong username and password combination
     </div>`
-      );
+          );
+        }
+      }
     }
+    return false;
   };
 }
