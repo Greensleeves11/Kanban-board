@@ -5,14 +5,17 @@ import { taskFactory } from './taskFactory';
 import { TaskView } from './view/TaskView';
 import { ListVO } from './model/ListVO';
 import { TaskVO } from './model/TaskVO';
+import { SignOutBtnView } from './view/SignOutBtnView';
 
 export class Controller {
   model: Model;
   root: HTMLElement | null;
   view: UIView | undefined;
+  signOutBtnView: SignOutBtnView;
   constructor() {
     this.model = new Model();
     this.root = document.getElementById('root');
+    this.signOutBtnView = new SignOutBtnView();
   }
 
   init = async () => {
@@ -20,6 +23,7 @@ export class Controller {
     if (this.model.localData) {
       this.view = new UIView(this.model.localData[0]);
       this.view.render(this.root, 'beforeend');
+      this.signOutBtnView.render(this.root, 'beforeend');
       this.setData();
       this.addEventListeners();
     }
@@ -69,6 +73,7 @@ export class Controller {
             column.items[i].index,
             column.items[i].body,
             column.items[i].category,
+            column.items[i].createdBy,
             column.label,
             column.items[i]._id,
             column.items[i].columnID
@@ -106,10 +111,12 @@ export class Controller {
     const body = <HTMLTextAreaElement>document.querySelector('#new-card-text');
     const importance: number | undefined = this.checkCategory();
     const category: string | undefined = this.setCategoryLabel(importance);
+    const createdBy = sessionStorage.getItem('loggedUser');
     const task: TaskVO = taskFactory(
       this.model.localData![2].counter++,
       body.value,
-      category!
+      category!,
+      createdBy!
     );
     this.model.localData![0][0].items.push(task);
     body.value = '';
@@ -363,11 +370,21 @@ export class Controller {
     }
   };
 
+  addSignOutBtnListener = () => {
+    const btn = document.querySelector('.sign-out-btn');
+    btn?.addEventListener('click', () => {
+      sessionStorage.clear();
+      window.location.hash = '#login';
+      window.location.reload();
+    });
+  };
+
   addEventListeners = () => {
     this.addFormListener();
     this.addOnDragOverListener();
     this.addOnDropListener();
     this.addColorChangeListeners();
+    this.addSignOutBtnListener();
 
     if (this.model.localData) {
       this.model.localData[0].forEach((column: ListVO) => {

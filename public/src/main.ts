@@ -1,6 +1,7 @@
 import '../style.css';
 import '../login.css';
 import '../img/cancel.png';
+import '../img/information-button.png';
 import { Controller } from './Controller';
 import { FormController } from './FormController';
 

@@ -4,6 +4,7 @@
 
 body {
   display: flex;
+  flex-direction: column;
   justify-content: center;
   align-items: center;
   font-family: 'Lato', sans-serif;
@@ -139,6 +140,32 @@ textarea {
   top: 4px;
 }
 
+.task-info {
+  height: 15px;
+  position: absolute;
+  right: 4px;
+  top: 4px;
+}
+
+.tooltip-text {
+  visibility: hidden;
+  /* width: 120px; */
+  background-color: black;
+  color: #fff;
+  text-align: center;
+  padding: 5px 0;
+  border-radius: 6px;
+  position: absolute;
+  z-index: 1;
+  top: -30px;
+  right: 0px;
+  padding: 0.3rem;
+}
+
+.task-info:hover + .tooltip-text {
+  visibility: visible;
+}
+
 .card-body {
   padding-top: 0.25rem;
   padding-bottom: 1rem;
@@ -147,6 +174,23 @@ textarea {
 .card:hover {
   cursor: pointer;
   opacity: 0.85;
+}
+
+.sign-out-btn {
+  float: right;
+  padding: 1rem 2rem;
+  font-weight: bold;
+  font-size: 1.1rem;
+  color: #fff;
+  border: none;
+  border-radius: 4px;
+  outline: none;
+  cursor: pointer;
+  background-color: rgba(51, 51, 51, 0);
+}
+
+.sign-out-btn:hover {
+  color: rgb(219, 219, 219);
 }
 
 /* Media queries */

@@ -10,6 +10,8 @@ export class TaskView extends View {
      Task #${task.index}
    </p>
    <img src="img/cancel.png" alt="remove task" class="remove-task" />
+   <img src="img/information-button.png" alt="task info" class="task-info" />
+   <span class="tooltip-text">Created by: ${task.createdBy}</span>
   </section>
   <section class="card-body">
     <p class="card-text" contenteditable="true">

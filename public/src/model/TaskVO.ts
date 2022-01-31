@@ -2,6 +2,7 @@ export class TaskVO {
   index: number;
   body: string;
   category: string;
+  createdBy: string;
   column?: string;
   _id: string | undefined;
   columnID: string | undefined;
@@ -9,6 +10,7 @@ export class TaskVO {
     index: number,
     body: string,
     category: string,
+    createdBy: string,
     column?: string,
     _id?: string,
     columnID?: string
@@ -16,6 +18,7 @@ export class TaskVO {
     (this.index = index),
       (this.body = body),
       (this.category = category),
+      (this.createdBy = createdBy),
       (this.column = column);
     this._id = _id;
     this.columnID = columnID;
