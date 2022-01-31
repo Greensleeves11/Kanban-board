@@ -42,16 +42,17 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.router = void 0;
 var express_1 = __importDefault(require("express"));
 var User_js_1 = require("../../models/User.js");
+var sha256_1 = __importDefault(require("crypto-js/sha256"));
 exports.router = express_1.default.Router();
 exports.router.get('/', function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
-    var tasks;
+    var users;
     return __generator(this, function (_a) {
         switch (_a.label) {
             case 0: return [4, User_js_1.userModel.find({})];
             case 1:
-                tasks = _a.sent();
+                users = _a.sent();
                 try {
-                    res.send(tasks);
+                    res.send(users);
                 }
                 catch (err) {
                     res.status(500).send(err);
@@ -61,18 +62,19 @@ exports.router.get('/', function (req, res) { return __awaiter(void 0, void 0, v
     });
 }); });
 exports.router.post('/', function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
-    var task, err_1;
+    var user, err_1;
     return __generator(this, function (_a) {
         switch (_a.label) {
             case 0:
-                task = new User_js_1.userModel(req.body);
+                req.body.password = JSON.stringify((0, sha256_1.default)(req.body.password).words);
+                user = new User_js_1.userModel(req.body);
                 _a.label = 1;
             case 1:
                 _a.trys.push([1, 3, , 4]);
-                return [4, task.save()];
+                return [4, user.save()];
             case 2:
                 _a.sent();
-                res.send(task);
+                res.send(user);
                 return [3, 4];
             case 3:
                 err_1 = _a.sent();

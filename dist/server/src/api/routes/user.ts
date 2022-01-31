@@ -1,24 +1,26 @@
 import express from 'express';
 import { userModel } from '../../models/User.js';
+import SHA256 from 'crypto-js/sha256';
 
 export const router = express.Router();
 
 router.get('/', async (req, res) => {
-  const tasks = await userModel.find({});
+  const users = await userModel.find({});
 
   try {
-    res.send(tasks);
+    res.send(users);
   } catch (err) {
     res.status(500).send(err);
   }
 });
 
 router.post('/', async (req, res) => {
-  const task = new userModel(req.body);
+  req.body.password = JSON.stringify(SHA256(req.body.password).words);
+  const user = new userModel(req.body);
 
   try {
-    await task.save();
-    res.send(task);
+    await user.save();
+    res.send(user);
   } catch (err) {
     res.status(500).send(err);
   }

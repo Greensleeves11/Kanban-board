@@ -1,5 +1,6 @@
 import { Model } from './model/Model';
 import { FormView } from './view/FormView';
+import SHA256 from 'crypto-js/sha256';
 
 export class FormController {
   root: HTMLElement | null;
@@ -217,7 +218,7 @@ export class FormController {
       if (usernameInput) {
         if (passwordV) {
           data.forEach(user => {
-            if (passwordV === user.password) {
+            if (JSON.stringify(SHA256(passwordV).words) === user.password) {
               passwordValidated = true;
             }
           });
