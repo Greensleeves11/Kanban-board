@@ -1,5 +1,6 @@
 import { Model } from './model/Model';
 import { FormView } from './view/FormView';
+import { User } from './model/User';
 import SHA256 from 'crypto-js/sha256';
 
 export class FormController {
@@ -85,9 +86,6 @@ export class FormController {
             </div>`
           );
         }
-
-        document.querySelector('#create-account-username')!.innerHTML = '';
-        document.querySelector('#create-account-password')!.innerHTML = '';
       }
     });
   };
@@ -111,7 +109,7 @@ export class FormController {
     loginForm.addEventListener('submit', this.signIn);
   };
 
-  validateCreateAccountFormUsername = (data: any[]) => {
+  validateCreateAccountFormUsername = (data: User[]) => {
     const errors = document.querySelectorAll('.form-input-error');
     if (errors) {
       errors.forEach(error => {
@@ -192,7 +190,7 @@ export class FormController {
     return false;
   };
 
-  validateLoginForm = (data: any[]) => {
+  validateLoginForm = (data: User[]) => {
     const error = document.querySelector('.form-message-error');
     if (error) {
       error.remove();

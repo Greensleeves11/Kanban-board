@@ -20,6 +20,7 @@ if (currentPath === '') {
     location.reload();
   }
 } else if (currentPath === '#login') {
+  sessionStorage.clear();
   var formController = new FormController();
   formController.init();
 } else if (currentPath === '#board') {
